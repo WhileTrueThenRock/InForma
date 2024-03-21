@@ -1,0 +1,562 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="mobileAppTest.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
+    xmlns:datagrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:services="clr-namespace:mobileAppTest.Services"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
+    xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:Name="mainpage"
+    x:DataType="viewmodels:MainViewModel"
+    BindingContext="{viewmodels:MainViewModel}"
+    Loaded="thisPage_Loaded"
+    NavigationPage.HasNavigationBar="False">
+
+    <tabView:SfTabView x:Name="tabView" TabBarPlacement="Bottom">
+        <tabView:SfTabView.Items>
+            <!--  TAB NUMBER ONE  -->
+            <tabView:SfTabItem Header="Calendar">
+                <tabView:SfTabItem.Content>
+                    <ScrollView>
+                        <VerticalStackLayout Padding="10,0" Spacing="25">
+                            <HorizontalStackLayout Margin="0,50,0,0">
+                                <Label
+                                    FontAttributes="Bold,Italic"
+                                    HorizontalOptions="Center"
+                                    Text="Hello "
+                                    TextColor="Black" />
+                                <Label
+                                    Margin="10,0,0,0"
+                                    Text="{Binding UserName}"
+                                    TextColor="Red" />
+                            </HorizontalStackLayout>
+
+                            <cal:Calendar
+                                Culture="{Binding Culture}"
+                                Events="{Binding Events, Mode=TwoWay}"
+                                HeaderSectionVisible="True"
+                                HeightRequest="400"
+                                SelectedDate="{Binding Exercise.FechaEntrenamiento}"
+                                SelectedDateColor="Orange"
+                                SelectedDayBackgroundColor="Green"
+                                SelectedDayEvents="{Binding EventsList, Mode=TwoWay}"
+                                ShowYearPicker="False"
+                                TodayOutlineColor="Aqua"
+                                WidthRequest="350" />
+                            <CollectionView
+                                ItemsSource="{Binding EventsList}"
+                                SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:ExerciseModelView">
+                                        <Border>
+                                            <VerticalStackLayout>
+                                                <Label Text="{Binding Path=BindingContext.TotalWorkoutDurationLabel, Source={x:Reference mainpage}}" />
+
+                                                <Label Text="{Binding Name}" TextColor="Black" />
+                                                <Image
+                                                    HeightRequest="100"
+                                                    Source="{Binding Urls[0]}"
+                                                    WidthRequest="350" />
+                                                <Label Text="{Binding FechaEntrenamiento}" />
+                                                <Label Text="{Binding Exercise.Instructions[2]}" />
+                                                <Label Text="{Binding Exercise.Category}" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <Button
+                                Margin="0"
+                                Command="{Binding GetExercisesEventsCommand}"
+                                Text="Obtener Entrenamientos +"
+                                WidthRequest="250" />
+                            <Button
+                                Margin="0"
+                                Command="{Binding ShowNotificationCommand}"
+                                Text="Notificaçao"
+                                WidthRequest="80" />
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+            <!--  TAB NUMBER TWO  -->
+            <tabView:SfTabItem Header="Gym">
+                <tabView:SfTabItem.Content>
+
+                    <ScrollView>
+                        <VerticalStackLayout Margin="10">
+                            <ScrollView Orientation="Horizontal">
+                                <HorizontalStackLayout>
+
+                                    <VerticalStackLayout>
+                                        <Border
+                                            BackgroundColor="Orange"
+                                            StrokeShape="RoundRectangle 0,20,20,0"
+                                            StrokeThickness="2">
+                                            <syncfusion:SfExpander
+                                                x:Name="durationExpander"
+                                                Margin="10,10,0,0"
+                                                IsExpanded="{Binding DurationExpander}"
+                                                WidthRequest="100">
+                                                <syncfusion:SfExpander.Header>
+                                                    <Grid>
+                                                        <Label HeightRequest="40" Text="{Binding DurationHeader}" />
+                                                    </Grid>
+                                                </syncfusion:SfExpander.Header>
+                                                <syncfusion:SfExpander.Content>
+                                                    <Grid>
+                                                        <buttons:SfRadioGroup>
+                                                            <Label Text="Tiempo de entrenamiento" />
+
+                                                            <buttons:SfRadioButton IsChecked="True" Text="15 min">
+                                                                <buttons:SfRadioButton.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding SelectDurationWorkoutCommand}"
+                                                                        CommandParameter="15"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </buttons:SfRadioButton.GestureRecognizers>
+                                                            </buttons:SfRadioButton>
+
+                                                            <buttons:SfRadioButton Text="30 min">
+                                                                <buttons:SfRadioButton.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding SelectDurationWorkoutCommand}"
+                                                                        CommandParameter="30"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </buttons:SfRadioButton.GestureRecognizers>
+                                                            </buttons:SfRadioButton>
+
+                                                            <buttons:SfRadioButton Text="45 min">
+                                                                <buttons:SfRadioButton.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding SelectDurationWorkoutCommand}"
+                                                                        CommandParameter="45"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </buttons:SfRadioButton.GestureRecognizers>
+                                                            </buttons:SfRadioButton>
+
+                                                            <buttons:SfRadioButton Text="1 hr">
+                                                                <buttons:SfRadioButton.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding SelectDurationWorkoutCommand}"
+                                                                        CommandParameter="60"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </buttons:SfRadioButton.GestureRecognizers>
+                                                            </buttons:SfRadioButton>
+
+                                                            <buttons:SfRadioButton Text="1:30 hr">
+                                                                <buttons:SfRadioButton.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding SelectDurationWorkoutCommand}"
+                                                                        CommandParameter="90"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </buttons:SfRadioButton.GestureRecognizers>
+                                                            </buttons:SfRadioButton>
+
+                                                            <buttons:SfRadioButton Text="2 hr">
+                                                                <buttons:SfRadioButton.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding SelectDurationWorkoutCommand}"
+                                                                        CommandParameter="120"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </buttons:SfRadioButton.GestureRecognizers>
+                                                            </buttons:SfRadioButton>
+
+                                                            <buttons:SfRadioButton Text="2:30 hr">
+                                                                <buttons:SfRadioButton.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding SelectDurationWorkoutCommand}"
+                                                                        CommandParameter="150"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </buttons:SfRadioButton.GestureRecognizers>
+                                                            </buttons:SfRadioButton>
+
+                                                            <buttons:SfRadioButton Text="3 hr">
+                                                                <buttons:SfRadioButton.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding SelectDurationWorkoutCommand}"
+                                                                        CommandParameter="180"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </buttons:SfRadioButton.GestureRecognizers>
+                                                            </buttons:SfRadioButton>
+                                                        </buttons:SfRadioGroup>
+                                                    </Grid>
+                                                </syncfusion:SfExpander.Content>
+                                            </syncfusion:SfExpander>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                    <!--<HorizontalStackLayout Margin="130,-40,0,0">-->
+                                    <Button
+                                        Margin="10,10,10,0"
+                                        Command="{Binding OpenMuscleSelectionPopupCommand}"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Start"
+                                        Text="Músculos"
+                                        VerticalOptions="Start"
+                                        WidthRequest="110" />
+
+                                    <Button
+                                        Margin="10,10,10,0"
+                                        Command="{Binding OpenEquipmentPopupCommand}"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Start"
+                                        Text="Equipamiento"
+                                        VerticalOptions="Start"
+                                        WidthRequest="110" />
+                                    <Button
+                                        Margin="20,10,10,0"
+                                        Command="{Binding OpenCustomExercisePopupCommand}"
+                                        HeightRequest="40"
+                                        Text="Custom"
+                                        VerticalOptions="Start"
+                                        WidthRequest="100" />
+                                </HorizontalStackLayout>
+                            </ScrollView>
+                            <HorizontalStackLayout>
+                                <Label
+                                    Margin="10,0,0,0"
+                                    FontAttributes="Bold"
+                                    FontFamily="Calibri"
+                                    FontSize="20"
+                                    Text="{Binding ExerciseCount}"
+                                    TextColor="Red" />
+                                <Label
+                                    Margin="10,0,0,0"
+                                    FontAttributes="Bold"
+                                    FontFamily="Calibri"
+                                    FontSize="20"
+                                    Text="Ejercicios" />
+                            </HorizontalStackLayout>
+                            <ScrollView>
+
+                                <CollectionView
+                                    x:Name="myCollectionView"
+                                    HeightRequest="500"
+                                    ItemsSource="{Binding ExerciseList}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:ExerciseModelView">
+
+
+                                            <SwipeView>
+                                                <!--<SwipeView.GestureRecognizers>
+                                                <SwipeGestureRecognizer
+                                                Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                CommandParameter="{Binding .}"
+                                                Direction="Right" />
+                                                </SwipeView.GestureRecognizers>-->
+
+                                                <SwipeView.LeftItems>
+                                                    <SwipeItems>
+                                                        <SwipeItem
+                                                            BackgroundColor="Red"
+                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                            CommandParameter="{Binding .}"
+                                                            Text="Eliminar" />
+                                                        <SwipeItem
+                                                            BackgroundColor="LightGreen"
+                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
+                                                            CommandParameter="{Binding .}"
+                                                            Text="Replace" />
+                                                    </SwipeItems>
+                                                </SwipeView.LeftItems>
+                                                <Grid Padding="10">
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
+                                                    </Grid.GestureRecognizers>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image
+                                                        Grid.Row="1"
+                                                        Margin="0,20,0,0"
+                                                        HeightRequest="50"
+                                                        Source="{Binding Urls[0]}"
+                                                        WidthRequest="50" />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        Text="{Binding Exercise.Name}"
+                                                        VerticalOptions="Center" />
+                                                </Grid>
+
+                                            </SwipeView>
+
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+
+                            </ScrollView>
+
+                            <Button
+                                Margin="0,20,0,0"
+                                Command="{Binding LoadStartedWorkoutCommand}"
+                                CommandParameter="{Binding ExerciseList}"
+                                HeightRequest="40"
+                                Text="Start"
+                                VerticalOptions="End"
+                                WidthRequest="80" />
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+
+            <!--  TAB NUMBER THREE  -->
+            <tabView:SfTabItem Header="Entrenamientos">
+                <tabView:SfTabItem.Content>
+                    <ScrollView>
+
+                        <VerticalStackLayout>
+                            <VerticalStackLayout HeightRequest="600">
+
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontFamily="Times New Roman"
+                                    FontSize="25"
+                                    HorizontalOptions="Center"
+                                    Text="Mis Entrenamientos" />
+                                <Button
+                                    Command="{Binding GetSessionExercisesCommand}"
+                                    Text="Get"
+                                    WidthRequest="100" />
+                                <Border>
+                                    <CollectionView
+                                        x:Name="myExerciseCollection"
+                                        Margin="0,20,0,0"
+                                        HeightRequest="500"
+                                        ItemsSource="{Binding ExerciseSessionlist}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="models:ExerciseModelView">
+                                                <Grid>
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myExerciseCollection}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
+                                                    </Grid.GestureRecognizers>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image
+                                                        Grid.Row="1"
+                                                        Margin="0,20,0,0"
+                                                        HeightRequest="50"
+                                                        Source="{Binding Urls[0]}"
+                                                        WidthRequest="50" />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        Text="{Binding Name}"
+                                                        VerticalOptions="Center" />
+
+                                                    <Label
+                                                        Grid.Column="2"
+                                                        Text="{Binding FechaEntrenamiento}"
+                                                        VerticalOptions="Center" />
+                                                    <CheckBox
+                                                        Grid.Column="3"
+                                                        HeightRequest="100"
+                                                        IsChecked="{Binding IsChecked}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+
+
+                                </Border>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Margin="0,20,0,0">
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                                    <Button
+                                        Background="Red"
+                                        Command="{Binding DeleteSelectedExerciseCommand}"
+                                        IsVisible="{Binding IsDeleteExerciseButtonVisible}"
+                                        Text="Borrar"
+                                        WidthRequest="100" />
+                                    <Button
+                                        Background="Red"
+                                        Command="{Binding DeleteSessionCommand}"
+                                        IsVisible="{Binding IsDeleteExerciseButtonVisible}"
+                                        Text="Borrar Todo"
+                                        WidthRequest="150" />
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+            <tabView:SfTabItem Header="Cuerpo">
+                <tabView:SfTabItem.Content>
+                    <VerticalStackLayout BackgroundColor="White">
+
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="Selecciona los músculos a entrenar"
+                            VerticalOptions="Center" />
+
+                        <AbsoluteLayout>
+
+                            <Image
+                                Margin="0,0,0,0"
+                                HeightRequest="800"
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding IsFrontBodyVisible}"
+                                Source="body1.png"
+                                VerticalOptions="Center"
+                                WidthRequest="420" />
+                            <Image
+                                Margin="0,0,0,0"
+                                HeightRequest="800"
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding IsBackBodyVisible}"
+                                Source="body2.png"
+                                VerticalOptions="Center"
+                                WidthRequest="400" />
+                            <Button
+                                Command="{Binding FilterBySelectedMuscleCommand}"
+                                IsVisible="{Binding IsFiltrarMusclesButtonVisible}"
+                                Text="Filtrar" />
+
+                            <!--
+                            Parametros del LayoutBounds: ejeX, ejeY, ancho y alto del rectangulo
+                            Si pones 0,0 en los ejes lo situa en la esquina superior izquierda.
+                            -->
+
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="130,105,180,45"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Cuello"
+                                IsVisible="{Binding IsNeckVisible}"
+                                Source="{Binding NeckColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="148,145,150,80"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Pecho"
+                                IsVisible="{Binding IsChestVisible}"
+                                Source="{Binding ChestColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="110,127,75,80"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Hombro"
+                                IsVisible="{Binding IsLeftShoulderVisible}"
+                                Source="{Binding LeftShoulderColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="252,129,80,80"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Hombro"
+                                IsVisible="{Binding IsRightShoulderVisible}"
+                                Source="{Binding RightShoulderColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="88,187,75,95"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Bíceps"
+                                IsVisible="{Binding IsLeftBicepVisible}"
+                                Source="{Binding LeftBicepColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="267,173,80,105"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Bíceps"
+                                IsVisible="{Binding IsRightBicepVisible}"
+                                Source="{Binding RightBicepColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="145,219,158,182"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Abdomen"
+                                IsVisible="{Binding IsAbsVisible}"
+                                Source="{Binding AbsColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="87,252,54,115"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Antebrazo"
+                                IsVisible="{Binding IsLeftForearmVisible}"
+                                Source="{Binding LeftForearmColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="288,251,54,110"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Antebrazo"
+                                IsVisible="{Binding IsRightForearmVisible}"
+                                Source="{Binding RightForearmColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="165,362,50,47"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Aductores"
+                                IsVisible="{Binding IsLeftAdductorVisible}"
+                                Source="{Binding LeftAdductorColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="219,373,50,40"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Aductores"
+                                IsVisible="{Binding IsRightAdductorVisible}"
+                                Source="{Binding RightAdductorColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="127,345,54,99"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Abductores"
+                                IsVisible="{Binding IsLeftAbductorVisible}"
+                                Source="{Binding LeftAbductorColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="256,343,50,86"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Abductores"
+                                IsVisible="{Binding IsRightAbductorVisible}"
+                                Source="{Binding RightAbductorColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="121,360,120,201"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Cuádriceps"
+                                IsVisible="{Binding IsLeftQuadVisible}"
+                                Source="{Binding LeftQuadColor}" />
+
+                            <ImageButton
+                                AbsoluteLayout.LayoutBounds="230,360,55,221"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Cuádriceps"
+                                IsVisible="{Binding IsRightQuadVisible}"
+                                Source="{Binding RightQuadColor}" />
+
+
+                            <buttons:SfButton
+                                AbsoluteLayout.LayoutBounds="175,315,100,50"
+                                Background="Transparent"
+                                BackgroundImageSource="{Binding GlutesColor}"
+                                Command="{Binding ChangeMuscleImageCommand}"
+                                CommandParameter="Glúteos"
+                                IsVisible="{Binding IsGlutesVisible}" />
+
+                            <Button
+                                Margin="50,500,0,0"
+                                Command="{Binding RotateBodyCommand}"
+                                Text="Vuelta" />
+
+                        </AbsoluteLayout>
+                    </VerticalStackLayout>
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+
+        </tabView:SfTabView.Items>
+    </tabView:SfTabView>
+
+
+</ContentPage>

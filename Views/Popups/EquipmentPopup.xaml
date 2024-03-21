@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="mobileAppTest.Views.Popups.EquipmentPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:DataType="viewmodels:MainViewModel"
+    CanBeDismissedByTappingOutsideOfPopup="False">
+    <ScrollView>
+        <VerticalStackLayout Background="White">
+            <Button
+                Margin="10"
+                BackgroundColor="Black"
+                Command="{Binding UpdateUserEquipmentsCommand}"
+                CommandParameter="{Binding SelectedEquipment}"
+                HeightRequest="50"
+                Text="Guardar Cambios"
+                TextColor="Green"
+                WidthRequest="150" />
+            <CollectionView
+                x:Name="myCollectionViewz"
+                HeightRequest="500"
+                ItemsSource="{Binding EquipmentList}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:EquipmentModelView">
+                        <Border>
+                            <Grid Padding="10">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionViewz}, Path=BindingContext.EquipmentTappedCommand}" CommandParameter="{Binding}" />
+                                </Grid.GestureRecognizers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image
+                                    Grid.Row="1"
+                                    Margin="0,20,0,0"
+                                    HeightRequest="100"
+                                    Source="{Binding Url}"
+                                    WidthRequest="100" />
+                                <Label
+                                    Grid.Column="1"
+                                    Text="{Binding Name}"
+                                    TextColor="Red"
+                                    VerticalOptions="Center" />
+                                <CheckBox
+                                    Grid.Column="3"
+                                    HeightRequest="100"
+                                    IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</toolkit:Popup>

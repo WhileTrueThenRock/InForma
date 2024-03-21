@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="mobileAppTest.Views.Popups.CustomExercises"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:DataType="viewmodels:MainViewModel"
+    CanBeDismissedByTappingOutsideOfPopup="False">
+
+    <!--  HeightRequest="600" WidthRequest="400"  -->
+    <VerticalStackLayout Margin="10">
+        <Button
+            BackgroundColor="Red"
+            Command="{Binding ClosecustomExercisePopupCommand}"
+            HeightRequest="50"
+            HorizontalOptions="End"
+            Text="X"
+            WidthRequest="50" />
+        <Label
+            Margin="0,20,0,0"
+            FontAttributes="Bold,Italic"
+            HorizontalOptions="Center"
+            Text="Selecciona tus ejercicios"
+            TextColor="Black" />
+
+        <SearchBar
+            x:Name="searchEntry"
+            Margin="0,20,0,0"
+            Background="AliceBlue"
+            Placeholder="Buscar"
+            Text="{Binding SearchText}"
+            TextChanged="OnSearchTextChanged"
+            WidthRequest="380" />
+        <ScrollView Orientation="Horizontal">
+            <HorizontalStackLayout>
+                <Button
+                    Margin="10"
+                    Command="{Binding ShowExercisesWithAvailableEquipmentCommand}"
+                    Text="Cargar Equipamiento"
+                    WidthRequest="150" />
+                <Button
+                    Margin="10"
+                    Command="{Binding ShowAllExercisesCommand}"
+                    HeightRequest="50"
+                    Text="Todo"
+                    WidthRequest="70" />
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Dorsales"
+                    HeightRequest="50"
+                    Text="Espalda"
+                    WidthRequest="80" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Pierna"
+                    WidthRequest="70" />
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Pecho"
+                    HeightRequest="50"
+                    Text="Pecho"
+                    WidthRequest="70" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Hombro"
+                    WidthRequest="90" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Bíceps"
+                    WidthRequest="80" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Tríceps"
+                    WidthRequest="80" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Glúteo"
+                    WidthRequest="80" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Antrebrazo"
+                    WidthRequest="110" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Cardio"
+                    WidthRequest="80" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Abdomen"
+                    WidthRequest="100" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Calentamiento"
+                    WidthRequest="130" />
+                <Button
+                    Margin="10"
+                    HeightRequest="50"
+                    Text="Estiramiento"
+                    WidthRequest="130" />
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <CollectionView
+            x:Name="myCollectionView"
+            HeightRequest="400"
+            ItemsSource="{Binding ExerciseList}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ExerciseModelView">
+                    <Grid Padding="10">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
+                        </Grid.GestureRecognizers>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Image
+                            Grid.Row="1"
+                            Margin="0,20,0,0"
+                            HeightRequest="50"
+                            Source="{Binding Urls[0]}"
+                            WidthRequest="50" />
+                        <Label
+                            Grid.Column="1"
+                            Text="{Binding Name}"
+                            VerticalOptions="Center" />
+                        <CheckBox
+                            Grid.Column="3"
+                            HeightRequest="100"
+                            IsChecked="{Binding IsChecked}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button
+            x:Name="new_"
+            Margin="0,20,0,0"
+            Command="{Binding NewTrainingSessionCommand}"
+            HorizontalOptions="Center"
+            IsVisible="True"
+            Text="Nuevo entrenamiento"
+            WidthRequest="150" />
+
+    </VerticalStackLayout>
+</toolkit:Popup>

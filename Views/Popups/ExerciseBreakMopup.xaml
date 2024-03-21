@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="mobileAppTest.Views.Popups.ExerciseBreakMopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:DataType="viewmodels:ExerciseTappedViewModel"
+    CloseWhenBackgroundIsClicked="False">
+    <mopups:PopupPage.Animation>
+        <mopupsanim:ScaleAnimation
+            DurationIn="1000"
+            EasingIn="BounceOut"
+            PositionIn="Bottom"
+            PositionOut="Bottom"
+            ScaleIn="1"
+            ScaleOut="0.7" />
+    </mopups:PopupPage.Animation>
+
+
+
+    <Border
+        BackgroundColor="White"
+        HeightRequest="400"
+        WidthRequest="300">
+
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="40,0,0,40" />
+        </Border.StrokeShape>
+        <VerticalStackLayout>
+
+            <Label
+                Margin="0,10,0,0"
+                HorizontalOptions="Center"
+                Text="Descanso"
+                VerticalOptions="Center" />
+
+            <gauge:SfRadialGauge
+                Margin="0,50,0,0"
+                HeightRequest="250"
+                VerticalOptions="End"
+                WidthRequest="250">
+                <gauge:SfRadialGauge.Axes>
+                    <gauge:RadialAxis
+                        EndAngle="360"
+                        Interval="10"
+                        Maximum="{Binding SegundosDescanso}"
+                        ShowLabels="False"
+                        ShowTicks="False"
+                        StartAngle="0">
+                        <gauge:RadialAxis.AxisLineStyle>
+                            <gauge:RadialLineStyle
+                                Fill="LightGray"
+                                Thickness="20"
+                                ThicknessUnit="Pixel" />
+                        </gauge:RadialAxis.AxisLineStyle>
+
+                        <gauge:RadialAxis.Pointers>
+                            <gauge:RangePointer
+                                CornerStyle="BothCurve"
+                                EnableAnimation="True"
+                                Fill="GreenYellow"
+                                PointerWidth="20"
+                                Value="{Binding TimeLabel}" />
+
+                        </gauge:RadialAxis.Pointers>
+                        <gauge:RadialAxis.Annotations>
+                            <gauge:GaugeAnnotation
+                                x:Name="annotation"
+                                DirectionUnit="Angle"
+                                DirectionValue="90"
+                                PositionFactor="0.5">
+                                <gauge:GaugeAnnotation.Content>
+                                    <Label
+                                        Margin="0,0,0,85"
+                                        FontAttributes="Bold"
+                                        FontSize="50"
+                                        Text="{Binding TimeLabel}"
+                                        TextColor="Black" />
+
+                                </gauge:GaugeAnnotation.Content>
+                            </gauge:GaugeAnnotation>
+                        </gauge:RadialAxis.Annotations>
+
+                    </gauge:RadialAxis>
+                </gauge:SfRadialGauge.Axes>
+            </gauge:SfRadialGauge>
+
+            <Button
+                Background="Black"
+                Command="{Binding CloseExerciseBreakMopupCommand}"
+                HeightRequest="40"
+                Text="Ok"
+                TextColor="White"
+                WidthRequest="200" />
+        </VerticalStackLayout>
+
+    </Border>
+
+</mopups:PopupPage>

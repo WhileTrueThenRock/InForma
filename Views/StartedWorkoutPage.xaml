@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="mobileAppTest.Views.StartedWorkoutPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:Name="thisPage"
+    x:DataType="viewmodels:StartedWorkoutViewModel"
+    BindingContext="{viewmodels:StartedWorkoutViewModel}"
+    Loaded="thisPage_Loaded">
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label
+                FontAttributes="Bold"
+                FontFamily="Calibri"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="{Binding TimeLabel}"
+                TextColor="Red"
+                VerticalOptions="Center" />
+
+            <CollectionView
+                x:Name="myCollectionV"
+                BindingContext="{Binding .}"
+                ItemsSource="{Binding ExerciseList}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ExerciseModelView">
+                        <Grid Padding="10">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionV}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
+                            </Grid.GestureRecognizers>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image
+                                Grid.Row="1"
+                                Margin="0,20,0,0"
+                                HeightRequest="50"
+                                Source="{Binding Urls[0]}"
+                                WidthRequest="50" />
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding Name}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <buttons:SfButton
+                x:Name="sfButton"
+                Margin="0,300,0,0"
+                Background="Red"
+                Command="{Binding NavegarMainPageCommand}"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Text="Finalizar"
+                TextColor="Black"
+                WidthRequest="150" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

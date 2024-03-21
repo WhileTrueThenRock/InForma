@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="mobileAppTest.Views.Popups.InfoMuscleMopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:DataType="viewmodels:InfoMuscleMopupViewModel"
+    CloseWhenBackgroundIsClicked="False">
+    <mopups:PopupPage.Animation>
+        <mopupsanim:ScaleAnimation
+            DurationIn="700"
+            EasingIn="BounceOut"
+            PositionIn="Bottom"
+            PositionOut="Center"
+            ScaleIn="1"
+            ScaleOut="0.7" />
+    </mopups:PopupPage.Animation>
+
+
+    <VerticalStackLayout
+        BackgroundColor="Orange"
+        HeightRequest="500"
+        WidthRequest="500">
+        <CarouselView
+            HeightRequest="400"
+            IndicatorView="{x:Reference indicadorView}"
+            ItemsSource="{Binding ImagesPathList}"
+            ItemsUpdatingScrollMode="KeepScrollOffset"
+            Loop="False"
+            WidthRequest="400">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Image
+                        Aspect="AspectFit"
+                        HeightRequest="350"
+                        HorizontalOptions="FillAndExpand"
+                        Source="{Binding}"
+                        VerticalOptions="FillAndExpand"
+                        WidthRequest="350" />
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <IndicatorView
+            x:Name="indicadorView"
+            HorizontalOptions="Center"
+            IndicatorColor="LightBlue"
+            IndicatorSize="25"
+            SelectedIndicatorColor="Blue" />
+
+        <Button
+            Background="Red"
+            Command="{Binding CloseInfoMopupCommand}"
+            Text="Close"
+            TextColor="Black"
+            WidthRequest="200" />
+    </VerticalStackLayout>
+</mopups:PopupPage>

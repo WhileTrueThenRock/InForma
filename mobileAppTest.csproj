@@ -1,0 +1,215 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0-android;net8.0-maccatalyst;net8.0-ios</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+
+		<!-- Note for MacCatalyst:
+		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>mobileAppTest</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<!-- Display name -->
+		<ApplicationTitle>mobileAppTest</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.mobileapptest</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Remove="Resources\Images\Body\**" />
+	  <Compile Remove="Resources\Images\Body\**" />
+	  <EmbeddedResource Remove="Resources\Images\Body\**" />
+	  <MauiCss Remove="Resources\Images\Body\**" />
+	  <MauiImage Remove="Resources\Images\Body\**" />
+	  <MauiXaml Remove="Resources\Images\Body\**" />
+	  <None Remove="Resources\Images\Body\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Platforms\Android\google-services.json" />
+	  <None Remove="Resources\Images\abs1.png" />
+	  <None Remove="Resources\Images\abs2.png" />
+	  <None Remove="Resources\Images\anillas.jpg" />
+	  <None Remove="Resources\Images\banco.jpg" />
+	  <None Remove="Resources\Images\body1.png" />
+	  <None Remove="Resources\Images\body2.png" />
+	  <None Remove="Resources\Images\cuello1.png" />
+	  <None Remove="Resources\Images\cuello2.png" />
+	  <None Remove="Resources\Images\facebooklogo.png" />
+	  <None Remove="Resources\Images\glutes.png" />
+	  <None Remove="Resources\Images\glutesdefault.png" />
+	  <None Remove="Resources\Images\googlelogo.png" />
+	  <None Remove="Resources\Images\gym1.jpg" />
+	  <None Remove="Resources\Images\gym2.jpg" />
+	  <None Remove="Resources\Images\hombroder1.png" />
+	  <None Remove="Resources\Images\hombroder2.png" />
+	  <None Remove="Resources\Images\hombroizq1.png" />
+	  <None Remove="Resources\Images\hombroizq2.png" />
+	  <None Remove="Resources\Images\instalogo.png" />
+	  <None Remove="Resources\Images\invisible.png" />
+	  <None Remove="Resources\Images\leftabductor1.png" />
+	  <None Remove="Resources\Images\leftabductor2.png" />
+	  <None Remove="Resources\Images\leftadductor1.png" />
+	  <None Remove="Resources\Images\leftadductor2.png" />
+	  <None Remove="Resources\Images\leftbicep1.png" />
+	  <None Remove="Resources\Images\leftbicep2.png" />
+	  <None Remove="Resources\Images\leftforearm1.png" />
+	  <None Remove="Resources\Images\leftforearm2.png" />
+	  <None Remove="Resources\Images\pecho1.png" />
+	  <None Remove="Resources\Images\pecho2.png" />
+	  <None Remove="Resources\Images\rightabductor1.png" />
+	  <None Remove="Resources\Images\rightabductor2.png" />
+	  <None Remove="Resources\Images\rightadductor1.png" />
+	  <None Remove="Resources\Images\rightadductor2.png" />
+	  <None Remove="Resources\Images\rightbicep1.png" />
+	  <None Remove="Resources\Images\rightbicep2.png" />
+	  <None Remove="Resources\Images\rightforearm1.png" />
+	  <None Remove="Resources\Images\rightforearm2.png" />
+	  <None Remove="Resources\Images\seriesCompleted.gif" />
+	  <None Remove="Resources\Images\sms.png" />
+	  <None Remove="Resources\Images\sms2.png" />
+	  <None Remove="Resources\Images\xlogo.png" />
+	  <None Remove="Resources\Raw\nice.mp4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="3.0.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
+		<PackageReference Include="FirebaseDatabase.net" Version="4.2.0" />
+		<PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Mopups" Version="1.3.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Plugin.CloudFirestore" Version="4.1.0" />
+		<PackageReference Include="Plugin.Maui.Calendar" Version="1.1.1" />
+		<PackageReference Include="Syncfusion.Maui.Buttons" Version="24.1.43" />
+		<PackageReference Include="Syncfusion.Maui.Calendar" Version="24.1.43" />
+		<PackageReference Include="Syncfusion.Maui.Cards" Version="24.2.3" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="24.2.4" />
+		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="24.1.43" />
+		<PackageReference Include="Syncfusion.Maui.Expander" Version="24.1.46" />
+		<PackageReference Include="Syncfusion.Maui.Gauges" Version="24.2.4" />
+		<PackageReference Include="Syncfusion.Maui.Maps" Version="24.2.4" />
+		<PackageReference Include="Syncfusion.Maui.Picker" Version="24.1.45" />
+		<PackageReference Include="Syncfusion.Maui.Popup" Version="24.1.45" />
+		<PackageReference Include="Syncfusion.Maui.TabView" Version="24.1.43" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\ExerciseTappedPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FinishedWorkoutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ForgotPasswordPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\CustomExercise.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\EquipmentPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\ExerciseBreakMopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\InfoMuscleMopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\MuscleReplacementPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\MuscleSelectionPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RegisterPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\StartedWorkoutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+	  <PackageReference Include="Xamarin.GooglePlayServices.Base">
+	    <Version>117.5.0</Version>
+	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Icons\sms.png" />
+	  <MauiImage Include="Resources\Images\Icons\sms2.png" />
+	  <MauiImage Include="Resources\Images\Logos\facebooklogo.png" />
+	  <MauiImage Include="Resources\Images\Logos\googlelogo.png" />
+	  <MauiImage Include="Resources\Images\Logos\instalogo.png" />
+	  <MauiImage Include="Resources\Images\Logos\xlogo.png" />
+	  <MauiImage Include="Resources\Images\Muscles\pecho1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\pecho2.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Images\Home\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Popups\CustomExercise.xaml.cs">
+	    <DependentUpon>CustomExercise.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+</Project>

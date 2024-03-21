@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="mobileAppTest.Views.Popups.MuscleSelectionPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:DataType="viewmodels:MainViewModel"
+    CanBeDismissedByTappingOutsideOfPopup="False">
+    <VerticalStackLayout BackgroundColor="White">
+
+        <Label
+            HorizontalOptions="Center"
+            Text="Selecciona los músculos a entrenar"
+            VerticalOptions="Center" />
+
+        <AbsoluteLayout>
+
+            <Image
+                Margin="0,0,0,0"
+                HeightRequest="800"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsFrontBodyVisible}"
+                Source="body1.png"
+                VerticalOptions="Center"
+                WidthRequest="420" />
+            <Image
+                Margin="0,0,0,0"
+                HeightRequest="800"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsBackBodyVisible}"
+                Source="body2.png"
+                VerticalOptions="Center"
+                WidthRequest="400" />
+            <Button
+                Command="{Binding FilterBySelectedMuscleCommand}"
+                IsVisible="{Binding IsFiltrarMusclesButtonVisible}"
+                Text="Filtrar" />
+
+            <!--
+            Parametros del LayoutBounds: ejeX, ejeY, ancho y alto del rectangulo
+            Si pones 0,0 en los ejes lo situa en la esquina superior izquierda.
+            -->
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="130,105,180,45"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Cuello"
+                IsVisible="{Binding IsNeckVisible}"
+                Source="{Binding NeckColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="148,145,150,80"
+                Background="Transparent"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Pecho"
+                IsVisible="{Binding IsChestVisible}"
+                Source="{Binding ChestColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="110,127,75,80"
+                Background="Transparent"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Hombro"
+                IsVisible="{Binding IsLeftShoulderVisible}"
+                Source="{Binding LeftShoulderColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="252,129,80,80"
+                Background="Transparent"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Hombro"
+                IsVisible="{Binding IsRightShoulderVisible}"
+                Source="{Binding RightShoulderColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="88,187,75,95"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Bíceps"
+                IsVisible="{Binding IsLeftBicepVisible}"
+                Source="{Binding LeftBicepColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="267,173,80,105"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Bíceps"
+                IsVisible="{Binding IsRightBicepVisible}"
+                Source="{Binding RightBicepColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="145,219,158,182"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Abdomen"
+                IsVisible="{Binding IsAbsVisible}"
+                Source="{Binding AbsColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="87,252,54,115"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Antebrazo"
+                IsVisible="{Binding IsLeftForearmVisible}"
+                Source="{Binding LeftForearmColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="288,251,54,110"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Antebrazo"
+                IsVisible="{Binding IsRightForearmVisible}"
+                Source="{Binding RightForearmColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="165,362,50,47"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Aductores"
+                IsVisible="{Binding IsLeftAdductorVisible}"
+                Source="{Binding LeftAdductorColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="219,373,50,40"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Aductores"
+                IsVisible="{Binding IsRightAdductorVisible}"
+                Source="{Binding RightAdductorColor}" />
+
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="127,345,54,99"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Abductores"
+                IsVisible="{Binding IsLeftAbductorVisible}"
+                Source="{Binding LeftAbductorColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="256,343,50,86"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Abductores"
+                IsVisible="{Binding IsRightAbductorVisible}"
+                Source="{Binding RightAbductorColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="121,360,120,201"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Cuádriceps"
+                IsVisible="{Binding IsLeftQuadVisible}"
+                Source="{Binding LeftQuadColor}" />
+
+            <ImageButton
+                AbsoluteLayout.LayoutBounds="230,360,55,221"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Cuádriceps"
+                IsVisible="{Binding IsRightQuadVisible}"
+                Source="{Binding RightQuadColor}" />
+
+
+
+            <buttons:SfButton
+                AbsoluteLayout.LayoutBounds="175,315,100,50"
+                Background="Transparent"
+                BackgroundImageSource="{Binding GlutesColor}"
+                Command="{Binding ChangeMuscleImageCommand}"
+                CommandParameter="Glúteos"
+                IsVisible="{Binding IsGlutesVisible}" />
+
+            <Button
+                Margin="50,700,0,0"
+                Command="{Binding RotateBodyCommand}"
+                Text="Vuelta" />
+
+        </AbsoluteLayout>
+    </VerticalStackLayout>
+</toolkit:Popup>

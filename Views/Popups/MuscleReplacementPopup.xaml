@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="mobileAppTest.Views.Popups.MuscleReplacementPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:Name="thisPage"
+    x:DataType="viewmodels:MainViewModel"
+    CanBeDismissedByTappingOutsideOfPopup="False">
+
+    <VerticalStackLayout HeightRequest="600" WidthRequest="400">
+        <Label
+            HorizontalOptions="Center"
+            Text="Selecciona el ejercicio a cambiar"
+            TextColor="Blue"
+            VerticalOptions="Center" />
+
+        <CollectionView
+            x:Name="myCollection"
+            HeightRequest="500"
+            ItemsSource="{Binding MuscleExerciselist}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ExerciseModelView">
+
+                    <HorizontalStackLayout Margin="0,20,0,0">
+                        <HorizontalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={x:Reference myCollection}, Path=BindingContext.CloseMuscleReplacementPopupCommand}"
+                                CommandParameter="{Binding .}"
+                                NumberOfTapsRequired="1" />
+                        </HorizontalStackLayout.GestureRecognizers>
+
+                        <Image
+                            Margin="0,20,0,0"
+                            HeightRequest="50"
+                            Source="{Binding Urls[0]}"
+                            WidthRequest="50" />
+                        <Label Text="{Binding Exercise.Name}" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</toolkit:Popup>
