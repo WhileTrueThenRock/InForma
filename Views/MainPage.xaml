@@ -48,40 +48,76 @@
                                 ShowYearPicker="False"
                                 TodayOutlineColor="Aqua"
                                 WidthRequest="350" />
-                            <CollectionView
-                                ItemsSource="{Binding EventsList}"
-                                SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
-                                SelectionMode="Single">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:ExerciseModelView">
-                                        <Border>
-                                            <VerticalStackLayout>
-                                                <Label Text="{Binding Path=BindingContext.TotalWorkoutDurationLabel, Source={x:Reference mainpage}}" />
+                            <Border>
+                                <CollectionView
+                                    x:Name="myCalendarCollection"
+                                    HeightRequest="500"
+                                    ItemsSource="{Binding EventsList}"
+                                    SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
+                                    SelectionMode="Single">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:ExerciseModelView">
+                                            <Border>
+                                                <Grid>
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCalendarCollection}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
+                                                    </Grid.GestureRecognizers>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Label
+                                                        Grid.Row="1"
+                                                        Text="{Binding Name}"
+                                                        TextColor="Black"
+                                                        VerticalOptions="Center" />
 
-                                                <Label Text="{Binding Name}" TextColor="Black" />
-                                                <Image
-                                                    HeightRequest="100"
-                                                    Source="{Binding Urls[0]}"
-                                                    WidthRequest="350" />
-                                                <Label Text="{Binding FechaEntrenamiento}" />
-                                                <Label Text="{Binding Exercise.Instructions[2]}" />
-                                                <Label Text="{Binding Exercise.Category}" />
-                                            </VerticalStackLayout>
-                                        </Border>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
+                                                    <!--<Label Text="{Binding Path=BindingContext.TotalWorkoutDurationLabel, Source={x:Reference mainpage}}" />-->
 
-                            <Button
-                                Margin="0"
-                                Command="{Binding GetExercisesEventsCommand}"
-                                Text="Obtener Entrenamientos +"
-                                WidthRequest="250" />
-                            <Button
-                                Margin="0"
-                                Command="{Binding ShowNotificationCommand}"
-                                Text="Notificaçao"
-                                WidthRequest="80" />
+
+                                                    <Image
+                                                        Grid.Row="1"
+                                                        Margin="160,0,0,0"
+                                                        HeightRequest="100"
+                                                        Source="{Binding Urls[0]}"
+                                                        WidthRequest="200" />
+                                                    <CheckBox
+                                                        Grid.Row="1"
+                                                        Grid.Column="3"
+                                                        HeightRequest="50"
+                                                        IsChecked="{Binding IsChecked}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Border>
+                            <VerticalStackLayout Margin="0,20,0,0">
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                                    <Button
+                                        Background="Red"
+                                        Command="{Binding DeleteSelectedEventCommand}"
+                                        IsVisible="{Binding IsDeleteExerciseButtonVisible}"
+                                        Text="Borrar"
+                                        WidthRequest="100" />
+                                    <Button
+                                        Background="GreenYellow"
+                                        Command="{Binding BindingContext.OpenInfoExercisePopupCommand, Source={x:Reference myCalendarCollection}}"
+                                        IsVisible="{Binding IsDetailsExerciseButtonVisible}"
+                                        Text="Detalles"
+                                        TextColor="Black"
+                                        WidthRequest="150" />
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+
                         </VerticalStackLayout>
                     </ScrollView>
                 </tabView:SfTabItem.Content>
@@ -354,7 +390,6 @@
                                                         Grid.Column="1"
                                                         Text="{Binding Name}"
                                                         VerticalOptions="Center" />
-
                                                     <Label
                                                         Grid.Column="2"
                                                         Text="{Binding FechaEntrenamiento}"
@@ -367,7 +402,6 @@
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>
                                     </CollectionView>
-
 
                                 </Border>
                             </VerticalStackLayout>
@@ -393,168 +427,6 @@
                     </ScrollView>
                 </tabView:SfTabItem.Content>
             </tabView:SfTabItem>
-            <tabView:SfTabItem Header="Cuerpo">
-                <tabView:SfTabItem.Content>
-                    <VerticalStackLayout BackgroundColor="White">
-
-                        <Label
-                            HorizontalOptions="Center"
-                            Text="Selecciona los músculos a entrenar"
-                            VerticalOptions="Center" />
-
-                        <AbsoluteLayout>
-
-                            <Image
-                                Margin="0,0,0,0"
-                                HeightRequest="800"
-                                HorizontalOptions="Center"
-                                IsVisible="{Binding IsFrontBodyVisible}"
-                                Source="body1.png"
-                                VerticalOptions="Center"
-                                WidthRequest="420" />
-                            <Image
-                                Margin="0,0,0,0"
-                                HeightRequest="800"
-                                HorizontalOptions="Center"
-                                IsVisible="{Binding IsBackBodyVisible}"
-                                Source="body2.png"
-                                VerticalOptions="Center"
-                                WidthRequest="400" />
-                            <Button
-                                Command="{Binding FilterBySelectedMuscleCommand}"
-                                IsVisible="{Binding IsFiltrarMusclesButtonVisible}"
-                                Text="Filtrar" />
-
-                            <!--
-                            Parametros del LayoutBounds: ejeX, ejeY, ancho y alto del rectangulo
-                            Si pones 0,0 en los ejes lo situa en la esquina superior izquierda.
-                            -->
-
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="130,105,180,45"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Cuello"
-                                IsVisible="{Binding IsNeckVisible}"
-                                Source="{Binding NeckColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="148,145,150,80"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Pecho"
-                                IsVisible="{Binding IsChestVisible}"
-                                Source="{Binding ChestColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="110,127,75,80"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Hombro"
-                                IsVisible="{Binding IsLeftShoulderVisible}"
-                                Source="{Binding LeftShoulderColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="252,129,80,80"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Hombro"
-                                IsVisible="{Binding IsRightShoulderVisible}"
-                                Source="{Binding RightShoulderColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="88,187,75,95"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Bíceps"
-                                IsVisible="{Binding IsLeftBicepVisible}"
-                                Source="{Binding LeftBicepColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="267,173,80,105"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Bíceps"
-                                IsVisible="{Binding IsRightBicepVisible}"
-                                Source="{Binding RightBicepColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="145,219,158,182"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Abdomen"
-                                IsVisible="{Binding IsAbsVisible}"
-                                Source="{Binding AbsColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="87,252,54,115"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Antebrazo"
-                                IsVisible="{Binding IsLeftForearmVisible}"
-                                Source="{Binding LeftForearmColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="288,251,54,110"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Antebrazo"
-                                IsVisible="{Binding IsRightForearmVisible}"
-                                Source="{Binding RightForearmColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="165,362,50,47"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Aductores"
-                                IsVisible="{Binding IsLeftAdductorVisible}"
-                                Source="{Binding LeftAdductorColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="219,373,50,40"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Aductores"
-                                IsVisible="{Binding IsRightAdductorVisible}"
-                                Source="{Binding RightAdductorColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="127,345,54,99"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Abductores"
-                                IsVisible="{Binding IsLeftAbductorVisible}"
-                                Source="{Binding LeftAbductorColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="256,343,50,86"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Abductores"
-                                IsVisible="{Binding IsRightAbductorVisible}"
-                                Source="{Binding RightAbductorColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="121,360,120,201"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Cuádriceps"
-                                IsVisible="{Binding IsLeftQuadVisible}"
-                                Source="{Binding LeftQuadColor}" />
-
-                            <ImageButton
-                                AbsoluteLayout.LayoutBounds="230,360,55,221"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Cuádriceps"
-                                IsVisible="{Binding IsRightQuadVisible}"
-                                Source="{Binding RightQuadColor}" />
-
-
-                            <buttons:SfButton
-                                AbsoluteLayout.LayoutBounds="175,315,100,50"
-                                Background="Transparent"
-                                BackgroundImageSource="{Binding GlutesColor}"
-                                Command="{Binding ChangeMuscleImageCommand}"
-                                CommandParameter="Glúteos"
-                                IsVisible="{Binding IsGlutesVisible}" />
-
-                            <Button
-                                Margin="50,500,0,0"
-                                Command="{Binding RotateBodyCommand}"
-                                Text="Vuelta" />
-
-                        </AbsoluteLayout>
-                    </VerticalStackLayout>
-                </tabView:SfTabItem.Content>
-            </tabView:SfTabItem>
-
         </tabView:SfTabView.Items>
     </tabView:SfTabView>
 

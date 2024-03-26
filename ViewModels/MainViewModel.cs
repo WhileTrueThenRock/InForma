@@ -13,6 +13,7 @@ using Plugin.Maui.Calendar.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Metadata;
 
 
 
@@ -20,7 +21,7 @@ namespace mobileAppTest.ViewModels
 {
     internal partial class MainViewModel : ObservableObject
     {
-        private readonly Services.IPopupService popupService;
+       // private readonly Services.IPopupService popupService;
 
 
         [ObservableProperty]
@@ -34,6 +35,9 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private MuscleReplacementPopup _muscleReplacementPopup;
+
+        [ObservableProperty]
+        private InfoExercisePopup _infoExercisePopup;
 
         private InfoMuscleMopup InfoMuscleMopup { get; set; }
         private InfoMuscleMopupViewModel InfoMuscleMopupViewModel { get; set; }
@@ -80,6 +84,12 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private bool _isDeleteExerciseButtonVisible;
+
+        [ObservableProperty]
+        private bool _isCustomExerciseButtonVisible;
+
+        [ObservableProperty]
+        private bool _isDetailsExerciseButtonVisible;
 
         [ObservableProperty]
         private bool _isBackButtonVisible;
@@ -143,7 +153,28 @@ namespace mobileAppTest.ViewModels
         private bool _isRightQuadSelected;
 
         [ObservableProperty]
+        private bool _isTrapSelected;
+
+        [ObservableProperty]
+        private bool _isLeftLatSelected;
+
+        [ObservableProperty]
+        private bool _isRightLatSelected;
+
+        [ObservableProperty]
+        private bool _isLeftTricepSelected;
+
+        [ObservableProperty]
+        private bool _isRightTricepSelected;
+
+        [ObservableProperty]
         private bool _isGlutesSelected;
+
+        [ObservableProperty]
+        private bool _isHamstringsSelected;
+
+        [ObservableProperty]
+        private bool _isCalfsSelected;
 
         [ObservableProperty]
         private bool _isNeckVisible;
@@ -191,7 +222,28 @@ namespace mobileAppTest.ViewModels
         private bool _isRightQuadVisible;
 
         [ObservableProperty]
+        private bool _isTrapVisible;
+
+        [ObservableProperty]
+        private bool _isLeftLatVisible;
+
+        [ObservableProperty]
+        private bool _isRightLatVisible;
+
+        [ObservableProperty]
+        private bool _isLeftTricepVisible;
+
+        [ObservableProperty]
+        private bool _isRightTricepVisible;
+
+        [ObservableProperty]
         private bool _isGlutesVisible;
+
+        [ObservableProperty]
+        private bool _isHamstringsVisible;
+
+        [ObservableProperty]
+        private bool _isCalfsVisible;
 
         [ObservableProperty]
         private string _neckColor;
@@ -239,7 +291,28 @@ namespace mobileAppTest.ViewModels
         private string _rightQuadColor;
 
         [ObservableProperty]
+        private string _trapColor;
+
+        [ObservableProperty]
+        private string _leftLatColor;
+
+        [ObservableProperty]
+        private string _rightLatColor;
+
+        [ObservableProperty]
+        private string _leftTricepColor;
+
+        [ObservableProperty]
+        private string _rightTricepColor;
+
+        [ObservableProperty]
         private string _glutesColor;
+
+        [ObservableProperty]
+        private string _hamstringsColor;
+
+        [ObservableProperty]
+        private string _calfsColor;
 
         #endregion
 
@@ -248,6 +321,9 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<ExerciseModelView> eventsList;  //Para el punto rojo del calendar.
+
+        [ObservableProperty]
+        private ObservableCollection<ExerciseModelView> _infoEventsList;  //Para el punto rojo del calendar.
 
         [ObservableProperty]
         private ObservableCollection<ExerciseModelView> exerciseList;
@@ -282,36 +358,14 @@ namespace mobileAppTest.ViewModels
             Events = new EventCollection();
             Culture = CultureInfo.CurrentCulture;
             EventsList = new ObservableCollection<ExerciseModelView>();
+            InfoEventsList = new ObservableCollection<ExerciseModelView>();
             ExerciseSessionlist = new ObservableCollection<ExerciseModelView>();
             ExerciseList = new ObservableCollection<ExerciseModelView>();
             EquipmentList = new ObservableCollection<EquipmentModelView>();
             SelectedEquipment = new ObservableCollection<EquipmentModelView>();
             SelectedMuscles = new ObservableCollection<string>();
             MuscleExerciselist = new ObservableCollection<ExerciseModelView>();
-            IsFiltrarMusclesButtonVisible = false;
-            IsFrontBodyVisible = true;
-            IsBackBodyVisible = false;
-           // IsChestSelected = true;
-           // IsQuadricepsSelected = true;
-            IsNeckVisible = true;
-            IsChestVisible = true;
-            IsLeftShoulderVisible = true;
-            IsRightShoulderVisible = true;
-            IsLeftBicepVisible = true;
-            IsRightBicepVisible = true;
-            IsAbsVisible = true;
-            IsLeftForearmVisible = true;
-            IsRightForearmVisible = true;
-            IsLeftAdductorVisible = true;
-            IsRightAdductorVisible = true;
-            IsLeftAbductorVisible = true;
-            IsRightAbductorVisible = true;
-            IsLeftQuadVisible = true;
-            IsRightQuadVisible = true;
-            IsGlutesVisible = false;
-
-
-
+            EstablishMuscleVisibility();
             ShowName();
             //ShowAllExercises();
             GetSessionExercises();
@@ -327,6 +381,47 @@ namespace mobileAppTest.ViewModels
             InfoMuscleMopup = new InfoMuscleMopup(InfoMuscleMopupViewModel);
             InitImagesDict();
             SelectDurationWorkout("15");
+            FilterBySelectedMuscle();
+        }
+
+        private void EstablishMuscleVisibility()
+        {
+            IsFiltrarMusclesButtonVisible = false;
+            IsFrontBodyVisible = true;
+            IsBackBodyVisible = false;
+            IsNeckVisible = true;
+            IsChestVisible = true;
+            IsLeftShoulderVisible = true;
+            IsRightShoulderVisible = true;
+            IsLeftBicepVisible = true;
+            IsRightBicepVisible = true;
+            IsAbsVisible = true;
+            IsLeftForearmVisible = true;
+            IsRightForearmVisible = true;
+            IsLeftAdductorVisible = true;
+            IsRightAdductorVisible = true;
+            IsLeftAbductorVisible = true;
+            IsRightAbductorVisible = true;
+            IsLeftQuadVisible = true;
+            IsRightQuadVisible = true;
+            IsTrapVisible = false;
+            IsLeftLatVisible = false;
+            IsRightLatVisible = false;
+            IsLeftTricepVisible = false;
+            IsRightTricepVisible = false;
+            IsGlutesVisible = false;
+            IsHamstringsVisible = false;
+            IsCalfsVisible = false;
+
+            IsCustomExerciseButtonVisible = false;
+
+            ChestColor = "pecho2.png";
+            IsChestSelected = true;
+            LeftShoulderColor = "hombroizq2.png";
+            RightShoulderColor = "hombroder2.png";
+            IsRightShoulderSelected = true;
+            SelectedMuscles.Add("Pecho");
+            SelectedMuscles.Add("Hombro");
         }
 
         private void InitImagesDict()
@@ -363,9 +458,7 @@ namespace mobileAppTest.ViewModels
         private async void ReplaceSwipedRow(ExerciseModelView exercise)
         {
             OpenMuscleReplacementPopup(exercise);
-             ExerciseList.Remove(exercise);
-
-
+            ExerciseList.Remove(exercise);
         }
 
         [RelayCommand]
@@ -389,7 +482,7 @@ namespace mobileAppTest.ViewModels
                     ChestColor = "pecho1.png";
                     SelectedMuscles.Remove(muscle);
                 }
-                    
+
             }
 
             if (muscle.Contains("Cuello"))
@@ -527,7 +620,7 @@ namespace mobileAppTest.ViewModels
 
             if (muscle.Contains("Cuádriceps"))
             {
-                IsRightQuadSelected = !IsRightQuadSelected; 
+                IsRightQuadSelected = !IsRightQuadSelected;
 
                 if (IsRightQuadSelected)
                 {
@@ -543,18 +636,102 @@ namespace mobileAppTest.ViewModels
                 }
             }
 
+            if (muscle.Contains("Trapecio"))
+            {
+                IsTrapSelected = !IsTrapSelected;
+
+                if (IsTrapSelected)
+                {
+                    TrapColor = "trap2.png";
+                    SelectedMuscles.Add(muscle);
+                }
+                else
+                {
+                    TrapColor = "trap1.png";
+                    SelectedMuscles.Remove(muscle);
+                }
+            }
+
+            if (muscle.Contains("Espalda"))
+            {
+                IsRightLatSelected = !IsRightLatSelected;
+
+                if (IsRightLatSelected)
+                {
+                    LeftLatColor = "leftlat2.png";
+                    RightLatColor = "rightlat2.png";
+                    SelectedMuscles.Add(muscle);
+                }
+                else
+                {
+                    LeftLatColor = "leftlat1.png";
+                    RightLatColor = "rightlat1.png";
+                    SelectedMuscles.Remove(muscle);
+                }
+            }
+
+            if (muscle.Contains("Tríceps"))
+            {
+                IsRightTricepSelected = !IsRightTricepSelected;
+
+                if (IsRightTricepSelected)
+                {
+                    LeftTricepColor = "lefttricep2.png";
+                    RightTricepColor = "righttricep2.png";
+                    SelectedMuscles.Add(muscle);
+                }
+                else
+                {
+                    LeftTricepColor = "lefttricep1.png";
+                    RightTricepColor = "righttricep1.png";
+                    SelectedMuscles.Remove(muscle);
+                }
+            }
+
             if (muscle.Contains("Glúteos"))
             {
                 IsGlutesSelected = !IsGlutesSelected;
 
                 if (IsGlutesSelected)
                 {
-                    GlutesColor = "glutes.png";
+                    GlutesColor = "glutes2.png";
                     SelectedMuscles.Add(muscle);
                 }
                 else
                 {
-                    GlutesColor = "glutesdefault.png";
+                    GlutesColor = "glutes1.png";
+                    SelectedMuscles.Remove(muscle);
+                }
+            }
+
+            if (muscle.Contains("Femoral"))
+            {
+                IsHamstringsSelected = !IsHamstringsSelected;
+
+                if (IsHamstringsSelected)
+                {
+                    HamstringsColor = "hamstrings2.png";
+                    SelectedMuscles.Add(muscle);
+                }
+                else
+                {
+                    HamstringsColor = "hamstrings1.png";
+                    SelectedMuscles.Remove(muscle);
+                }
+            }
+
+            if (muscle.Contains("Gemelos"))
+            {
+                IsCalfsSelected = !IsCalfsSelected;
+
+                if (IsCalfsSelected)
+                {
+                    CalfsColor = "calfs2.png";
+                    SelectedMuscles.Add(muscle);
+                }
+                else
+                {
+                    CalfsColor = "calfs1.png";
                     SelectedMuscles.Remove(muscle);
                 }
             }
@@ -563,7 +740,7 @@ namespace mobileAppTest.ViewModels
             {
                 IsFiltrarMusclesButtonVisible = false;
             }
-           
+
         }
 
         [RelayCommand]
@@ -586,7 +763,14 @@ namespace mobileAppTest.ViewModels
                 IsRightAbductorVisible = true;
                 IsLeftQuadVisible = true;
                 IsRightQuadVisible = true;
+                IsTrapVisible = false;
+                IsLeftLatVisible = false;
+                IsRightLatVisible = false;
+                IsLeftTricepVisible = false;
+                IsRightTricepVisible = false;
                 IsGlutesVisible = false;
+                IsHamstringsVisible = false;
+                IsCalfsVisible = false;
             }
             else
             {
@@ -605,7 +789,14 @@ namespace mobileAppTest.ViewModels
                 IsRightAbductorVisible = false;
                 IsLeftQuadVisible = false;
                 IsRightQuadVisible = false;
+                IsTrapVisible = true;
+                IsLeftLatVisible = true;
+                IsRightLatVisible = true;
+                IsLeftTricepVisible = true;
+                IsRightTricepVisible = true;
                 IsGlutesVisible = true;
+                IsHamstringsVisible = true;
+                IsCalfsVisible = true;
             }
 
             IsFrontBodyVisible = !IsFrontBodyVisible;
@@ -615,7 +806,8 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task FilterBySelectedMuscle()
         {
-           
+
+
             await ShowExercisesWithAvailableEquipment();
 
             var filteredByMuscle = ExerciseList.Where(exercise => SelectedMuscles.Any(muscle => exercise.PrimaryMuscles.Contains(muscle)) || SelectedMuscles.Contains("fullBody")).ToList();
@@ -628,15 +820,8 @@ namespace mobileAppTest.ViewModels
                 ExerciseList.Add(exercise);
                 ExerciseCount++;
             }
-
-            if (DurationHeader.Equals("15 min"))
-            {
-                await SelectDurationWorkout("15");
-            }
-            else if (DurationHeader.Equals("30 min"))
-            {
-                await SelectDurationWorkout("30");
-            }
+            await SelectedDurationWorkout();
+           
             await CloseMuscleSelectionPopup();
         }
 
@@ -687,7 +872,7 @@ namespace mobileAppTest.ViewModels
 
             if (int.TryParse(minutos, out int selectedMinutes))
             {
-                 await ShowExercisesWithAvailableEquipment();
+                await ShowExercisesWithAvailableEquipment();
 
 
                 var filteredByMuscles = ExerciseList
@@ -830,13 +1015,16 @@ namespace mobileAppTest.ViewModels
         }
 
 
-   
 
 
 
 
 
-        // Método que carga los ejercicios segun el equipamiento de un usuario en el CustomExercisePopup
+
+        // Método que carga los ejercicios segun el equipamiento de un usuario en el
+        //
+        //
+        // ExercisePopup
         [RelayCommand]
         public async Task ShowExercisesWithAvailableEquipment() //Usarlo en workout en vez de customExercise
         {
@@ -922,32 +1110,71 @@ namespace mobileAppTest.ViewModels
         public async Task NewTrainingSession()
         {
             // Filtra la lista para obtener solo los ejercicios seleccionados
-            var selectedExercises = ExerciseList
+            var SelectedExercises = ExerciseList
                 .Where(exercise => exercise.IsChecked)
                 .ToList();
 
-            if (selectedExercises.Any())
+            if (SelectedExercises.Any())
             {
-                // Crear una subcolección dentro de "Users" con el nombre Sesiones
-                var userDocument = CrossCloudFirestore.Current
-                    .Instance
-                    .Collection("Users")
-                    .Document("123456@gmail.com");
-
-                foreach (var selectedExercise in selectedExercises)
+                // Crear una subcolección dentro de "Users" con el nombre Sesiones, en caso de guardar entrenamiento custom
+                //var userDocument = CrossCloudFirestore.Current
+                //    .Instance
+                //    .Collection("Users")
+                //    .Document("123456@gmail.com");
+                ExerciseList.Clear();
+                ExerciseCount = 0;
+                foreach (var selectedExercise in SelectedExercises)
                 {
-                    // Agrega cada ejercicio a la subcolección Sesiones
-                    await userDocument
-                        .Collection("Sesiones")
-                        .AddAsync(selectedExercise.Exercise);
+                    //// Agrega cada ejercicio a la subcolección Sesiones, se podría llamar MiCustomLista
+                    //await userDocument
+                    //    .Collection("Sesiones")
+                    //    .AddAsync(selectedExercise.Exercise);
+                    ExerciseList.Add(selectedExercise);
+                    ExerciseCount++;
                 }
+                CustomExercisePopup.Close();
             }
             else
             {
-                // Manejar el caso en que no se ha seleccionado ningún ejercicio
+                // cambiar de color
             }
         }
 
+
+
+        [RelayCommand]
+        public async Task DeleteSelectedEvent()
+        {
+            // Filtra los elementos seleccionados mediante CheckBox
+            var eventsToDelete = EventsList.Where(@event => @event.IsChecked).ToList();
+            if (eventsToDelete.Count == 0)
+            {
+                return;
+            }
+            foreach (var eventToDelete in eventsToDelete)
+            {
+                // Realiza la eliminación en la base de datos
+                // Query the database to find the document with a specific condition
+                var query = CrossCloudFirestore.Current
+                    .Instance
+                    .Collection("Users")
+                    .Document("123456@gmail.com")
+                    .Collection("Sesiones")
+                    .WhereEqualsTo("Id", eventToDelete.Id); // Reemplaza con la propiedad y la condición reales
+
+                var querySnapshot = await query.GetDocumentsAsync();
+
+                // Itera a través de los documentos de resultado y los elimina
+                foreach (var document in querySnapshot.Documents)
+                {
+                    await document.Reference.DeleteAsync();
+                }
+
+                // Elimina el elemento de la lista local
+                EventsList.Remove(eventToDelete);
+            }
+            IsDeleteExerciseButtonVisible = false;
+        }
 
 
 
@@ -1100,11 +1327,47 @@ namespace mobileAppTest.ViewModels
                     .Document(name)
                   .UpdateAsync("disponible", available);
             }
-            MuscleHeader = "Cuerpo Entero";
-            DurationHeader = "15 min";
-            CloseEquipmentPopup();
-            ShowExercisesWithAvailableEquipment();
 
+            CloseEquipmentPopup();
+            await SelectedDurationWorkout();
+
+
+        }
+
+        public async Task SelectedDurationWorkout()
+        {
+            if (DurationHeader.Equals("15 min"))
+            {
+                await SelectDurationWorkout("15");
+            }
+            else if (DurationHeader.Equals("30 min"))
+            {
+                await SelectDurationWorkout("30");
+            }
+            else if (DurationHeader.Equals("45 min"))
+            {
+                await SelectDurationWorkout("45");
+            }
+            else if (DurationHeader.Equals("1 hr"))
+            {
+                await SelectDurationWorkout("60");
+            }
+            else if (DurationHeader.Equals("1:30 hr"))
+            {
+                await SelectDurationWorkout("90");
+            }
+            else if (DurationHeader.Equals("2 hr"))
+            {
+                await SelectDurationWorkout("120");
+            }
+            else if (DurationHeader.Equals("2:30 hr"))
+            {
+                await SelectDurationWorkout("150");
+            }
+            else if (DurationHeader.Equals("3 hr"))
+            {
+                await SelectDurationWorkout("180");
+            }
         }
 
 
@@ -1157,12 +1420,17 @@ namespace mobileAppTest.ViewModels
             if (exercise.IsChecked)
             {
                 IsDeleteExerciseButtonVisible = true;
+                IsDetailsExerciseButtonVisible = true;
+                IsCustomExerciseButtonVisible = true;
             }
             else if (!exercise.IsChecked)
             {
-                IsDeleteExerciseButtonVisible = false;
+                //IsDeleteExerciseButtonVisible = false;
+                //IsDetailsExerciseButtonVisible = false;
+
             }
         }
+
 
         [RelayCommand]
         public async Task DeleteSelectedExercise()
@@ -1275,52 +1543,33 @@ namespace mobileAppTest.ViewModels
 
         //FILTROS
         //Filtro en tiempo real para el searchbar del CustomExercisePopup
-        private void RealTimeUpdateFilter()
+        private async Task RealTimeUpdateFilter()
         {
-            CrossCloudFirestore.Current
-                .Instance
-                .Collection("Exercises")
-                .AddSnapshotListener((snapshot, error) =>
+            var exercisesSnapshot = await CrossCloudFirestore.Current
+             .Instance
+             .Collection("Exercises")
+             .GetAsync();
+
+            if (exercisesSnapshot != null && exercisesSnapshot.Documents.Any())
+            {
+                ExerciseList.Clear(); // Limpiar la lista existente
+
+                foreach (var exerciseDocument in exercisesSnapshot.Documents)
                 {
-                    if (snapshot != null)
-                    {
-                        foreach (var documentChange in snapshot.DocumentChanges)
-                        {
-                            var newExercise = documentChange.Document.ToObject<ExerciseModel>();
+                    var exercise = exerciseDocument.ToObject<ExerciseModel>();
+                    var exerciseModelView = ModelMapper.ExerciseModelToExerciseModelView(exercise);
+                    ExerciseList.Add(exerciseModelView);
+                }
 
-                            if (newExercise != null)
-                            {
-                                var newExerciseModelView = ModelMapper.ExerciseModelToExerciseModelView(newExercise);
-
-                                switch (documentChange.Type)
-                                {
-                                    case DocumentChangeType.Added:
-                                        ExerciseList.Add(newExerciseModelView);
-                                        break;
-                                    case DocumentChangeType.Modified:
-                                        var existingExercise = ExerciseList.FirstOrDefault(e => e.Name == newExerciseModelView.Name);
-                                        if (existingExercise != null)
-                                        {
-                                            // Actualiza las propiedades que desees
-                                            existingExercise.Name = newExerciseModelView.Name;
-                                            // ... Actualiza otras propiedades si es necesario
-                                        }
-                                        break;
-                                    case DocumentChangeType.Removed:
-                                        var removedExercise = ExerciseList.FirstOrDefault(e => e.Name == newExerciseModelView.Name);
-                                        if (removedExercise != null)
-                                        {
-                                            ExerciseList.Remove(removedExercise);
-                                        }
-                                        break;
-                                }
-
-                                UpdateFilteredExercises();
-                            }
-                        }
-                    }
-                });
-        }
+                UpdateFilteredExercises();
+            }
+            else
+            {
+                // No se encontraron documentos
+                // Puedes manejar este caso según tus necesidades
+            }
+        
+    }
         //Filtra el texto del search bar en el CustomExercisePopup
         public void UpdateFilteredExercises()
         {
@@ -1440,9 +1689,11 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task ClosecustomExercisePopup()
         {
-            ShowExercisesWithAvailableEquipment();
-            RealTimeUpdateFilter();
+            //ShowExercisesWithAvailableEquipment();
+            //RealTimeUpdateFilter();
+            await SelectedDurationWorkout();
             CustomExercisePopup.Close();
+           
 
         }
 
@@ -1464,7 +1715,9 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task OpenMuscleSelectionPopup()
         {
-
+            SelectedMuscles.Clear();
+            SelectedMuscles.Add("Pecho");
+            SelectedMuscles.Add("Hombro");
             MusclePopup = new MuscleSelectionPopup();
             await App.Current.MainPage.ShowPopupAsync(MusclePopup);
         }
@@ -1490,8 +1743,30 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task CloseMuscleReplacementPopup(ExerciseModelView exercise)
         {
-           ExerciseList.Add(exercise);
-           MuscleReplacementPopup.Close();
+            ExerciseList.Add(exercise);
+            MuscleReplacementPopup.Close();
+
+        }
+
+        [RelayCommand]
+        public async Task OpenInfoExercisePopup()
+        {
+            InfoEventsList.Clear();
+            InfoEventsList = new ObservableCollection<ExerciseModelView>(EventsList.Where(exercise => exercise.IsChecked));
+            if (InfoEventsList.Count == 0) 
+            {
+                return;
+            }
+            InfoExercisePopup = new InfoExercisePopup();
+            await App.Current.MainPage.ShowPopupAsync(InfoExercisePopup);
+        }
+
+
+
+        [RelayCommand]
+        public async Task CloseInfoExercisePopup()
+        {
+            InfoExercisePopup.Close();
 
         }
 

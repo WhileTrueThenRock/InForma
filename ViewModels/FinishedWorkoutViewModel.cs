@@ -25,9 +25,19 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string _fecha;
 
+        [ObservableProperty]
+        private bool _isCardMoving;
+
+
         public FinishedWorkoutViewModel()
         {
             
+        }
+
+        [RelayCommand]
+        private void CardTapped()
+        {
+            IsCardMoving = !IsCardMoving;
         }
 
         [RelayCommand]

@@ -38,26 +38,9 @@
                 <Button
                     Margin="10"
                     Command="{Binding ShowExercisesWithAvailableEquipmentCommand}"
-                    Text="Cargar Equipamiento"
-                    WidthRequest="150" />
-                <Button
-                    Margin="10"
-                    Command="{Binding ShowAllExercisesCommand}"
-                    HeightRequest="50"
-                    Text="Todo"
+                    Text="Todos"
                     WidthRequest="70" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Dorsales"
-                    HeightRequest="50"
-                    Text="Espalda"
-                    WidthRequest="80" />
-                <Button
-                    Margin="10"
-                    HeightRequest="50"
-                    Text="Pierna"
-                    WidthRequest="70" />
+
                 <Button
                     Margin="10"
                     Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
@@ -67,48 +50,108 @@
                     WidthRequest="70" />
                 <Button
                     Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Hombro"
                     HeightRequest="50"
                     Text="Hombro"
                     WidthRequest="90" />
                 <Button
                     Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Espalda"
+                    HeightRequest="50"
+                    Text="Espalda"
+                    WidthRequest="80" />
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Cuádriceps"
+                    HeightRequest="50"
+                    Text="Cuádriceps"
+                    WidthRequest="100" />
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Femoral"
+                    HeightRequest="50"
+                    Text="Femoral"
+                    WidthRequest="85" />
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Gemelos"
+                    HeightRequest="50"
+                    Text="Gemelos"
+                    WidthRequest="85" />
+
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Bíceps"
                     HeightRequest="50"
                     Text="Bíceps"
                     WidthRequest="80" />
                 <Button
                     Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Tríceps"
                     HeightRequest="50"
                     Text="Tríceps"
                     WidthRequest="80" />
                 <Button
                     Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Glúteos"
                     HeightRequest="50"
-                    Text="Glúteo"
+                    Text="Glúteos"
                     WidthRequest="80" />
                 <Button
                     Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Antebrazo"
                     HeightRequest="50"
                     Text="Antrebrazo"
                     WidthRequest="110" />
+
                 <Button
                     Margin="10"
-                    HeightRequest="50"
-                    Text="Cardio"
-                    WidthRequest="80" />
-                <Button
-                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Abdomen"
                     HeightRequest="50"
                     Text="Abdomen"
                     WidthRequest="100" />
                 <Button
                     Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Trapecio"
                     HeightRequest="50"
-                    Text="Calentamiento"
-                    WidthRequest="130" />
+                    Text="Trapecio"
+                    WidthRequest="100" />
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Cuello"
+                    HeightRequest="50"
+                    Text="Cuello"
+                    WidthRequest="100" />
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Aductores"
+                    HeightRequest="50"
+                    Text="Aductores"
+                    WidthRequest="100" />
+                <Button
+                    Margin="10"
+                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                    CommandParameter="Abductores"
+                    HeightRequest="50"
+                    Text="Abductores"
+                    WidthRequest="105" />
                 <Button
                     Margin="10"
                     HeightRequest="50"
-                    Text="Estiramiento"
+                    Text="Estiramientos"
                     WidthRequest="130" />
             </HorizontalStackLayout>
         </ScrollView>
@@ -152,7 +195,7 @@
             Margin="0,20,0,0"
             Command="{Binding NewTrainingSessionCommand}"
             HorizontalOptions="Center"
-            IsVisible="True"
+            IsVisible="{Binding IsCustomExerciseButtonVisible}"
             Text="Nuevo entrenamiento"
             WidthRequest="150" />
 

@@ -18,11 +18,35 @@ namespace mobileAppTest.Services
                 switch (muscleName)
                 {
                     case "Pecho":
-                        return "Images/trapecio.png";
+                        return "Images/Muscles/pecho.png";
                     case "Hombro":
-                        return "Images/banco.jpg";
+                        return "Images/Muscles/hombro.png";
+                    case "Cuello":
+                        return "Images/Muscles/cuello.png";
+                    case "Bíceps":
+                        return "Images/Muscles/biceps.png";
+                    case "Abdomen":
+                        return "Images/Muscles/abdomen.png";
+                    case "Antebrazo":
+                        return "Images/Muscles/aductores.png";
+                    case "Aductores":
+                        return "Images/Muscles/abductores.png";
+                    case "Abductores":
+                        return "Images/Muscles/antebrazo.png";
+                    case "Cuádriceps":
+                        return "Images/Muscles/cuadriceps.png";
+                    case "Trapecio":
+                        return "Images/Muscles/trapecio.png";
+                    case "Espalda":
+                        return "Images/Muscles/espalda.png";
                     case "Tríceps":
-                        return "Images/pecho.png";
+                        return "Images/Muscles/triceps.png";
+                    case "Glúteos":
+                        return "Images/Muscles/gluteos.png";
+                    case "Femoral":
+                        return "Images/Muscles/femoral.png";
+                    case "Gemelos":
+                        return "Images/Muscles/gemelos.png";
                     // Add more cases for other equipment names
                     default:
 

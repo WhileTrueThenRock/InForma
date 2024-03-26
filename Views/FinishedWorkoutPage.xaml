@@ -7,15 +7,16 @@
     xmlns:models="clr-namespace:mobileAppTest.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:Name="thisPage"
     x:DataType="viewmodels:FinishedWorkoutViewModel"
     BindingContext="{viewmodels:FinishedWorkoutViewModel}">
 
     <VerticalStackLayout VerticalOptions="Center">
 
-
+        <!--  First Card  -->
         <card:SfCardLayout HeightRequest="500" HorizontalCardSpacing="10">
-            <card:SfCardView BackgroundColor="Beige" ZIndex="0">
-                <ScrollView InputTransparent="True" Orientation="Vertical">
+            <card:SfCardView BackgroundColor="Beige" InputTransparent="False">
+                <ScrollView Orientation="Vertical">
                     <VerticalStackLayout>
                         <Border
                             Margin="0,5,0,0"
@@ -73,19 +74,8 @@
 
             </card:SfCardView>
 
-
-
-
-
-
-
-
-
-
-            <card:SfCardView
-                BackgroundColor="#f6f27b"
-                InputTransparent="True"
-                ZIndex="100">
+            <!--  Second Card  -->
+            <card:SfCardView BackgroundColor="#f6f27b" InputTransparent="False">
                 <ScrollView Orientation="Vertical">
                     <VerticalStackLayout>
                         <Border
@@ -182,13 +172,12 @@
 
 
         </card:SfCardLayout>
-        <!--<HorizontalStackLayout>
+        <HorizontalStackLayout>
             <Button Margin="20" Text="Guardar Entrenamiento" />
             <Button
                 Margin="20"
                 Command="{Binding LoadMainPageCommand}"
                 Text="Terminar" />
-
-        </HorizontalStackLayout>-->
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

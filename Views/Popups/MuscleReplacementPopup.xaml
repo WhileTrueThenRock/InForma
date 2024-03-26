@@ -9,7 +9,7 @@
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:Name="thisPage"
     x:DataType="viewmodels:MainViewModel"
-    CanBeDismissedByTappingOutsideOfPopup="False">
+    CanBeDismissedByTappingOutsideOfPopup="True">
 
     <VerticalStackLayout HeightRequest="600" WidthRequest="400">
         <Label

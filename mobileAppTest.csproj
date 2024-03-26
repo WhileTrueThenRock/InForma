@@ -70,20 +70,36 @@
 
 	<ItemGroup>
 	  <None Remove="Platforms\Android\google-services.json" />
+	  <None Remove="Resources\Images\abdomen.png" />
+	  <None Remove="Resources\Images\abductores.png" />
 	  <None Remove="Resources\Images\abs1.png" />
 	  <None Remove="Resources\Images\abs2.png" />
+	  <None Remove="Resources\Images\aductores.png" />
 	  <None Remove="Resources\Images\anillas.jpg" />
+	  <None Remove="Resources\Images\antebrazo.png" />
 	  <None Remove="Resources\Images\banco.jpg" />
+	  <None Remove="Resources\Images\biceps.png" />
 	  <None Remove="Resources\Images\body1.png" />
 	  <None Remove="Resources\Images\body2.png" />
+	  <None Remove="Resources\Images\calfs1.png" />
+	  <None Remove="Resources\Images\calfs2.png" />
+	  <None Remove="Resources\Images\cuadriceps.png" />
+	  <None Remove="Resources\Images\cuello.png" />
 	  <None Remove="Resources\Images\cuello1.png" />
 	  <None Remove="Resources\Images\cuello2.png" />
+	  <None Remove="Resources\Images\espalda.png" />
 	  <None Remove="Resources\Images\facebooklogo.png" />
-	  <None Remove="Resources\Images\glutes.png" />
-	  <None Remove="Resources\Images\glutesdefault.png" />
+	  <None Remove="Resources\Images\femoral.png" />
+	  <None Remove="Resources\Images\gemelos.png" />
+	  <None Remove="Resources\Images\gluteos.png" />
+	  <None Remove="Resources\Images\glutes1.png" />
+	  <None Remove="Resources\Images\glutes2.png" />
 	  <None Remove="Resources\Images\googlelogo.png" />
 	  <None Remove="Resources\Images\gym1.jpg" />
 	  <None Remove="Resources\Images\gym2.jpg" />
+	  <None Remove="Resources\Images\hamstrings1.png" />
+	  <None Remove="Resources\Images\hamstrings2.png" />
+	  <None Remove="Resources\Images\hombro.png" />
 	  <None Remove="Resources\Images\hombroder1.png" />
 	  <None Remove="Resources\Images\hombroder2.png" />
 	  <None Remove="Resources\Images\hombroizq1.png" />
@@ -98,6 +114,11 @@
 	  <None Remove="Resources\Images\leftbicep2.png" />
 	  <None Remove="Resources\Images\leftforearm1.png" />
 	  <None Remove="Resources\Images\leftforearm2.png" />
+	  <None Remove="Resources\Images\leftlat1.png" />
+	  <None Remove="Resources\Images\leftlat2.png" />
+	  <None Remove="Resources\Images\lefttricep1.png" />
+	  <None Remove="Resources\Images\lefttricep2.png" />
+	  <None Remove="Resources\Images\pecho.png" />
 	  <None Remove="Resources\Images\pecho1.png" />
 	  <None Remove="Resources\Images\pecho2.png" />
 	  <None Remove="Resources\Images\rightabductor1.png" />
@@ -108,9 +129,17 @@
 	  <None Remove="Resources\Images\rightbicep2.png" />
 	  <None Remove="Resources\Images\rightforearm1.png" />
 	  <None Remove="Resources\Images\rightforearm2.png" />
+	  <None Remove="Resources\Images\rightlat1.png" />
+	  <None Remove="Resources\Images\rightlat2.png" />
+	  <None Remove="Resources\Images\righttricep1.png" />
+	  <None Remove="Resources\Images\righttricep2.png" />
 	  <None Remove="Resources\Images\seriesCompleted.gif" />
 	  <None Remove="Resources\Images\sms.png" />
 	  <None Remove="Resources\Images\sms2.png" />
+	  <None Remove="Resources\Images\trap1.png" />
+	  <None Remove="Resources\Images\trap2.png" />
+	  <None Remove="Resources\Images\trapecio.png" />
+	  <None Remove="Resources\Images\triceps.png" />
 	  <None Remove="Resources\Images\xlogo.png" />
 	  <None Remove="Resources\Raw\nice.mp4" />
 	</ItemGroup>
@@ -164,6 +193,9 @@
 	  <MauiXaml Update="Views\Popups\ExerciseBreakMopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\InfoExercisePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\InfoMuscleMopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -198,8 +230,54 @@
 	  <MauiImage Include="Resources\Images\Logos\googlelogo.png" />
 	  <MauiImage Include="Resources\Images\Logos\instalogo.png" />
 	  <MauiImage Include="Resources\Images\Logos\xlogo.png" />
+	  <MauiImage Include="Resources\Images\Muscles\abs1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\abs2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\body1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\body2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\calfs1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\calfs2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\cuello1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\cuello2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\glutes1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\glutes2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\hamstrings1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\hamstrings2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\hombroder1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\hombroder2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\hombroizq1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\hombroizq2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftabductor1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftabductor2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftadductor1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftadductor2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftbicep1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftbicep2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftforearm1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftforearm2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftlat1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftlat2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftquad1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\leftquad2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\lefttricep1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\lefttricep2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\pecho1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\pecho2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightabductor1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightabductor2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightadductor1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightadductor2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightbicep1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightbicep2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightforearm1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightforearm2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightlat1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightlat2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightquad1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\rightquad2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\righttricep1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\righttricep2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\trap1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\trap2.png" />
 	</ItemGroup>
 
 	<ItemGroup>
