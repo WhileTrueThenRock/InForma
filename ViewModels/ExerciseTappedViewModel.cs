@@ -108,6 +108,9 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string _fecha;
 
+        [ObservableProperty]
+        private bool _isFinishedButtonEnabled;
+
 
         public ExerciseTappedViewModel()
         {
@@ -145,6 +148,7 @@ namespace mobileAppTest.ViewModels
 
             SeriesCounter++;
             IsRegisterSerieEnabled = true;
+            IsFinishedButtonEnabled = false;
             IsSerieEnabled = false;
 
         }
@@ -254,6 +258,7 @@ namespace mobileAppTest.ViewModels
             IsSerieEnabled = true;
             SeriesRegistered = ExerciseEntries;
             IsRegisterSerieEnabled = false;
+            IsFinishedButtonEnabled = true;
             repsList.AddRange(Reps);
             weightList.AddRange(Weight);
         }
@@ -334,7 +339,7 @@ namespace mobileAppTest.ViewModels
                 ExerciseEntries.RemoveAt(ExerciseEntries.Count - 1);
             }
             IsRemoveSerieEnabled = false;
-            if (SeriesCounter >= 0)
+            if (SeriesCounter > 0)
             {
                 SeriesCounter--;
             }
@@ -366,7 +371,8 @@ namespace mobileAppTest.ViewModels
                         _isExerciseRunning = false;
                         await Shell.Current.GoToAsync("//StartedWorkoutPage", new Dictionary<string, object>()
                         {
-                            ["ExerciseList"] = ExerciseList
+                            ["ExerciseList"] = ExerciseList,
+                            ["ExerciseFinishedList"] = ExerciseFinishedList,
                         });
                     }
                     else
@@ -405,7 +411,7 @@ namespace mobileAppTest.ViewModels
                             }
                         }
                     
-                }
+                    }
                     ExerciseList.Remove(exerciseModelViewToRemove);
                     NewTrainingSession();
                     ExerciseEntries.Clear();

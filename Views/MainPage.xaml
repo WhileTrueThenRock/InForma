@@ -3,6 +3,7 @@
     x:Class="mobileAppTest.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:accordion="clr-namespace:Syncfusion.Maui.Accordion;assembly=Syncfusion.Maui.Expander"
     xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
     xmlns:datagrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
@@ -51,7 +52,7 @@
                             <Border>
                                 <CollectionView
                                     x:Name="myCalendarCollection"
-                                    HeightRequest="500"
+                                    HeightRequest="300"
                                     ItemsSource="{Binding EventsList}"
                                     SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
                                     SelectionMode="Single">
@@ -78,10 +79,7 @@
                                                         Text="{Binding Name}"
                                                         TextColor="Black"
                                                         VerticalOptions="Center" />
-
                                                     <!--<Label Text="{Binding Path=BindingContext.TotalWorkoutDurationLabel, Source={x:Reference mainpage}}" />-->
-
-
                                                     <Image
                                                         Grid.Row="1"
                                                         Margin="160,0,0,0"
@@ -299,7 +297,7 @@
                                                             BackgroundColor="LightGreen"
                                                             Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
                                                             CommandParameter="{Binding .}"
-                                                            Text="Replace" />
+                                                            Text="Reemplazar" />
                                                     </SwipeItems>
                                                 </SwipeView.LeftItems>
                                                 <Grid Padding="10">
@@ -317,10 +315,26 @@
                                                         HeightRequest="50"
                                                         Source="{Binding Urls[0]}"
                                                         WidthRequest="50" />
+                                                    <!--  TextColor="{Binding Path=BindingContext.ExerciseListColor, Source={x:Reference mainpage}}"  -->
                                                     <Label
                                                         Grid.Column="1"
                                                         Text="{Binding Exercise.Name}"
-                                                        VerticalOptions="Center" />
+                                                        VerticalOptions="Center">
+                                                        <Label.Triggers>
+                                                            <DataTrigger
+                                                                Binding="{Binding Path=BindingContext.IsExerciseFinished, Source={x:Reference mainpage}}"
+                                                                TargetType="Label"
+                                                                Value="True">
+                                                                <Setter Property="TextColor" Value="LightGreen" />
+                                                            </DataTrigger>
+                                                            <DataTrigger
+                                                                Binding="{Binding Path=BindingContext.IsExerciseFinished, Source={x:Reference mainpage}}"
+                                                                TargetType="Label"
+                                                                Value="False">
+                                                                <Setter Property="TextColor" Value="Black" />
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
                                                 </Grid>
 
                                             </SwipeView>
@@ -350,61 +364,111 @@
                     <ScrollView>
 
                         <VerticalStackLayout>
-                            <VerticalStackLayout HeightRequest="600">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="Times New Roman"
+                                FontSize="25"
+                                HorizontalOptions="Center"
+                                Text="Mis Entrenamientos" />
+                            <!--<Button
+                            Command="{Binding GetSessionExercisesCommand}"
+                            Text="Get"
+                            WidthRequest="100" />-->
+                            <accordion:SfAccordion
+                                x:Name="myAccordionItem"
+                                Margin="0,20,0,0"
+                                AnimationDuration="250"
+                                AnimationEasing="SinInOut"
+                                ExpandMode="SingleOrNone">
+                                <accordion:SfAccordion.Items>
+                                    <accordion:AccordionItem>
+                                        <accordion:AccordionItem.Header>
+                                            <Grid>
+                                                <Label Text="Train:" VerticalOptions="Center" />
+                                                <Label
+                                                    Margin="40,0,0,0"
+                                                    Text="{Binding ExerciseView.FechaEntrenamiento}"
+                                                    VerticalOptions="Center" />
+                                                <CheckBox Margin="300,0,0,0" IsChecked="True" />
+                                            </Grid>
+                                        </accordion:AccordionItem.Header>
+                                        <accordion:AccordionItem.Content>
+                                            <Grid>
+                                                <VerticalStackLayout HeightRequest="600">
 
-                                <Label
-                                    FontAttributes="Bold"
-                                    FontFamily="Times New Roman"
-                                    FontSize="25"
-                                    HorizontalOptions="Center"
-                                    Text="Mis Entrenamientos" />
-                                <Button
-                                    Command="{Binding GetSessionExercisesCommand}"
-                                    Text="Get"
-                                    WidthRequest="100" />
-                                <Border>
-                                    <CollectionView
-                                        x:Name="myExerciseCollection"
-                                        Margin="0,20,0,0"
-                                        HeightRequest="500"
-                                        ItemsSource="{Binding ExerciseSessionlist}">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:ExerciseModelView">
-                                                <Grid>
-                                                    <Grid.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myExerciseCollection}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
-                                                    </Grid.GestureRecognizers>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Image
-                                                        Grid.Row="1"
-                                                        Margin="0,20,0,0"
-                                                        HeightRequest="50"
-                                                        Source="{Binding Urls[0]}"
-                                                        WidthRequest="50" />
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        Text="{Binding Name}"
-                                                        VerticalOptions="Center" />
-                                                    <Label
-                                                        Grid.Column="2"
-                                                        Text="{Binding FechaEntrenamiento}"
-                                                        VerticalOptions="Center" />
-                                                    <CheckBox
-                                                        Grid.Column="3"
-                                                        HeightRequest="100"
-                                                        IsChecked="{Binding IsChecked}" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
 
-                                </Border>
-                            </VerticalStackLayout>
+                                                    <Border>
+                                                        <CollectionView
+                                                            x:Name="myExerciseCollection"
+                                                            Margin="0,20,0,0"
+                                                            HeightRequest="500"
+                                                            ItemsSource="{Binding ExerciseSessionlist}">
+                                                            <CollectionView.ItemTemplate>
+                                                                <DataTemplate x:DataType="models:ExerciseModelView">
+                                                                    <SwipeView>
+                                                                        <!--<SwipeView.GestureRecognizers>
+                                                                        <SwipeGestureRecognizer
+                                                                        Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        Direction="Right" />
+                                                                        </SwipeView.GestureRecognizers>-->
+
+                                                                        <SwipeView.LeftItems>
+                                                                            <SwipeItems>
+                                                                                <SwipeItem
+                                                                                    BackgroundColor="Red"
+                                                                                    Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteCustomTrainingExerciseCommand}"
+                                                                                    CommandParameter="{Binding .}"
+                                                                                    Text="Eliminar" />
+                                                                                <SwipeItem
+                                                                                    BackgroundColor="LightGreen"
+                                                                                    Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
+                                                                                    CommandParameter="{Binding .}"
+                                                                                    Text="Reemplazar" />
+                                                                            </SwipeItems>
+                                                                        </SwipeView.LeftItems>
+                                                                        <Grid>
+                                                                            <Grid.GestureRecognizers>
+                                                                                <TapGestureRecognizer Command="{Binding Source={x:Reference myExerciseCollection}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
+                                                                            </Grid.GestureRecognizers>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="Auto" />
+                                                                                <ColumnDefinition Width="*" />
+                                                                                <ColumnDefinition Width="Auto" />
+                                                                                <ColumnDefinition Width="Auto" />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Image
+                                                                                Grid.Row="1"
+                                                                                Margin="0,20,0,0"
+                                                                                HeightRequest="50"
+                                                                                Source="{Binding Urls[0]}"
+                                                                                WidthRequest="50" />
+                                                                            <Label
+                                                                                Grid.Column="1"
+                                                                                Text="{Binding Name}"
+                                                                                VerticalOptions="Center" />
+                                                                            <Label
+                                                                                Grid.Column="2"
+                                                                                Text="{Binding FechaEntrenamiento}"
+                                                                                VerticalOptions="Center" />
+                                                                            <CheckBox
+                                                                                Grid.Column="3"
+                                                                                HeightRequest="100"
+                                                                                IsChecked="{Binding IsChecked}" />
+                                                                        </Grid>
+                                                                    </SwipeView>
+                                                                </DataTemplate>
+                                                            </CollectionView.ItemTemplate>
+                                                        </CollectionView>
+
+                                                    </Border>
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </accordion:AccordionItem.Content>
+                                    </accordion:AccordionItem>
+                                </accordion:SfAccordion.Items>
+                            </accordion:SfAccordion>
+
                             <VerticalStackLayout Margin="0,20,0,0">
                                 <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                                     <Button

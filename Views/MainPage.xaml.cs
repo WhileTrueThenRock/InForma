@@ -15,6 +15,7 @@ public partial class MainPage : ContentPage
     private void thisPage_Loaded(object sender, EventArgs e)
     {
         MainViewModel? viewModel = BindingContext as MainViewModel;
-        //viewModel?.FilterBySelectedMuscle();
+        viewModel?.FilterBySelectedMuscle();
+        viewModel?.ChangeFinishedExercisesColor();
     }
 }

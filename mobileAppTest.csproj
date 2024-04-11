@@ -196,13 +196,13 @@
 	  <MauiXaml Update="Views\Popups\InfoExercisePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Popups\InfoMuscleMopup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\MuscleReplacementPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\MuscleSelectionPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\SaveWorkoutPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\RegisterPage.xaml">
@@ -224,24 +224,32 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Images\Icons\sms.png" />
-	  <MauiImage Include="Resources\Images\Icons\sms2.png" />
-	  <MauiImage Include="Resources\Images\Logos\facebooklogo.png" />
+	  <MauiImage Include="Resources\Images\Logos\sms.png" />
 	  <MauiImage Include="Resources\Images\Logos\googlelogo.png" />
-	  <MauiImage Include="Resources\Images\Logos\instalogo.png" />
-	  <MauiImage Include="Resources\Images\Logos\xlogo.png" />
+	  <MauiImage Include="Resources\Images\Muscles\abdomen.png" />
+	  <MauiImage Include="Resources\Images\Muscles\abductores.png" />
 	  <MauiImage Include="Resources\Images\Muscles\abs1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\abs2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\aductores.png" />
+	  <MauiImage Include="Resources\Images\Muscles\antebrazo.png" />
+	  <MauiImage Include="Resources\Images\Muscles\biceps.png" />
 	  <MauiImage Include="Resources\Images\Muscles\body1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\body2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\calfs1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\calfs2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\cuadriceps.png" />
+	  <MauiImage Include="Resources\Images\Muscles\cuello.png" />
 	  <MauiImage Include="Resources\Images\Muscles\cuello1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\cuello2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\espalda.png" />
+	  <MauiImage Include="Resources\Images\Muscles\femoral.png" />
+	  <MauiImage Include="Resources\Images\Muscles\gemelos.png" />
+	  <MauiImage Include="Resources\Images\Muscles\gluteos.png" />
 	  <MauiImage Include="Resources\Images\Muscles\glutes1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\glutes2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hamstrings1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hamstrings2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\hombro.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hombroder1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hombroder2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hombroizq1.png" />
@@ -260,6 +268,7 @@
 	  <MauiImage Include="Resources\Images\Muscles\leftquad2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\lefttricep1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\lefttricep2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\pecho.png" />
 	  <MauiImage Include="Resources\Images\Muscles\pecho1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\pecho2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\rightabductor1.png" />
@@ -278,10 +287,13 @@
 	  <MauiImage Include="Resources\Images\Muscles\righttricep2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\trap1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\trap2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\trapecio.png" />
+	  <MauiImage Include="Resources\Images\Muscles\triceps.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Resources\Images\Home\" />
+	  <Folder Include="Resources\Images\Icons\" />
 	</ItemGroup>
 
 	<ItemGroup>

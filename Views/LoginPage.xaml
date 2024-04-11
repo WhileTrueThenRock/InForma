@@ -6,6 +6,7 @@
     xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:Name="thisPage"
     x:DataType="viewmodels:LoginViewModel"
     NavigationPage.HasNavigationBar="False">
 
@@ -60,6 +61,15 @@
 
         </Frame>
 
+        <buttons:SfCheckBox
+            Margin="45,0,0,0"
+            CheckedColor="Green"
+            IsChecked="{Binding RememberMe}"
+            Text="Recuérdame"
+            TickColor="Yellow" />
+
+
+
         <Label
             Margin="100,15,0,0"
             HorizontalOptions="Center"
@@ -105,30 +115,10 @@
                 TextColor="Black"
                 WidthRequest="50" />
             <buttons:SfButton
-                x:Name="facebook"
-                Margin="30,0,0,0"
-                Background="AliceBlue"
-                BackgroundImageSource="facebooklogo.png"
-                CornerRadius="30"
-                HeightRequest="50"
-                ImageSource="xlogo.png"
-                TextColor="Black"
-                WidthRequest="50" />
-            <buttons:SfButton
                 x:Name="sms"
                 Margin="30,0,0,0"
                 Background="AliceBlue"
                 BackgroundImageSource="sms.png"
-                CornerRadius="30"
-                HeightRequest="50"
-                ImageSource="xlogo.png"
-                TextColor="Black"
-                WidthRequest="50" />
-            <buttons:SfButton
-                x:Name="twitter"
-                Margin="30,0,0,0"
-                Background="AliceBlue"
-                BackgroundImageSource="xlogo.png"
                 CornerRadius="30"
                 HeightRequest="50"
                 ImageSource="xlogo.png"

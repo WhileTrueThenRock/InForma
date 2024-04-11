@@ -14,8 +14,14 @@
     <VerticalStackLayout VerticalOptions="Center">
 
         <!--  First Card  -->
-        <card:SfCardLayout HeightRequest="500" HorizontalCardSpacing="10">
-            <card:SfCardView BackgroundColor="Beige" InputTransparent="False">
+        <card:SfCardLayout
+            x:Name="cardLayout"
+            BackgroundColor="#F0F0F0"
+            HeightRequest="400"
+            Tapped="SfCardLayout_Tapped_1">
+
+            <!--  Customer shared code snippet  -->
+            <card:SfCardView BackgroundColor="Beige" InputTransparent="True">
                 <ScrollView Orientation="Vertical">
                     <VerticalStackLayout>
                         <Border
@@ -75,7 +81,7 @@
             </card:SfCardView>
 
             <!--  Second Card  -->
-            <card:SfCardView BackgroundColor="#f6f27b" InputTransparent="False">
+            <card:SfCardView BackgroundColor="#f6f27b" InputTransparent="True">
                 <ScrollView Orientation="Vertical">
                     <VerticalStackLayout>
                         <Border
@@ -173,7 +179,10 @@
 
         </card:SfCardLayout>
         <HorizontalStackLayout>
-            <Button Margin="20" Text="Guardar Entrenamiento" />
+            <Button
+                Margin="20"
+                Command="{Binding OpenSaveWorkoutPopupCommand}"
+                Text="Guardar Entrenamiento" />
             <Button
                 Margin="20"
                 Command="{Binding LoadMainPageCommand}"

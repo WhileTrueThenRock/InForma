@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="mobileAppTest.Views.Popups.SaveWorkoutPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:DataType="viewmodels:FinishedWorkoutViewModel">
+
+    <VerticalStackLayout HeightRequest="200" WidthRequest="300">
+        <Label HorizontalOptions="Center" Text="Dále un título a tu entrenamiento" />
+        <Entry
+            Placeholder="Escribe un título......"
+            Text="{Binding WorkoutTitle}"
+            WidthRequest="250" />
+        <Button
+            Margin="20"
+            BackgroundColor="LightGreen"
+            Command="{Binding SaveWorkoutCommand}"
+            HorizontalOptions="Center"
+            Text="Guardar" />
+    </VerticalStackLayout>
+
+</toolkit:Popup>

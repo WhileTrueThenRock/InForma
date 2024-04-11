@@ -14,16 +14,30 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Xml.Linq;
+using System.Collections.ObjectModel;
+using Syncfusion.Maui.Accordion;
+using CommunityToolkit.Maui.Alerts;
 
-
-
+/*
+ * 
+SfNumericEntry for age/height/weight               
+Firebase : Explore extensions :Delete User Data     
+SfEffectsView                                       
+SfNavigationDrawer                                  
+SfParallaxView
+SfShimmer
+SfSwitch
+SfTextInputLayout
+*
+*/
 namespace mobileAppTest.ViewModels
 {
+    [QueryProperty("ExerciseFinishedLists", "ExerciseFinishedLists")]
     internal partial class MainViewModel : ObservableObject
     {
-       // private readonly Services.IPopupService popupService;
 
-
+        #region Popups
         [ObservableProperty]
         private CustomExercises _customExercisePopup;
 
@@ -38,10 +52,7 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private InfoExercisePopup _infoExercisePopup;
-
-        private InfoMuscleMopup InfoMuscleMopup { get; set; }
-        private InfoMuscleMopupViewModel InfoMuscleMopupViewModel { get; set; }
-        private Dictionary<string, ObservableCollection<string>> MuscleImagesDict { get; set; }
+        #endregion
 
         [ObservableProperty]
         private UserModel _user;
@@ -63,6 +74,9 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private int _exerciseCount;
+
+        [ObservableProperty]
+        private int _miContador;
 
         [ObservableProperty]
         private string _durationHeader;
@@ -93,6 +107,8 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private bool _isBackButtonVisible;
+
+
 
 
         //Muscle  Related
@@ -323,13 +339,19 @@ namespace mobileAppTest.ViewModels
         private ObservableCollection<ExerciseModelView> eventsList;  //Para el punto rojo del calendar.
 
         [ObservableProperty]
-        private ObservableCollection<ExerciseModelView> _infoEventsList;  //Para el punto rojo del calendar.
+        private ObservableCollection<ExerciseModelView> _infoEventsList;
 
         [ObservableProperty]
         private ObservableCollection<ExerciseModelView> exerciseList;
 
         [ObservableProperty]
         private ObservableCollection<ExerciseModelView> _exerciseSessionlist;
+
+        [ObservableProperty]
+        public ObservableCollection<ExerciseModelView> _exerciseFinishedLists;
+
+        [ObservableProperty]
+        private List<ExerciseModelView> _exercisesToDelete;
 
         [ObservableProperty]
         private ObservableCollection<ExerciseModelView> _muscleExerciselist;
@@ -349,9 +371,33 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string totalWorkoutDurationLabel;
 
+        [ObservableProperty]
+        private Color _exerciseListColor;
+
+        [ObservableProperty]
+        private bool _isExerciseFinished;
+
         public MainViewModel()
         {
-            //this.popupService = popupService;
+            InitComponents();
+            ShowName();
+            //ShowAllExercises();
+            //GetSessionExercises();
+            //RealTimeUpdateFilter();
+            GetExercisesEvents();
+            LoadUserEquipments();
+            LoadCustomWorkouts();
+            //ShowExercisesWithAvailableEquipment();
+            //DurationHeader = "15 min";
+            // IsDurationChecked = true;
+            MuscleHeader = "Cuerpo Entero";
+            // MuscleExpander = false;
+            SelectDurationWorkout("15");
+            //FilterBySelectedMuscle();
+        }
+
+        private void InitComponents()
+        {
             User = new UserModel();
             Exercise = new ExerciseModel();
             ExerciseView = new ExerciseModelView();
@@ -360,33 +406,14 @@ namespace mobileAppTest.ViewModels
             EventsList = new ObservableCollection<ExerciseModelView>();
             InfoEventsList = new ObservableCollection<ExerciseModelView>();
             ExerciseSessionlist = new ObservableCollection<ExerciseModelView>();
+            ExercisesToDelete = new List<ExerciseModelView>();
             ExerciseList = new ObservableCollection<ExerciseModelView>();
             EquipmentList = new ObservableCollection<EquipmentModelView>();
             SelectedEquipment = new ObservableCollection<EquipmentModelView>();
             SelectedMuscles = new ObservableCollection<string>();
             MuscleExerciselist = new ObservableCollection<ExerciseModelView>();
-            EstablishMuscleVisibility();
-            ShowName();
-            //ShowAllExercises();
-            GetSessionExercises();
-            //RealTimeUpdateFilter();
-            GetExercisesEvents();
-            LoadUserEquipments();
-            ShowExercisesWithAvailableEquipment();
-            //DurationHeader = "15 min";
-            // IsDurationChecked = true;
-            MuscleHeader = "Cuerpo Entero";
-            // MuscleExpander = false;
-            InfoMuscleMopupViewModel = new InfoMuscleMopupViewModel();
-            InfoMuscleMopup = new InfoMuscleMopup(InfoMuscleMopupViewModel);
-            InitImagesDict();
-            SelectDurationWorkout("15");
-            FilterBySelectedMuscle();
-        }
 
-        private void EstablishMuscleVisibility()
-        {
-            IsFiltrarMusclesButtonVisible = false;
+            IsFiltrarMusclesButtonVisible = true;
             IsFrontBodyVisible = true;
             IsBackBodyVisible = false;
             IsNeckVisible = true;
@@ -414,7 +441,9 @@ namespace mobileAppTest.ViewModels
             IsCalfsVisible = false;
 
             IsCustomExerciseButtonVisible = false;
+            MiContador = 0;
 
+            ExerciseListColor = Colors.Black;
             ChestColor = "pecho2.png";
             IsChestSelected = true;
             LeftShoulderColor = "hombroizq2.png";
@@ -424,34 +453,146 @@ namespace mobileAppTest.ViewModels
             SelectedMuscles.Add("Hombro");
         }
 
-        private void InitImagesDict()
-        {
-            MuscleImagesDict = new Dictionary<string, ObservableCollection<string>>()
-            {
-                { "body", ["body.png"] },
-                { "biceps", ["biceps.png"] },
-                { "cuadriceps", ["cuadriceps.png"] },
-                { "pecho", ["pecho.png"] },
-                { "trapecio", ["trapecio.png"] }
-            };
-        }
-
 
         [RelayCommand]
-        public async Task ShowInfoMuscle(string muscleType)
+        public async Task LoadCustomWorkouts()
         {
-            MuscleImagesDict.TryGetValue(muscleType, out ObservableCollection<string> imagesPath);
-            if (imagesPath != null)
+            var userDocument = CrossCloudFirestore.Current
+                .Instance
+                .Collection("Users")
+                .Document("123456@gmail.com")
+                .Collection("Sesiones")
+                .Document("Saved_Workouts")
+                .Collection("Saved_Workouts");
+
+            var exerciseQuerySnapshot = await userDocument.GetDocumentsAsync();
+            ExerciseSessionlist.Clear(); // Clear existing data
+
+            // Create an empty list to store retrieved ExerciseModelView objects
+            List<ExerciseModelView> exercises = new List<ExerciseModelView>();
+
+            foreach (var exerciseDocument in exerciseQuerySnapshot.Documents)
             {
-                InfoMuscleMopupViewModel.SetMuscleImagePathList(imagesPath);
-                await MopupService.Instance.PushAsync(InfoMuscleMopup);
+                var exercise = exerciseDocument.ToObject<ExerciseModelView>();
+                exercises.Add(exercise); // Add each exercise to the list
+            }
+
+            // Group exercises by date (using FechaEntrenamiento)
+            var exercisesByDate = exercises.GroupBy(exercise => exercise.FechaEntrenamiento)
+                                          .Select(group => new DateGroup
+                                          {
+                                              FechaEntrenamiento = group.Key,
+                                              Exercises = group.ToList() // Each item in Exercises is ExerciseModelView
+                                          })
+                                          .ToList();
+
+            // ExerciseSessionlist should be of type ObservableCollection<DateGroup>
+            ExerciseSessionlist.Clear();
+            string lastDate = null;
+            AccordionItem currentAccordionItem = null;
+
+            foreach (var dateGroup in exercisesByDate)
+            {
+
+                ExerciseView.FechaEntrenamiento = dateGroup.FechaEntrenamiento;
+            
+                foreach(var exercise in dateGroup.Exercises)
+                {
+                    ExerciseSessionlist.Add(exercise);
+                    //guardar entrenamiento y desde save workout y luego solamente cambiar el nombre
+                }
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
         [RelayCommand]
-        private void DeleteSwipedRow(ExerciseModelView rowToDelete)
+        public async Task ChangeFinishedExercisesColor()
+        {
+            if (ExerciseFinishedLists.Count == 0)
+            {
+                return;
+            }
+
+            //var matchingExercises = ExerciseList.Intersect(ExerciseFinishedLists).ToList();
+            ExerciseList.Clear();
+            ExerciseCount = 0;
+
+            foreach (var exercise in ExerciseFinishedLists)
+            {
+                if (exercise == null)
+                {
+                    continue;
+                }
+                ExerciseList.Add(exercise);
+
+                if (exercise.Exercise.Name.All(ex => ExerciseList.Contains(exercise)))
+                {
+                    ExerciseList.Add(exercise);
+                    ExerciseCount++;
+                    //ExerciseListColor = Colors.LightGreen;
+
+                    // Si el ejercicio está terminado, establece la propiedad IsFinished en true
+                    IsExerciseFinished = true;
+                }
+            }
+        }
+
+
+
+        [RelayCommand]
+        private async void DeleteSwipedRow(ExerciseModelView rowToDelete)
         {
             ExerciseList.Remove(rowToDelete);
+            ExerciseCount--;
+            var snackbarOptions = new SnackbarOptions
+            {
+                CornerRadius = 10,
+                BackgroundColor = Colors.LightGray
+            };
+            var snackbar = Snackbar.Make($"'{rowToDelete.Name}' borrado",
+                () =>
+                {
+                    ExerciseList.Add(rowToDelete);
+                    ExerciseCount++;
+                },"Rehacer",TimeSpan.FromSeconds(5), snackbarOptions);
+            await snackbar.Show();
+        }
+
+
+        [RelayCommand]
+        public async void DeleteCustomTrainingExercise(ExerciseModelView exercise)
+        {
+            ExerciseCount--;
+            ExercisesToDelete.Add(exercise);
+
+            var query = CrossCloudFirestore.Current
+                 .Instance
+                 .Collection("Users")
+                 .Document("123456@gmail.com")
+                 .Collection("Sesiones")
+                 .WhereEqualsTo("Id", exercise.Id); // Replace with the actual property and condition
+
+            var querySnapshot = await query.GetDocumentsAsync();
+
+            // Iterate through the result documents and delete them
+            foreach (var document in querySnapshot.Documents)
+            {
+                await document.Reference.DeleteAsync();
+            }
+
+            // Remove the exercise from the local list
+            ExerciseSessionlist.Remove(exercise);
         }
 
         [RelayCommand]
@@ -821,8 +962,12 @@ namespace mobileAppTest.ViewModels
                 ExerciseCount++;
             }
             await SelectedDurationWorkout();
-           
-            await CloseMuscleSelectionPopup();
+
+            if (MusclePopup != null)
+            {
+                await CloseMuscleSelectionPopup();
+            }
+
         }
 
         [RelayCommand]
@@ -1132,6 +1277,7 @@ namespace mobileAppTest.ViewModels
                     ExerciseList.Add(selectedExercise);
                     ExerciseCount++;
                 }
+                IsCustomExerciseButtonVisible = false;
                 CustomExercisePopup.Close();
             }
             else
@@ -1146,12 +1292,12 @@ namespace mobileAppTest.ViewModels
         public async Task DeleteSelectedEvent()
         {
             // Filtra los elementos seleccionados mediante CheckBox
-            var eventsToDelete = EventsList.Where(@event => @event.IsChecked).ToList();
-            if (eventsToDelete.Count == 0)
+            ExercisesToDelete = EventsList.Where(@event => @event.IsChecked).ToList();
+            if (ExercisesToDelete.Count == 0)
             {
                 return;
             }
-            foreach (var eventToDelete in eventsToDelete)
+            foreach (var eventToDelete in ExercisesToDelete)
             {
                 // Realiza la eliminación en la base de datos
                 // Query the database to find the document with a specific condition
@@ -1174,6 +1320,7 @@ namespace mobileAppTest.ViewModels
                 EventsList.Remove(eventToDelete);
             }
             IsDeleteExerciseButtonVisible = false;
+            IsDetailsExerciseButtonVisible = false;
         }
 
 
@@ -1419,15 +1566,22 @@ namespace mobileAppTest.ViewModels
             exercise.IsChecked = !exercise.IsChecked;
             if (exercise.IsChecked)
             {
+                MiContador++;
                 IsDeleteExerciseButtonVisible = true;
                 IsDetailsExerciseButtonVisible = true;
                 IsCustomExerciseButtonVisible = true;
             }
             else if (!exercise.IsChecked)
             {
+                MiContador--;
                 //IsDeleteExerciseButtonVisible = false;
                 //IsDetailsExerciseButtonVisible = false;
 
+            }
+            if (MiContador == 0)
+            {
+                IsDeleteExerciseButtonVisible = false;
+                IsDetailsExerciseButtonVisible = false;
             }
         }
 
@@ -1435,9 +1589,9 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task DeleteSelectedExercise()
         {
-            var exercisesToDelete = ExerciseSessionlist.Where(exercise => exercise.IsChecked).ToList();
+            ExercisesToDelete = ExerciseSessionlist.Where(exercise => exercise.IsChecked).ToList();
 
-            foreach (var exerciseToDelete in exercisesToDelete)
+            foreach (var exerciseToDelete in ExercisesToDelete)
             {
                 // Query the database to find the document with a specific condition
                 var query = CrossCloudFirestore.Current
@@ -1568,8 +1722,8 @@ namespace mobileAppTest.ViewModels
                 // No se encontraron documentos
                 // Puedes manejar este caso según tus necesidades
             }
-        
-    }
+
+        }
         //Filtra el texto del search bar en el CustomExercisePopup
         public void UpdateFilteredExercises()
         {
@@ -1693,12 +1847,12 @@ namespace mobileAppTest.ViewModels
             //RealTimeUpdateFilter();
             await SelectedDurationWorkout();
             CustomExercisePopup.Close();
-           
+
 
         }
 
         [RelayCommand]
-        public async Task OpenEquipmentPopup(string mode)
+        public async Task OpenEquipmentPopup()
         {
 
             EquipmentPopup = new EquipmentPopup();
@@ -1725,7 +1879,9 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task CloseMuscleSelectionPopup()
         {
+
             MusclePopup.Close();
+            MusclePopup = null;
 
         }
 
@@ -1735,7 +1891,6 @@ namespace mobileAppTest.ViewModels
 
             MuscleReplacementPopup = new MuscleReplacementPopup();
             ReplaceWhereEqualsToPrimaryMuscles(exercise.PrimaryMuscles);
-            MuscleReplacementPopup.BindingContext = this; //nao funsona
 
             await App.Current.MainPage.ShowPopupAsync(MuscleReplacementPopup);
         }
@@ -1753,7 +1908,7 @@ namespace mobileAppTest.ViewModels
         {
             InfoEventsList.Clear();
             InfoEventsList = new ObservableCollection<ExerciseModelView>(EventsList.Where(exercise => exercise.IsChecked));
-            if (InfoEventsList.Count == 0) 
+            if (InfoEventsList.Count == 0)
             {
                 return;
             }

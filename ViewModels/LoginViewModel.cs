@@ -25,13 +25,52 @@ namespace mobileAppTest.ViewModels
 
         public static string Email_name { get; set; }
 
+        private bool _rememberMe;
+
+        public bool RememberMe
+        {
+            get => _rememberMe;
+            set => SetProperty(ref _rememberMe, value);
+        }
         public LoginViewModel()
         {
+            CheckStoredCredentials();
         }
+        private async void CheckStoredCredentials()
+        {
+            bool credentialsStored = await SecureStorage.GetAsync("credentialsStored") == "true";
+            if (credentialsStored)
+            {
+                await Shell.Current.GoToAsync("//MainPage");
+
+                string username = await SecureStorage.GetAsync("username");
+                string password = await SecureStorage.GetAsync("password");
+
+                // Lógica para iniciar sesión automáticamente con las credenciales guardadas
+            }
+            else
+            {
+                // El usuario no ha iniciado sesión previamente
+            }
+        }
+
 
         [RelayCommand]
         public async Task NavegarMainPage()
         {
+            if (RememberMe && Email != null && Password != null)
+            {
+                await SecureStorage.SetAsync("credentialsStored", "true");
+                await SecureStorage.SetAsync("username", Email);
+                await SecureStorage.SetAsync("password", Password);
+            }
+            else
+            {
+                // Si el usuario no quiere recordar las credenciales, borrarlas
+                await SecureStorage.SetAsync("credentialsStored", "false");
+                await SecureStorage.SetAsync("username", "");
+                await SecureStorage.SetAsync("password", "");
+            }
             await Shell.Current.GoToAsync("//MainPage");
         }
 

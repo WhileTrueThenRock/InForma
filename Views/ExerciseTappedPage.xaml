@@ -28,6 +28,7 @@
                 Background="Red"
                 Command="{Binding NavegarMainPageCommand}"
                 HorizontalOptions="Center"
+                IsEnabled="{Binding IsFinishedButtonEnabled}"
                 IsVisible="{Binding IsVisible}"
                 Text="Finalizar"
                 WidthRequest="150" />
@@ -45,18 +46,18 @@
             [0:] MediaManager: Error: Error codename: ERROR_CODE_PARSING_CONTAINER_UNSUPPORTED, Error message: Source error
             -->
             <toolkit:MediaElement
-            x:Name="myMediaElement"
-            HeightRequest="300"
-            ShouldAutoPlay="True"
-            ShouldLoopPlayback="{Binding IsVideoPlaying}"
-            ShouldMute="False"
-            ShouldShowPlaybackControls="False"
-            Source="{Binding MyExercise.Urls[1]}"
-            WidthRequest="400" />
-            <!--<WebView
+                x:Name="myMediaElement"
                 HeightRequest="300"
+                ShouldAutoPlay="True"
+                ShouldLoopPlayback="{Binding IsVideoPlaying}"
+                ShouldMute="False"
+                ShouldShowPlaybackControls="False"
                 Source="{Binding MyExercise.Urls[1]}"
-                WidthRequest="400" />-->
+                WidthRequest="400" />
+            <!--<WebView
+            HeightRequest="300"
+            Source="{Binding MyExercise.Urls[1]}"
+            WidthRequest="400" />-->
 
             <VerticalStackLayout IsVisible="{Binding IsVisible}">
                 <HorizontalStackLayout Margin="0,15,0,0">
