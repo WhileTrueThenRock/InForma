@@ -8,7 +8,10 @@ namespace mobileAppTest.Models
 {
    public class DateGroup
     {
+
         public string FechaEntrenamiento { get; set; }
+        public bool IsChecked { get; set; }
         public List<ExerciseModelView> Exercises { get; set; }
     }
+  
 }

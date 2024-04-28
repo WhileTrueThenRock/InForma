@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Firebase.Auth;
 using mobileAppTest.Models;
@@ -23,6 +24,9 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string _password;
 
+        [ObservableProperty]
+        private ForgotPasswordPage _forgotPassPopup;
+
         public static string Email_name { get; set; }
 
         private bool _rememberMe;
@@ -32,10 +36,103 @@ namespace mobileAppTest.ViewModels
             get => _rememberMe;
             set => SetProperty(ref _rememberMe, value);
         }
+
+        [ObservableProperty]
+        private bool _emailOK;
+
+        [ObservableProperty]
+        private bool _passOK;
+
+        [ObservableProperty]
+        private bool _hasEmailError;
+
+        [ObservableProperty]
+        private bool _hasPassError;
+
+        [ObservableProperty]
+        private string _emailErrorText;
+
+        [ObservableProperty]
+        private string _passErrorText;
+
+        [ObservableProperty]
+        private string _emailHintText;
+
         public LoginViewModel()
         {
             CheckStoredCredentials();
+            
+            PassOK = false;
+            HasEmailError = false;
+            HasPassError = false;
         }
+
+  
+        private async Task ValidateEmail()
+        {
+            HasEmailError = true;
+            EmailOK = false;
+
+            if (Email==null || Email.Any(Char.IsWhiteSpace))
+            { 
+                HasEmailError = true;
+                EmailErrorText = "Introduce un email!";
+                EmailOK = false;
+                return;
+            }
+
+
+            var userDocuments = await CrossCloudFirestore.Current
+               .Instance
+               .Collection("Users")
+               .GetAsync();
+
+            var users = userDocuments.Documents
+                                    .Select(doc => doc.ToObject<UserModel>())
+                                    .Where(user => user != null)
+                                    .ToList();
+            foreach (var user in users)
+            {
+                if (Email.Equals(user.Email))
+                {
+                    EmailOK = true;
+                    HasEmailError = false;
+                    return;
+                }
+                else
+                {
+                    EmailOK = false;
+                    HasEmailError = true;
+                    EmailErrorText = "El email introducido no existe!";
+                }
+            }
+        }
+
+        private bool ValidatePass()
+        {
+            if (Password==null || Password.Any(Char.IsWhiteSpace))
+            {
+                HasPassError = true;
+                PassErrorText = "Se te olvidó la contraseña wey!";
+                return false;
+            }
+
+            if (Password.Length >= 6 && Password.Length <= 10)
+            {
+                HasPassError = false;
+                PassErrorText = "";
+                return true;
+            }
+            else
+            {
+                PassErrorText = "Contraseña incorrecta!";
+                HasPassError = true;
+                return false;
+            }
+
+        }
+
+
         private async void CheckStoredCredentials()
         {
             bool credentialsStored = await SecureStorage.GetAsync("credentialsStored") == "true";
@@ -86,57 +183,55 @@ namespace mobileAppTest.ViewModels
             await Shell.Current.GoToAsync("//ForgotPasswordPage");
         }
 
+   
+
 
         // Método para agregar equipamientos a la subcolección "User"
         [RelayCommand]
         public async Task AddEquipmentsToUser()
         {
+          
             // Lista de equipamientos
             var equipments = new List<EquipmentModel>
     { //Alomejor conviene mejor agregar las fotos del equipamiento al proyecto ya que son pocos
-        new EquipmentModel { name = "Mancuernas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdumbbells.jpg?alt=media&token=a6fb53c2-e371-46b3-bd1d-33c4aa81f3bd" },
-        new EquipmentModel { name = "Barras", disponible = false, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbarra.jpg?alt=media&token=d0426a41-6f44-4993-9996-7be06d9b25d6" },
-        new EquipmentModel { name = "Barra Z", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbarraz.jpg?alt=media&token=d2eb743f-8085-416c-8212-28b0d2179337" },
-        new EquipmentModel { name = "Barra Hexagonal", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbarraz.jpg?alt=media&token=d2eb743f-8085-416c-8212-28b0d2179337" },
-        new EquipmentModel { name = "Máquinas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina de Poleas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Scott", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Patada Glúteos", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Abductores y Aductores", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Trapecio", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Hip Thrust", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Hombros Press", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Hombros Laterales", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina para gemelos de pie", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina para gemelos Tipo Burro", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Multipower", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Aperturas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Remo Alto", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Remo", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Remo Bajo", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Máquina Fondos", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Máquina Asistida", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Máquina Sentadillas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Máquina Femoral Tumbado", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Máquina Femoral Sentado", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Máquina Femoral de Pie", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Máquina Extensiones Cuádriceps", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Máquina Press Pierna", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Máquina Press Pierna Horizontal", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Banco Romano", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdips.jpg?alt=media&token=4d4ae935-182a-489a-9745-bb294c4857f5" },
-        new EquipmentModel { name = "Banco", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Banco Inclinado", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Banco Declinado", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Banco Scott", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Barra T", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
-        new EquipmentModel { name = "Soga", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fsoga.jpg?alt=media&token=a179665f-d244-4edf-ad2a-f3267c2503dc" },
-        new EquipmentModel { name = "Comba", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fcomba.jpg?alt=media&token=4075764d-d51c-4b5a-913d-bf75458c4da0" },
-        new EquipmentModel { name = "Soporte Dominadas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdominadas.jpg?alt=media&token=d7390185-ffe2-4cbf-8410-7d076c1a6a40" },
-        new EquipmentModel { name = "Pesas Rusas", disponible = false, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fkettlebell.jpg?alt=media&token=9c7a54d6-77bf-415d-848c-c98aae165e42" },
-        new EquipmentModel { name = "Anillas", disponible = false, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fanillas.jpg?alt=media&token=e9860f56-1d10-4d8c-8fd6-fd9d97af01f9" },
-        new EquipmentModel { name = "Plataforma", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fstep.png?alt=media&token=bd653d0b-fcf1-472b-aa03-60fd9e010cc4" },
-        new EquipmentModel { name = "Rueda Abdominal", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fruedaabd.jpg?alt=media&token=ccfa153f-bf18-4663-a2fc-5ac052070511" },
-        new EquipmentModel { name = "Sin Equipamiento", disponible = false, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquina.jpg?alt=media&token=cfd4f02d-4be4-4875-bc47-25728cab1d58" },
+        new EquipmentModel { name = "Banco", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbancohorizontal.jpg?alt=media&token=e3e3bb52-efd4-4126-b00d-9dd1afa3afd9" },
+        new EquipmentModel { name = "Banco Declinado", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbancodeclinado.jpg?alt=media&token=e36e25c3-00f3-4a6a-8924-01796102671d"},
+        new EquipmentModel { name = "Banco Inclinado", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbancoinclinado.jpg?alt=media&token=a25b650a-d915-41a1-942a-4d7fcd5713ff" },
+        new EquipmentModel { name = "Banco Romano", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbancoromano.jpg?alt=media&token=514f4ceb-cd61-46b4-9333-809f3ffc5598" },
+        new EquipmentModel { name = "Banco Scott", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbancoscott.jpg?alt=media&token=d708f12f-8348-4d1c-9d8c-147b4852b551" },
+        new EquipmentModel { name = "Barras", disponible = false, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbarras.jpg?alt=media&token=556c2dea-57fd-4459-8252-9d7d37184ae5" },
+        new EquipmentModel { name = "Barra T", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Flandmine.jpg?alt=media&token=dbf12a17-3f53-4f10-aa9c-295fe89e385b" },
+        new EquipmentModel { name = "Barra Z", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fbarraz.jpg?alt=media&token=d2752562-7c0e-4a4f-b615-6790d74d804c" },
+        new EquipmentModel { name = "Rueda Abdominal", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fruedaabd.jpg?alt=media&token=7f6314b0-561e-460b-9328-7b15a4070ca0" },
+        new EquipmentModel { name = "Sin Equipamiento", disponible = false, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fsinequipamiento.png?alt=media&token=87692747-7d42-4e1a-a809-586082e3a652" },
+        new EquipmentModel { name = "Soga", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fsoga.jpg?alt=media&token=6834b680-96d3-4ec8-a994-d184515524bf" },
+        new EquipmentModel { name = "Soporte Dominadas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdominadas.jpg?alt=media&token=c238858a-abc8-4f80-87bc-e34f73cf11fc" },
+        new EquipmentModel { name = "Mancuernas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fdumbbells.jpg?alt=media&token=dc835f06-de42-4329-a378-31666a20adcc" },
+        new EquipmentModel { name = "Máquinas Convergentes", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaconvergente.jpg?alt=media&token=8b7c775f-5a1e-4d85-86f9-689f8663a67b" },
+        new EquipmentModel { name = "Máquina de Poleas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinapoleas.jpg?alt=media&token=63b9e8ca-7481-42ef-87a8-57cf0bcb82d5" },
+        new EquipmentModel { name = "Máquina Scott", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinascottplacas.jpg?alt=media&token=9cf7c98c-e7d5-4cf9-85d3-cab39b97e73d"},
+        new EquipmentModel { name = "Máquina Patada Glúteos", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinapatada.jpg?alt=media&token=f3e186f7-5393-4315-917a-53aef051d6d6" },
+        new EquipmentModel { name = "Máquina Abductores y Aductores", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaaductores.jpg?alt=media&token=f36220b5-5185-4268-a2dd-a7a14edd202f" },
+        new EquipmentModel { name = "Máquina Trapecio", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinatrapecio.jpg?alt=media&token=76cb0401-9609-4435-b590-d31d0ce57ed0" },
+        new EquipmentModel { name = "Máquina Hip Thrust", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinahip.jpg?alt=media&token=fc718145-8b5b-4f1b-9afb-0e5b74488087" },
+        new EquipmentModel { name = "Máquina Hombros Press", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinahombrospress.jpg?alt=media&token=8905357b-3649-4ae9-b43e-a39b2c81154a" },
+        new EquipmentModel { name = "Máquina Hombros Laterales", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinahombroslat.jpg?alt=media&token=a3005045-5d5e-495b-88ae-a7cd26aef84e" },
+        new EquipmentModel { name = "Máquina para gemelos de pie", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinagemelospie.jpg?alt=media&token=f9fdd2fc-6a18-4b47-a571-2127e64742c3" },
+        new EquipmentModel { name = "Máquina para gemelos Tipo Burro", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaburro.jpg?alt=media&token=06c4bf99-8c0a-47ca-9dc0-af45473e0d56" },
+        new EquipmentModel { name = "Máquina Multipower", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinamulti.jpg?alt=media&token=603c6c2a-cf18-48ae-8856-112013887465" },
+        new EquipmentModel { name = "Máquina Aperturas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaaperturas.jpg?alt=media&token=75b3d99a-b386-4bec-a7f4-4acae6637e1c" },
+        new EquipmentModel { name = "Máquina Remo Alto", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaremoalto.jpg?alt=media&token=2c16fdf4-8e62-4d1a-9e7d-0992363ddf65" },
+        new EquipmentModel { name = "Máquina Remo", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaremo.jpg?alt=media&token=e81c603c-2aba-4132-83aa-ec9d4142b08a" },
+        new EquipmentModel { name = "Máquina Remo Bajo", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaremobajo.jfif?alt=media&token=1408e4b0-d15f-4738-a4c1-f2a048b64d7d" },
+        new EquipmentModel { name = "Máquina Fondos", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinafondos.jpg?alt=media&token=7b6e94ba-21d3-4d7f-b3f1-ede0d2dc0c0d" },
+        new EquipmentModel { name = "Máquina Asistida", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaasistida.jpg?alt=media&token=42fe9ee4-cb3e-40ed-9c96-23eb35b5ee9f" },
+        new EquipmentModel { name = "Máquina Sentadillas", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinasentadillas.png?alt=media&token=7e49ca2f-bd74-4b74-8cff-e7cf70e509e4" },
+        new EquipmentModel { name = "Máquina Femoral Tumbado", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinafemoraltumbado.jpg?alt=media&token=1e737601-4210-4832-b6c4-7b81cac227e7" },
+        new EquipmentModel { name = "Máquina Femoral Sentado", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinafemoralsentado.jpg?alt=media&token=d84b9987-66cf-4be7-946d-4d7b8572b434" },
+        new EquipmentModel { name = "Máquina Femoral de Pie", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinafemoraldepie.jpg?alt=media&token=c171b3e0-e1c5-44e3-b219-4548a0d3b570" },
+        new EquipmentModel { name = "Máquina Extensiones Cuádriceps", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaquads.jpg?alt=media&token=3b9a0c94-c0e4-4c0e-8d59-544f71a49994" },
+        new EquipmentModel { name = "Máquina Press Pierna", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinaprensa.jpg?alt=media&token=325f66af-5b54-4db5-b37a-1eb7a152d2da" },
+        new EquipmentModel { name = "Máquina Press Pierna Horizontal", disponible = true, url = "https://firebasestorage.googleapis.com/v0/b/logingym-1df51.appspot.com/o/Equipment%2Fmaquinapresshoriz.jpg?alt=media&token=6ca1b755-a3df-4d70-9d5f-bf97f5340a11" },
 
     };
 
@@ -157,8 +252,6 @@ namespace mobileAppTest.ViewModels
                     .Document(equipment.name)
                     .SetAsync(equipment);
             }
-            LoginTappedAsync();
-            NavegarMainPage();
         }
 
 
@@ -170,16 +263,17 @@ namespace mobileAppTest.ViewModels
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApiKey));
             try
             {
-                if (Email == null)
+                await ValidateEmail();
+                if (!EmailOK)
                 {
-                    MostrarPopup("Error", "Te falta introducir el email");
                     return;
                 }
-                if (Password == null)
+
+                if (!ValidatePass())
                 {
-                    MostrarPopup("Error", "Te falta introducir la contraseña");
                     return;
                 }
+
                 UserModel user = new UserModel();
                 var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
                 var content = await auth.GetFreshAuthAsync();
@@ -187,26 +281,33 @@ namespace mobileAppTest.ViewModels
                 Preferences.Set("FreshFirebaseToken", serializedContent);
                 //AddDefaultEquipmentToUser(); //Falta parametro user
                 Email_name = Email;
-                //AddEquipmentsToUser(Email);
-                //NavegarMainPage();
 
             }
             catch (Exception ex)
             {
                 if (ex.Message.Contains("InvalidEmailAddress"))
                 {
-                    MostrarPopup("Error", "Introduzca un Email correcto");
+                    EmailErrorText="Introduzca un Email correcto";
+                    HasEmailError = true;
+                    return;
                 }
                 else if (ex.Message.Contains("WeakPassword"))
                 {
-                    MostrarPopup("Error", "La contraseña debe tener al menos 6 caracteres");
+                    PassErrorText="La contraseña debe tener al menos 6 caracteres";
+                    HasPassError = true;
+                    return;
                 }
                 else
                 {
-                    MostrarPopup("Error", "CREDENCIALES INCORRECTAS");
+                    PassErrorText = "CREDENCIALES INCORRECTAS";
+                    HasPassError = true;
+                    return;
 
                 }
             }
+            AddEquipmentsToUser();
+            NavegarMainPage();
+
         }
         private async Task<bool> MostrarPopup(string titulo, string mensaje)
         {
@@ -215,12 +316,31 @@ namespace mobileAppTest.ViewModels
             return result;
         }
 
-        public async Task<bool> ResetPassword(string email)
+        [RelayCommand]
+        private  async Task ResetPassword()
         {
+            await ValidateEmail();
+            if (!EmailOK)
+            {
+                return;
+            }
+
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApiKey));
-            await authProvider.SendPasswordResetEmailAsync(email);
-            return true;
+            await authProvider.SendPasswordResetEmailAsync(Email);
+            EmailHintText = "Correo enviado !";
+            Email = "";
+
         }
+
+        [RelayCommand]
+        public async Task OpenForgotPassPopup()
+        {
+
+            ForgotPassPopup = new ForgotPasswordPage();
+            await App.Current.MainPage.ShowPopupAsync(ForgotPassPopup);
+        }
+
+
 
     }
 }

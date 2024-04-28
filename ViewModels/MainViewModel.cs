@@ -18,15 +18,15 @@ using System.Xml.Linq;
 using System.Collections.ObjectModel;
 using Syncfusion.Maui.Accordion;
 using CommunityToolkit.Maui.Alerts;
+using System.Diagnostics;
+using Firebase.Auth;
 
 /*
  * 
 SfNumericEntry for age/height/weight               
 Firebase : Explore extensions :Delete User Data     
 SfEffectsView                                       
-SfNavigationDrawer                                  
 SfParallaxView
-SfShimmer
 SfSwitch
 SfTextInputLayout
 *
@@ -348,6 +348,9 @@ namespace mobileAppTest.ViewModels
         private ObservableCollection<ExerciseModelView> _exerciseSessionlist;
 
         [ObservableProperty]
+        private ObservableCollection<DateGroup> _exerciseGrouplist;
+
+        [ObservableProperty]
         public ObservableCollection<ExerciseModelView> _exerciseFinishedLists;
 
         [ObservableProperty]
@@ -366,7 +369,7 @@ namespace mobileAppTest.ViewModels
         private ObservableCollection<string> selectedMuscles;
 
         [ObservableProperty]
-        private string _imageSource;
+        private string _avatarImage;
 
         [ObservableProperty]
         private string totalWorkoutDurationLabel;
@@ -377,10 +380,18 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private bool _isExerciseFinished;
 
+        [ObservableProperty]
+        private bool _isAccordionVisible;
+
+        [ObservableProperty]
+        private bool _isShimmerPlaying;
+
         public MainViewModel()
         {
+            IsShimmerPlaying = true;
             InitComponents();
             ShowName();
+            GetProfilePic();
             //ShowAllExercises();
             //GetSessionExercises();
             //RealTimeUpdateFilter();
@@ -394,6 +405,14 @@ namespace mobileAppTest.ViewModels
             // MuscleExpander = false;
             SelectDurationWorkout("15");
             //FilterBySelectedMuscle();
+            //IsShimmerPlaying = true;
+        }
+
+        public async Task StartShimmer()
+        {
+            IsShimmerPlaying = true;
+            await Task.Delay(3000);
+            IsShimmerPlaying = false;
         }
 
         private void InitComponents()
@@ -406,6 +425,7 @@ namespace mobileAppTest.ViewModels
             EventsList = new ObservableCollection<ExerciseModelView>();
             InfoEventsList = new ObservableCollection<ExerciseModelView>();
             ExerciseSessionlist = new ObservableCollection<ExerciseModelView>();
+            ExerciseGrouplist = new ObservableCollection<DateGroup>();
             ExercisesToDelete = new List<ExerciseModelView>();
             ExerciseList = new ObservableCollection<ExerciseModelView>();
             EquipmentList = new ObservableCollection<EquipmentModelView>();
@@ -441,6 +461,7 @@ namespace mobileAppTest.ViewModels
             IsCalfsVisible = false;
 
             IsCustomExerciseButtonVisible = false;
+            IsAccordionVisible = false;
             MiContador = 0;
 
             ExerciseListColor = Colors.Black;
@@ -451,58 +472,72 @@ namespace mobileAppTest.ViewModels
             IsRightShoulderSelected = true;
             SelectedMuscles.Add("Pecho");
             SelectedMuscles.Add("Hombro");
+      
         }
 
 
-        [RelayCommand]
         public async Task LoadCustomWorkouts()
         {
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com")
-                .Collection("Sesiones")
-                .Document("Saved_Workouts")
-                .Collection("Saved_Workouts");
+                .Document("123456@gmail.com"); // Cambiar por el email del usuario
 
-            var exerciseQuerySnapshot = await userDocument.GetDocumentsAsync();
-            ExerciseSessionlist.Clear(); // Clear existing data
+            var userSnapshot = await userDocument.GetDocumentAsync();
 
-            // Create an empty list to store retrieved ExerciseModelView objects
-            List<ExerciseModelView> exercises = new List<ExerciseModelView>();
-
-            foreach (var exerciseDocument in exerciseQuerySnapshot.Documents)
+            if (userSnapshot.Exists)
             {
-                var exercise = exerciseDocument.ToObject<ExerciseModelView>();
-                exercises.Add(exercise); // Add each exercise to the list
-            }
-
-            // Group exercises by date (using FechaEntrenamiento)
-            var exercisesByDate = exercises.GroupBy(exercise => exercise.FechaEntrenamiento)
-                                          .Select(group => new DateGroup
-                                          {
-                                              FechaEntrenamiento = group.Key,
-                                              Exercises = group.ToList() // Each item in Exercises is ExerciseModelView
-                                          })
-                                          .ToList();
-
-            // ExerciseSessionlist should be of type ObservableCollection<DateGroup>
-            ExerciseSessionlist.Clear();
-            string lastDate = null;
-            AccordionItem currentAccordionItem = null;
-
-            foreach (var dateGroup in exercisesByDate)
-            {
-
-                ExerciseView.FechaEntrenamiento = dateGroup.FechaEntrenamiento;
-            
-                foreach(var exercise in dateGroup.Exercises)
+                var userData = userSnapshot.ToObject<Dictionary<string, object>>();
+                if (userData.ContainsKey("Colecciones"))
                 {
-                    ExerciseSessionlist.Add(exercise);
-                    //guardar entrenamiento y desde save workout y luego solamente cambiar el nombre
+                    var colecciones = userData["Colecciones"] as List<object>;
+
+                    // Diccionario para almacenar los ejercicios agrupados por título de entrenamiento
+                    Dictionary<string, List<ExerciseModelView>> exercisesByWorkoutTitle = new Dictionary<string, List<ExerciseModelView>>();
+
+                    foreach (string workoutTitle in colecciones)
+                    {
+                        var workoutDoc = CrossCloudFirestore.Current
+                            .Instance
+                            .Collection("Users")
+                            .Document("123456@gmail.com")
+                            .Collection("Sesiones")
+                            .Document("Saved_Workouts")
+                            .Collection(workoutTitle);
+
+                        var workoutQuerySnapshot = await workoutDoc.GetDocumentsAsync();
+                        foreach (var exerciseDocument in workoutQuerySnapshot.Documents)
+                        {
+                            var exercise = exerciseDocument.ToObject<ExerciseModelView>();
+
+                            // Agregar el ejercicio a la lista correspondiente en el diccionario
+                            if (!exercisesByWorkoutTitle.ContainsKey(workoutTitle))
+                            {
+                                exercisesByWorkoutTitle[workoutTitle] = new List<ExerciseModelView>();
+                            }
+                            exercisesByWorkoutTitle[workoutTitle].Add(exercise);
+                        }
+                    }
+         
+
+                    // Crear una lista de DateGroup para cada título de entrenamiento
+                    var dateGroups = exercisesByWorkoutTitle.Select(kvp => new DateGroup
+                    {
+                        FechaEntrenamiento = kvp.Key,
+                        Exercises = kvp.Value,
+                }).ToList();
+
+                    // Asignar los grupos a ExerciseSessionlist
+                    ExerciseGrouplist = new ObservableCollection<DateGroup>(dateGroups);
+
+                    IsAccordionVisible = true;
                 }
             }
         }
+
+
+
+
 
 
 
@@ -1045,6 +1080,9 @@ namespace mobileAppTest.ViewModels
 
             }
             DurationExpander = false;
+            IsShimmerPlaying = true;
+            await Task.Delay(500);
+            IsShimmerPlaying = false;
         }
 
 
@@ -1585,6 +1623,32 @@ namespace mobileAppTest.ViewModels
             }
         }
 
+        //Para seleccionar una fila de CollectionView
+        [RelayCommand]
+        private void CustomExerciseTapped(DateGroup exercise)
+        {
+            exercise.IsChecked = !exercise.IsChecked;
+            if (exercise.IsChecked)
+            {
+                MiContador++;
+                IsDeleteExerciseButtonVisible = true;
+                IsDetailsExerciseButtonVisible = true;
+                IsCustomExerciseButtonVisible = true;
+            }
+            else if (!exercise.IsChecked)
+            {
+                MiContador--;
+                //IsDeleteExerciseButtonVisible = false;
+                //IsDetailsExerciseButtonVisible = false;
+
+            }
+            if (MiContador == 0)
+            {
+                IsDeleteExerciseButtonVisible = false;
+                IsDetailsExerciseButtonVisible = false;
+            }
+        }
+
 
         [RelayCommand]
         public async Task DeleteSelectedExercise()
@@ -1681,16 +1745,49 @@ namespace mobileAppTest.ViewModels
 
         //Subir imagenes a Firebase / Storage
         [RelayCommand]
-        public async void Uploadpic()
+        public async Task ChangeProfilePic()
         {
             var foto = await MediaPicker.PickPhotoAsync();
             if (foto != null)
             {
-                var task = new FirebaseStorage("logingym-1df51.appspot.com")
-                    .Child("Imagenes")
+                var storageTask = new FirebaseStorage("logingym-1df51.appspot.com")
+                    .Child("Avatars")
                     .Child(foto.FileName)
                     .PutAsync(await foto.OpenReadAsync());
+
+            var downloadUrl = await storageTask;
+            var fotoUrl = downloadUrl.ToString();
+
+
+            // Actualizar el campo Avatar del usuario con la URL de la foto
+            var userDocument = CrossCloudFirestore.Current
+                .Instance
+                .Collection("Users")
+                .Document("123456@gmail.com");
+
+                // Agregar el nombre del workout al campo Colecciones del documento del usuario
+                await userDocument.UpdateDataAsync(new { Avatar = fotoUrl });
+
             }
+            GetProfilePic();
+
+
+        }
+
+        [RelayCommand]
+        public async Task GetProfilePic()
+        {
+            
+            var avatar = await CrossCloudFirestore.Current
+                            .Instance
+                            .Collection("Users")
+                            .Document("123456@gmail.com") //LoginViewModel.Email_name
+                            .GetAsync();
+            User = avatar.ToObject<UserModel>();
+
+            AvatarImage = User.Avatar;
+            
+            
         }
 
 
@@ -1942,9 +2039,13 @@ namespace mobileAppTest.ViewModels
 
 
         [RelayCommand]
-        public async Task LogOut(String pagina)
+        public async Task LogOut()
         {
-            await Shell.Current.GoToAsync("//" + pagina);
+            await Shell.Current.GoToAsync("//LoginPage");
+
+            await SecureStorage.SetAsync("credentialsStored", "false");
+            await SecureStorage.SetAsync("username", "");
+            await SecureStorage.SetAsync("password", "");
         }
 
         [RelayCommand]

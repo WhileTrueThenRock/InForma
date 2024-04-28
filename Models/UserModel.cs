@@ -9,10 +9,15 @@ namespace mobileAppTest.Models
 {
      public partial class UserModel : ObservableObject
     {
+        public UserModel() 
+        {
+            Avatar = "defaultavatar.png";
+        }
+
         [ObservableProperty]
         private string name;
         public string Email { get; set; }
-        public string Sex { get; set; }
+        public string Avatar { get; set; }
         public int Age { get; set; }
     }
 }

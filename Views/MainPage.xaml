@@ -8,491 +8,742 @@
     xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
     xmlns:datagrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
     xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.NavigationDrawer;assembly=Syncfusion.Maui.NavigationDrawer"
+    xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
     xmlns:services="clr-namespace:mobileAppTest.Services"
+    xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Shimmer;assembly=Syncfusion.Maui.Core"
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
     xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:Name="mainpage"
     x:DataType="viewmodels:MainViewModel"
     BindingContext="{viewmodels:MainViewModel}"
-    Loaded="thisPage_Loaded"
+    Loaded="ThisPage_Loaded"
     NavigationPage.HasNavigationBar="False">
 
-    <tabView:SfTabView x:Name="tabView" TabBarPlacement="Bottom">
-        <tabView:SfTabView.Items>
-            <!--  TAB NUMBER ONE  -->
-            <tabView:SfTabItem Header="Calendar">
-                <tabView:SfTabItem.Content>
-                    <ScrollView>
-                        <VerticalStackLayout Padding="10,0" Spacing="25">
-                            <HorizontalStackLayout Margin="0,50,0,0">
-                                <Label
-                                    FontAttributes="Bold,Italic"
-                                    HorizontalOptions="Center"
-                                    Text="Hello "
-                                    TextColor="Black" />
-                                <Label
-                                    Margin="10,0,0,0"
-                                    Text="{Binding UserName}"
-                                    TextColor="Red" />
-                            </HorizontalStackLayout>
-
-                            <cal:Calendar
-                                Culture="{Binding Culture}"
-                                Events="{Binding Events, Mode=TwoWay}"
-                                HeaderSectionVisible="True"
-                                HeightRequest="400"
-                                SelectedDate="{Binding Exercise.FechaEntrenamiento}"
-                                SelectedDateColor="Orange"
-                                SelectedDayBackgroundColor="Green"
-                                SelectedDayEvents="{Binding EventsList, Mode=TwoWay}"
-                                ShowYearPicker="False"
-                                TodayOutlineColor="Aqua"
-                                WidthRequest="350" />
-                            <Border>
-                                <CollectionView
-                                    x:Name="myCalendarCollection"
-                                    HeightRequest="300"
-                                    ItemsSource="{Binding EventsList}"
-                                    SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
-                                    SelectionMode="Single">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:ExerciseModelView">
-                                            <Border>
-                                                <Grid>
-                                                    <Grid.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCalendarCollection}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
-                                                    </Grid.GestureRecognizers>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="Auto" />
-                                                    </Grid.RowDefinitions>
-                                                    <Label
-                                                        Grid.Row="1"
-                                                        Text="{Binding Name}"
-                                                        TextColor="Black"
-                                                        VerticalOptions="Center" />
-                                                    <!--<Label Text="{Binding Path=BindingContext.TotalWorkoutDurationLabel, Source={x:Reference mainpage}}" />-->
-                                                    <Image
-                                                        Grid.Row="1"
-                                                        Margin="160,0,0,0"
-                                                        HeightRequest="100"
-                                                        Source="{Binding Urls[0]}"
-                                                        WidthRequest="200" />
-                                                    <CheckBox
-                                                        Grid.Row="1"
-                                                        Grid.Column="3"
-                                                        HeightRequest="50"
-                                                        IsChecked="{Binding IsChecked}" />
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </Border>
-                            <VerticalStackLayout Margin="0,20,0,0">
-                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
-                                    <Button
-                                        Background="Red"
-                                        Command="{Binding DeleteSelectedEventCommand}"
-                                        IsVisible="{Binding IsDeleteExerciseButtonVisible}"
-                                        Text="Borrar"
-                                        WidthRequest="100" />
-                                    <Button
-                                        Background="GreenYellow"
-                                        Command="{Binding BindingContext.OpenInfoExercisePopupCommand, Source={x:Reference myCalendarCollection}}"
-                                        IsVisible="{Binding IsDetailsExerciseButtonVisible}"
-                                        Text="Detalles"
-                                        TextColor="Black"
-                                        WidthRequest="150" />
-                                </HorizontalStackLayout>
-
-                            </VerticalStackLayout>
-
-                        </VerticalStackLayout>
-                    </ScrollView>
-                </tabView:SfTabItem.Content>
-            </tabView:SfTabItem>
-            <!--  TAB NUMBER TWO  -->
-            <tabView:SfTabItem Header="Gym">
-                <tabView:SfTabItem.Content>
-
-                    <ScrollView>
-                        <VerticalStackLayout Margin="10">
-                            <ScrollView Orientation="Horizontal">
-                                <HorizontalStackLayout>
-
-                                    <VerticalStackLayout>
-                                        <Border
-                                            BackgroundColor="Orange"
-                                            StrokeShape="RoundRectangle 0,20,20,0"
-                                            StrokeThickness="2">
-                                            <syncfusion:SfExpander
-                                                x:Name="durationExpander"
-                                                Margin="10,10,0,0"
-                                                IsExpanded="{Binding DurationExpander}"
-                                                WidthRequest="100">
-                                                <syncfusion:SfExpander.Header>
-                                                    <Grid>
-                                                        <Label HeightRequest="40" Text="{Binding DurationHeader}" />
-                                                    </Grid>
-                                                </syncfusion:SfExpander.Header>
-                                                <syncfusion:SfExpander.Content>
-                                                    <Grid>
-                                                        <buttons:SfRadioGroup>
-                                                            <Label Text="Tiempo de entrenamiento" />
-
-                                                            <buttons:SfRadioButton IsChecked="True" Text="15 min">
-                                                                <buttons:SfRadioButton.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding SelectDurationWorkoutCommand}"
-                                                                        CommandParameter="15"
-                                                                        NumberOfTapsRequired="1" />
-                                                                </buttons:SfRadioButton.GestureRecognizers>
-                                                            </buttons:SfRadioButton>
-
-                                                            <buttons:SfRadioButton Text="30 min">
-                                                                <buttons:SfRadioButton.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding SelectDurationWorkoutCommand}"
-                                                                        CommandParameter="30"
-                                                                        NumberOfTapsRequired="1" />
-                                                                </buttons:SfRadioButton.GestureRecognizers>
-                                                            </buttons:SfRadioButton>
-
-                                                            <buttons:SfRadioButton Text="45 min">
-                                                                <buttons:SfRadioButton.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding SelectDurationWorkoutCommand}"
-                                                                        CommandParameter="45"
-                                                                        NumberOfTapsRequired="1" />
-                                                                </buttons:SfRadioButton.GestureRecognizers>
-                                                            </buttons:SfRadioButton>
-
-                                                            <buttons:SfRadioButton Text="1 hr">
-                                                                <buttons:SfRadioButton.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding SelectDurationWorkoutCommand}"
-                                                                        CommandParameter="60"
-                                                                        NumberOfTapsRequired="1" />
-                                                                </buttons:SfRadioButton.GestureRecognizers>
-                                                            </buttons:SfRadioButton>
-
-                                                            <buttons:SfRadioButton Text="1:30 hr">
-                                                                <buttons:SfRadioButton.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding SelectDurationWorkoutCommand}"
-                                                                        CommandParameter="90"
-                                                                        NumberOfTapsRequired="1" />
-                                                                </buttons:SfRadioButton.GestureRecognizers>
-                                                            </buttons:SfRadioButton>
-
-                                                            <buttons:SfRadioButton Text="2 hr">
-                                                                <buttons:SfRadioButton.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding SelectDurationWorkoutCommand}"
-                                                                        CommandParameter="120"
-                                                                        NumberOfTapsRequired="1" />
-                                                                </buttons:SfRadioButton.GestureRecognizers>
-                                                            </buttons:SfRadioButton>
-
-                                                            <buttons:SfRadioButton Text="2:30 hr">
-                                                                <buttons:SfRadioButton.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding SelectDurationWorkoutCommand}"
-                                                                        CommandParameter="150"
-                                                                        NumberOfTapsRequired="1" />
-                                                                </buttons:SfRadioButton.GestureRecognizers>
-                                                            </buttons:SfRadioButton>
-
-                                                            <buttons:SfRadioButton Text="3 hr">
-                                                                <buttons:SfRadioButton.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding SelectDurationWorkoutCommand}"
-                                                                        CommandParameter="180"
-                                                                        NumberOfTapsRequired="1" />
-                                                                </buttons:SfRadioButton.GestureRecognizers>
-                                                            </buttons:SfRadioButton>
-                                                        </buttons:SfRadioGroup>
-                                                    </Grid>
-                                                </syncfusion:SfExpander.Content>
-                                            </syncfusion:SfExpander>
-                                        </Border>
-                                    </VerticalStackLayout>
-                                    <!--<HorizontalStackLayout Margin="130,-40,0,0">-->
-                                    <Button
-                                        Margin="10,10,10,0"
-                                        Command="{Binding OpenMuscleSelectionPopupCommand}"
-                                        HeightRequest="40"
-                                        HorizontalOptions="Start"
-                                        Text="Músculos"
-                                        VerticalOptions="Start"
-                                        WidthRequest="110" />
-
-                                    <Button
-                                        Margin="10,10,10,0"
-                                        Command="{Binding OpenEquipmentPopupCommand}"
-                                        HeightRequest="40"
-                                        HorizontalOptions="Start"
-                                        Text="Equipamiento"
-                                        VerticalOptions="Start"
-                                        WidthRequest="110" />
-                                    <Button
-                                        Margin="20,10,10,0"
-                                        Command="{Binding OpenCustomExercisePopupCommand}"
-                                        HeightRequest="40"
-                                        Text="Custom"
-                                        VerticalOptions="Start"
-                                        WidthRequest="100" />
-                                </HorizontalStackLayout>
-                            </ScrollView>
-                            <HorizontalStackLayout>
-                                <Label
-                                    Margin="10,0,0,0"
-                                    FontAttributes="Bold"
-                                    FontFamily="Calibri"
-                                    FontSize="20"
-                                    Text="{Binding ExerciseCount}"
-                                    TextColor="Red" />
-                                <Label
-                                    Margin="10,0,0,0"
-                                    FontAttributes="Bold"
-                                    FontFamily="Calibri"
-                                    FontSize="20"
-                                    Text="Ejercicios" />
-                            </HorizontalStackLayout>
-                            <ScrollView>
-
-                                <CollectionView
-                                    x:Name="myCollectionView"
-                                    HeightRequest="500"
-                                    ItemsSource="{Binding ExerciseList}">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:ExerciseModelView">
+    <shimmer:SfShimmer
+        AnimationDuration="500"
+        IsActive="{Binding IsShimmerPlaying}"
+        Type="CirclePersona">
+        <shimmer:SfShimmer.CustomView>
+            <VerticalStackLayout>
+                <HorizontalStackLayout>
+                    <BoxView
+                        Margin="20,15,10,0"
+                        BackgroundColor="Gray"
+                        CornerRadius="30"
+                        HeightRequest="50"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        WidthRequest="100" />
 
 
-                                            <SwipeView>
-                                                <!--<SwipeView.GestureRecognizers>
-                                                <SwipeGestureRecognizer
-                                                Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                CommandParameter="{Binding .}"
-                                                Direction="Right" />
-                                                </SwipeView.GestureRecognizers>-->
+                    <BoxView
+                        Margin="10,20,10,0"
+                        BackgroundColor="Gray"
+                        CornerRadius="20"
+                        HeightRequest="40"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        WidthRequest="100" />
 
-                                                <SwipeView.LeftItems>
-                                                    <SwipeItems>
-                                                        <SwipeItem
-                                                            BackgroundColor="Red"
-                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                            CommandParameter="{Binding .}"
-                                                            Text="Eliminar" />
-                                                        <SwipeItem
-                                                            BackgroundColor="LightGreen"
-                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
-                                                            CommandParameter="{Binding .}"
-                                                            Text="Reemplazar" />
-                                                    </SwipeItems>
-                                                </SwipeView.LeftItems>
-                                                <Grid Padding="10">
-                                                    <Grid.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
-                                                    </Grid.GestureRecognizers>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Image
-                                                        Grid.Row="1"
-                                                        Margin="0,20,0,0"
-                                                        HeightRequest="50"
-                                                        Source="{Binding Urls[0]}"
-                                                        WidthRequest="50" />
-                                                    <!--  TextColor="{Binding Path=BindingContext.ExerciseListColor, Source={x:Reference mainpage}}"  -->
-                                                    <Label
-                                                        Grid.Column="1"
-                                                        Text="{Binding Exercise.Name}"
-                                                        VerticalOptions="Center">
-                                                        <Label.Triggers>
-                                                            <DataTrigger
-                                                                Binding="{Binding Path=BindingContext.IsExerciseFinished, Source={x:Reference mainpage}}"
-                                                                TargetType="Label"
-                                                                Value="True">
-                                                                <Setter Property="TextColor" Value="LightGreen" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding="{Binding Path=BindingContext.IsExerciseFinished, Source={x:Reference mainpage}}"
-                                                                TargetType="Label"
-                                                                Value="False">
-                                                                <Setter Property="TextColor" Value="Black" />
-                                                            </DataTrigger>
-                                                        </Label.Triggers>
-                                                    </Label>
-                                                </Grid>
+                    <BoxView
+                        Margin="10,20,15,0"
+                        BackgroundColor="Gray"
+                        CornerRadius="20"
+                        HeightRequest="40"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        WidthRequest="100" />
+                </HorizontalStackLayout>
 
-                                            </SwipeView>
+                <BoxView
+                    Margin="10,5,15,15"
+                    BackgroundColor="Gray"
+                    CornerRadius="20"
+                    HeightRequest="25"
+                    HorizontalOptions="Start"
+                    WidthRequest="130" />
 
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
+                <BoxView
+                    Margin="20,10,20,30"
+                    BackgroundColor="Gray"
+                    CornerRadius="30"
+                    HeightRequest="50"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    WidthRequest="350" />
 
-                            </ScrollView>
+                <BoxView
+                    Margin="20,10,20,30"
+                    BackgroundColor="Gray"
+                    CornerRadius="30"
+                    HeightRequest="50"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    WidthRequest="350" />
+
+                <BoxView
+                    Margin="20,7,20,30"
+                    BackgroundColor="Gray"
+                    CornerRadius="30"
+                    HeightRequest="50"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    WidthRequest="350" />
+
+                <BoxView
+                    Margin="20,10,20,30"
+                    BackgroundColor="Gray"
+                    CornerRadius="30"
+                    HeightRequest="50"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    WidthRequest="350" />
+
+                <BoxView
+                    Margin="20,7,20,30"
+                    BackgroundColor="Gray"
+                    CornerRadius="30"
+                    HeightRequest="50"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    WidthRequest="350" />
+
+                <BoxView
+                    Margin="20,0,20,0"
+                    BackgroundColor="Gray"
+                    CornerRadius="30"
+                    HeightRequest="50"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    WidthRequest="350" />
+
+                <BoxView
+                    Margin="20,10,20,30"
+                    BackgroundColor="Gray"
+                    CornerRadius="30"
+                    HeightRequest="40"
+                    VerticalOptions="Start"
+                    WidthRequest="70" />
+
+                <HorizontalStackLayout Margin="0,15,0,0">
+                    <BoxView
+                        Margin="20,0,10,0"
+                        BackgroundColor="Gray"
+                        CornerRadius="30"
+                        HeightRequest="50"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        WidthRequest="100" />
+
+
+                    <BoxView
+                        Margin="20,0,10,0"
+                        BackgroundColor="Gray"
+                        CornerRadius="30"
+                        HeightRequest="50"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        WidthRequest="100" />
+
+                    <BoxView
+                        Margin="20,0,10,0"
+                        BackgroundColor="Gray"
+                        CornerRadius="30"
+                        HeightRequest="50"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        WidthRequest="100" />
+                </HorizontalStackLayout>
+
+
+            </VerticalStackLayout>
+        </shimmer:SfShimmer.CustomView>
+
+        <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer">
+            <navigationdrawer:SfNavigationDrawer.DrawerSettings>
+                <navigationdrawer:DrawerSettings DrawerHeaderHeight="160" DrawerWidth="250">
+                    <navigationdrawer:DrawerSettings.DrawerHeaderView>
+                        <Grid BackgroundColor="#6750A4" RowDefinitions="120,40">
+                            <sfavatar:SfAvatarView
+                                AvatarName="Alex"
+                                ContentType="Default"
+                                CornerRadius="60"
+                                HeightRequest="120"
+                                HorizontalOptions="Center"
+                                ImageSource="{Binding AvatarImage}"
+                                Stroke="red"
+                                StrokeThickness="0"
+                                VerticalOptions="Center"
+                                WidthRequest="119">
+                                <sfavatar:SfAvatarView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ChangeProfilePicCommand}" NumberOfTapsRequired="1" />
+                                </sfavatar:SfAvatarView.GestureRecognizers>
+                            </sfavatar:SfAvatarView>
+
+                            <Label
+                                Grid.Row="1"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding UserName}"
+                                TextColor="White" />
+                        </Grid>
+                    </navigationdrawer:DrawerSettings.DrawerHeaderView>
+                    <navigationdrawer:DrawerSettings.DrawerContentView>
+                        <VerticalStackLayout>
 
                             <Button
-                                Margin="0,20,0,0"
-                                Command="{Binding LoadStartedWorkoutCommand}"
-                                CommandParameter="{Binding ExerciseList}"
+                                Margin="50,20,10,0"
+                                Command="{Binding OpenEquipmentPopupCommand}"
                                 HeightRequest="40"
-                                Text="Start"
-                                VerticalOptions="End"
-                                WidthRequest="80" />
-                        </VerticalStackLayout>
-                    </ScrollView>
-                </tabView:SfTabItem.Content>
-            </tabView:SfTabItem>
+                                HorizontalOptions="Start"
+                                Text="Perfil"
+                                VerticalOptions="Start"
+                                WidthRequest="150" />
 
-            <!--  TAB NUMBER THREE  -->
-            <tabView:SfTabItem Header="Entrenamientos">
-                <tabView:SfTabItem.Content>
-                    <ScrollView>
+                            <Button
+                                Margin="50,20,10,0"
+                                Command="{Binding OpenEquipmentPopupCommand}"
+                                HeightRequest="40"
+                                HorizontalOptions="Start"
+                                Text="Mi Equipamiento"
+                                VerticalOptions="Start"
+                                WidthRequest="150" />
 
-                        <VerticalStackLayout>
+                            <Button
+                                Margin="50,20,10,0"
+                                Clicked="ClickToShowPopup_Clicked"
+                                HeightRequest="40"
+                                HorizontalOptions="Start"
+                                Text="Salir"
+                                VerticalOptions="Start"
+                                WidthRequest="150" />
+
+                            <popup:SfPopup
+                                x:Name="popup"
+                                AcceptButtonText="Salir"
+                                AcceptCommand="{Binding LogOutCommand}"
+                                AnimationDuration="300"
+                                AnimationMode="SlideOnBottom"
+                                AppearanceMode="TwoButton"
+                                DeclineButtonText="Cancelar"
+                                HeaderHeight="80"
+                                HeaderTitle="¿Estás seguro de que quieres salir?"
+                                HeightRequest="160"
+                                Message=""
+                                OverlayMode="Blur"
+                                ShowCloseButton="True"
+                                ShowFooter="True">
+                                <popup:SfPopup.PopupStyle>
+                                    <popup:PopupStyle
+                                        AcceptButtonBackground="DimGray"
+                                        AcceptButtonTextColor="Red"
+                                        DeclineButtonBackground="DimGray"
+                                        DeclineButtonTextColor="White"
+                                        FooterBackground="White"
+                                        HasShadow="True"
+                                        HeaderFontSize="18" />
+                                </popup:SfPopup.PopupStyle>
+
+                            </popup:SfPopup>
+                            <!--  Otras opciones   <popup:SfPopup.ContentTemplate>
+                            <DataTemplate>
                             <Label
-                                FontAttributes="Bold"
-                                FontFamily="Times New Roman"
-                                FontSize="25"
-                                HorizontalOptions="Center"
-                                Text="Mis Entrenamientos" />
-                            <!--<Button
-                            Command="{Binding GetSessionExercisesCommand}"
-                            Text="Get"
-                            WidthRequest="100" />-->
-                            <accordion:SfAccordion
-                                x:Name="myAccordionItem"
-                                Margin="0,20,0,0"
-                                AnimationDuration="250"
-                                AnimationEasing="SinInOut"
-                                ExpandMode="SingleOrNone">
-                                <accordion:SfAccordion.Items>
-                                    <accordion:AccordionItem>
-                                        <accordion:AccordionItem.Header>
-                                            <Grid>
-                                                <Label Text="Train:" VerticalOptions="Center" />
-                                                <Label
-                                                    Margin="40,0,0,0"
-                                                    Text="{Binding ExerciseView.FechaEntrenamiento}"
-                                                    VerticalOptions="Center" />
-                                                <CheckBox Margin="300,0,0,0" IsChecked="True" />
-                                            </Grid>
-                                        </accordion:AccordionItem.Header>
-                                        <accordion:AccordionItem.Content>
-                                            <Grid>
-                                                <VerticalStackLayout HeightRequest="600">
+                            BackgroundColor="SkyBlue"
+                            HorizontalTextAlignment="Center"
+                            Text="This is the Customized view for SfPopup"
+                            VerticalTextAlignment="Center" />
+                            </DataTemplate>
+                            </popup:SfPopup.ContentTemplate>-->
+                        </VerticalStackLayout>
+                    </navigationdrawer:DrawerSettings.DrawerContentView>
+                </navigationdrawer:DrawerSettings>
+            </navigationdrawer:SfNavigationDrawer.DrawerSettings>
+
+            <navigationdrawer:SfNavigationDrawer.ContentView>
+                <tabView:SfTabView x:Name="tabView" TabBarPlacement="Bottom">
+                    <tabView:SfTabView.Items>
+                        <!--  TAB NUMBER ONE  -->
+                        <tabView:SfTabItem Header="Calendar">
+                            <tabView:SfTabItem.Content>
+
+                                <ScrollView>
+                                    <VerticalStackLayout Spacing="25">
+                                        <ImageButton
+                                            x:Name="hamburgerButton"
+                                            Background="Transparent"
+                                            Clicked="HamburgerButton_Clicked"
+                                            HeightRequest="50"
+                                            HorizontalOptions="Start"
+                                            Source="hamburgericon.png"
+                                            VerticalOptions="Start"
+                                            WidthRequest="50" />
 
 
-                                                    <Border>
-                                                        <CollectionView
-                                                            x:Name="myExerciseCollection"
-                                                            Margin="0,20,0,0"
-                                                            HeightRequest="500"
-                                                            ItemsSource="{Binding ExerciseSessionlist}">
-                                                            <CollectionView.ItemTemplate>
-                                                                <DataTemplate x:DataType="models:ExerciseModelView">
-                                                                    <SwipeView>
-                                                                        <!--<SwipeView.GestureRecognizers>
-                                                                        <SwipeGestureRecognizer
-                                                                        Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                                        CommandParameter="{Binding .}"
-                                                                        Direction="Right" />
-                                                                        </SwipeView.GestureRecognizers>-->
+                                        <cal:Calendar
+                                            Culture="{Binding Culture}"
+                                            Events="{Binding Events, Mode=TwoWay}"
+                                            HeaderSectionVisible="True"
+                                            HeightRequest="400"
+                                            SelectedDate="{Binding Exercise.FechaEntrenamiento}"
+                                            SelectedDateColor="Orange"
+                                            SelectedDayBackgroundColor="Green"
+                                            SelectedDayEvents="{Binding EventsList, Mode=TwoWay}"
+                                            ShowYearPicker="False"
+                                            TodayOutlineColor="Aqua"
+                                            WidthRequest="350" />
+                                        <Border>
+                                            <CollectionView
+                                                x:Name="myCalendarCollection"
+                                                HeightRequest="300"
+                                                ItemsSource="{Binding EventsList}"
+                                                SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
+                                                SelectionMode="Single">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:ExerciseModelView">
+                                                        <Border>
+                                                            <Grid>
+                                                                <Grid.GestureRecognizers>
+                                                                    <TapGestureRecognizer Command="{Binding Source={x:Reference myCalendarCollection}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
+                                                                </Grid.GestureRecognizers>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Label
+                                                                    Grid.Row="1"
+                                                                    Text="{Binding Name}"
+                                                                    TextColor="Black"
+                                                                    VerticalOptions="Center" />
+                                                                <!--<Label Text="{Binding Path=BindingContext.TotalWorkoutDurationLabel, Source={x:Reference mainpage}}" />-->
+                                                                <Image
+                                                                    Grid.Row="1"
+                                                                    Margin="160,0,0,0"
+                                                                    HeightRequest="100"
+                                                                    Source="{Binding Urls[0]}"
+                                                                    WidthRequest="200" />
+                                                                <CheckBox
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="3"
+                                                                    HeightRequest="50"
+                                                                    IsChecked="{Binding IsChecked}" />
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
+                                        </Border>
+                                        <VerticalStackLayout Margin="0,20,0,0">
+                                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                                                <Button
+                                                    Background="Red"
+                                                    Command="{Binding DeleteSelectedEventCommand}"
+                                                    IsVisible="{Binding IsDeleteExerciseButtonVisible}"
+                                                    Text="Borrar"
+                                                    WidthRequest="100" />
+                                                <Button
+                                                    Background="GreenYellow"
+                                                    Command="{Binding BindingContext.OpenInfoExercisePopupCommand, Source={x:Reference myCalendarCollection}}"
+                                                    IsVisible="{Binding IsDetailsExerciseButtonVisible}"
+                                                    Text="Detalles"
+                                                    TextColor="Black"
+                                                    WidthRequest="150" />
+                                            </HorizontalStackLayout>
 
-                                                                        <SwipeView.LeftItems>
-                                                                            <SwipeItems>
-                                                                                <SwipeItem
-                                                                                    BackgroundColor="Red"
-                                                                                    Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteCustomTrainingExerciseCommand}"
-                                                                                    CommandParameter="{Binding .}"
-                                                                                    Text="Eliminar" />
-                                                                                <SwipeItem
-                                                                                    BackgroundColor="LightGreen"
-                                                                                    Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
-                                                                                    CommandParameter="{Binding .}"
-                                                                                    Text="Reemplazar" />
-                                                                            </SwipeItems>
-                                                                        </SwipeView.LeftItems>
-                                                                        <Grid>
-                                                                            <Grid.GestureRecognizers>
-                                                                                <TapGestureRecognizer Command="{Binding Source={x:Reference myExerciseCollection}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
-                                                                            </Grid.GestureRecognizers>
-                                                                            <Grid.ColumnDefinitions>
-                                                                                <ColumnDefinition Width="Auto" />
-                                                                                <ColumnDefinition Width="*" />
-                                                                                <ColumnDefinition Width="Auto" />
-                                                                                <ColumnDefinition Width="Auto" />
-                                                                            </Grid.ColumnDefinitions>
-                                                                            <Image
-                                                                                Grid.Row="1"
-                                                                                Margin="0,20,0,0"
-                                                                                HeightRequest="50"
-                                                                                Source="{Binding Urls[0]}"
-                                                                                WidthRequest="50" />
-                                                                            <Label
-                                                                                Grid.Column="1"
-                                                                                Text="{Binding Name}"
-                                                                                VerticalOptions="Center" />
-                                                                            <Label
-                                                                                Grid.Column="2"
-                                                                                Text="{Binding FechaEntrenamiento}"
-                                                                                VerticalOptions="Center" />
-                                                                            <CheckBox
-                                                                                Grid.Column="3"
-                                                                                HeightRequest="100"
-                                                                                IsChecked="{Binding IsChecked}" />
-                                                                        </Grid>
-                                                                    </SwipeView>
-                                                                </DataTemplate>
-                                                            </CollectionView.ItemTemplate>
-                                                        </CollectionView>
+                                        </VerticalStackLayout>
 
+                                    </VerticalStackLayout>
+                                </ScrollView>
+                            </tabView:SfTabItem.Content>
+                        </tabView:SfTabItem>
+                        <!--  TAB NUMBER TWO  -->
+                        <tabView:SfTabItem Header="Gym">
+                            <tabView:SfTabItem.Content>
+
+                                <ScrollView>
+                                    <VerticalStackLayout Margin="10">
+                                        <ScrollView Orientation="Horizontal">
+                                            <HorizontalStackLayout>
+
+                                                <VerticalStackLayout>
+                                                    <Border
+                                                        BackgroundColor="Orange"
+                                                        StrokeShape="RoundRectangle 0,20,20,0"
+                                                        StrokeThickness="2">
+                                                        <syncfusion:SfExpander
+                                                            x:Name="durationExpander"
+                                                            Margin="10,10,0,0"
+                                                            IsExpanded="{Binding DurationExpander}"
+                                                            WidthRequest="100">
+                                                            <syncfusion:SfExpander.Header>
+                                                                <Grid>
+                                                                    <Label HeightRequest="40" Text="{Binding DurationHeader}" />
+                                                                </Grid>
+                                                            </syncfusion:SfExpander.Header>
+                                                            <syncfusion:SfExpander.Content>
+                                                                <Grid>
+                                                                    <buttons:SfRadioGroup>
+                                                                        <Label Text="Tiempo de entrenamiento" />
+
+                                                                        <buttons:SfRadioButton IsChecked="True" Text="15 min">
+                                                                            <buttons:SfRadioButton.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                    CommandParameter="15"
+                                                                                    NumberOfTapsRequired="1" />
+                                                                            </buttons:SfRadioButton.GestureRecognizers>
+                                                                        </buttons:SfRadioButton>
+
+                                                                        <buttons:SfRadioButton Text="30 min">
+                                                                            <buttons:SfRadioButton.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                    CommandParameter="30"
+                                                                                    NumberOfTapsRequired="1" />
+                                                                            </buttons:SfRadioButton.GestureRecognizers>
+                                                                        </buttons:SfRadioButton>
+
+                                                                        <buttons:SfRadioButton Text="45 min">
+                                                                            <buttons:SfRadioButton.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                    CommandParameter="45"
+                                                                                    NumberOfTapsRequired="1" />
+                                                                            </buttons:SfRadioButton.GestureRecognizers>
+                                                                        </buttons:SfRadioButton>
+
+                                                                        <buttons:SfRadioButton Text="1 hr">
+                                                                            <buttons:SfRadioButton.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                    CommandParameter="60"
+                                                                                    NumberOfTapsRequired="1" />
+                                                                            </buttons:SfRadioButton.GestureRecognizers>
+                                                                        </buttons:SfRadioButton>
+
+                                                                        <buttons:SfRadioButton Text="1:30 hr">
+                                                                            <buttons:SfRadioButton.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                    CommandParameter="90"
+                                                                                    NumberOfTapsRequired="1" />
+                                                                            </buttons:SfRadioButton.GestureRecognizers>
+                                                                        </buttons:SfRadioButton>
+
+                                                                        <buttons:SfRadioButton Text="2 hr">
+                                                                            <buttons:SfRadioButton.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                    CommandParameter="120"
+                                                                                    NumberOfTapsRequired="1" />
+                                                                            </buttons:SfRadioButton.GestureRecognizers>
+                                                                        </buttons:SfRadioButton>
+
+                                                                        <buttons:SfRadioButton Text="2:30 hr">
+                                                                            <buttons:SfRadioButton.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                    CommandParameter="150"
+                                                                                    NumberOfTapsRequired="1" />
+                                                                            </buttons:SfRadioButton.GestureRecognizers>
+                                                                        </buttons:SfRadioButton>
+
+                                                                        <buttons:SfRadioButton Text="3 hr">
+                                                                            <buttons:SfRadioButton.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                    CommandParameter="180"
+                                                                                    NumberOfTapsRequired="1" />
+                                                                            </buttons:SfRadioButton.GestureRecognizers>
+                                                                        </buttons:SfRadioButton>
+                                                                    </buttons:SfRadioGroup>
+                                                                </Grid>
+                                                            </syncfusion:SfExpander.Content>
+                                                        </syncfusion:SfExpander>
                                                     </Border>
                                                 </VerticalStackLayout>
-                                            </Grid>
-                                        </accordion:AccordionItem.Content>
-                                    </accordion:AccordionItem>
-                                </accordion:SfAccordion.Items>
-                            </accordion:SfAccordion>
+                                                <!--<HorizontalStackLayout Margin="130,-40,0,0">-->
+                                                <Button
+                                                    Margin="10,10,10,0"
+                                                    Command="{Binding OpenMuscleSelectionPopupCommand}"
+                                                    HeightRequest="40"
+                                                    HorizontalOptions="Start"
+                                                    Text="Músculos"
+                                                    VerticalOptions="Start"
+                                                    WidthRequest="110" />
 
-                            <VerticalStackLayout Margin="0,20,0,0">
-                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
-                                    <Button
-                                        Background="Red"
-                                        Command="{Binding DeleteSelectedExerciseCommand}"
-                                        IsVisible="{Binding IsDeleteExerciseButtonVisible}"
-                                        Text="Borrar"
-                                        WidthRequest="100" />
-                                    <Button
-                                        Background="Red"
-                                        Command="{Binding DeleteSessionCommand}"
-                                        IsVisible="{Binding IsDeleteExerciseButtonVisible}"
-                                        Text="Borrar Todo"
-                                        WidthRequest="150" />
-                                </HorizontalStackLayout>
 
-                            </VerticalStackLayout>
+                                                <Button
+                                                    Margin="20,10,10,0"
+                                                    Command="{Binding OpenCustomExercisePopupCommand}"
+                                                    HeightRequest="40"
+                                                    Text="Custom"
+                                                    VerticalOptions="Start"
+                                                    WidthRequest="100" />
+                                            </HorizontalStackLayout>
+                                        </ScrollView>
+                                        <HorizontalStackLayout>
+                                            <Label
+                                                Margin="10,0,0,0"
+                                                FontAttributes="Bold"
+                                                FontFamily="Calibri"
+                                                FontSize="20"
+                                                Text="{Binding ExerciseCount}"
+                                                TextColor="Red" />
+                                            <Label
+                                                Margin="10,0,0,0"
+                                                FontAttributes="Bold"
+                                                FontFamily="Calibri"
+                                                FontSize="20"
+                                                Text="Ejercicios" />
+                                        </HorizontalStackLayout>
+                                        <ScrollView>
 
-                        </VerticalStackLayout>
-                    </ScrollView>
-                </tabView:SfTabItem.Content>
-            </tabView:SfTabItem>
-        </tabView:SfTabView.Items>
-    </tabView:SfTabView>
+                                            <CollectionView
+                                                x:Name="myCollectionView"
+                                                HeightRequest="500"
+                                                ItemsSource="{Binding ExerciseList}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:ExerciseModelView">
+
+
+                                                        <SwipeView>
+                                                            <!--<SwipeView.GestureRecognizers>
+                                                            <SwipeGestureRecognizer
+                                                            Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                            CommandParameter="{Binding .}"
+                                                            Direction="Right" />
+                                                            </SwipeView.GestureRecognizers>-->
+
+                                                            <SwipeView.LeftItems>
+                                                                <SwipeItems>
+                                                                    <SwipeItem
+                                                                        BackgroundColor="Red"
+                                                                        Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        Text="Eliminar" />
+                                                                    <SwipeItem
+                                                                        BackgroundColor="LightGreen"
+                                                                        Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        Text="Reemplazar" />
+                                                                </SwipeItems>
+                                                            </SwipeView.LeftItems>
+                                                            <Grid Padding="10">
+                                                                <Grid.GestureRecognizers>
+                                                                    <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
+                                                                </Grid.GestureRecognizers>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Image
+                                                                    Grid.Row="1"
+                                                                    Margin="0,20,0,0"
+                                                                    HeightRequest="50"
+                                                                    Source="{Binding Urls[0]}"
+                                                                    WidthRequest="50" />
+                                                                <!--  TextColor="{Binding Path=BindingContext.ExerciseListColor, Source={x:Reference mainpage}}"  -->
+                                                                <Label
+                                                                    Grid.Column="1"
+                                                                    Text="{Binding Exercise.Name}"
+                                                                    VerticalOptions="Center">
+                                                                    <Label.Triggers>
+                                                                        <DataTrigger
+                                                                            Binding="{Binding Path=BindingContext.IsExerciseFinished, Source={x:Reference mainpage}}"
+                                                                            TargetType="Label"
+                                                                            Value="True">
+                                                                            <Setter Property="TextColor" Value="LightGreen" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger
+                                                                            Binding="{Binding Path=BindingContext.IsExerciseFinished, Source={x:Reference mainpage}}"
+                                                                            TargetType="Label"
+                                                                            Value="False">
+                                                                            <Setter Property="TextColor" Value="Black" />
+                                                                        </DataTrigger>
+                                                                    </Label.Triggers>
+                                                                </Label>
+                                                            </Grid>
+
+                                                        </SwipeView>
+
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
+
+                                        </ScrollView>
+
+                                        <Button
+                                            Margin="0,20,0,0"
+                                            Command="{Binding LoadStartedWorkoutCommand}"
+                                            CommandParameter="{Binding ExerciseList}"
+                                            HeightRequest="40"
+                                            Text="Start"
+                                            VerticalOptions="End"
+                                            WidthRequest="80" />
+                                    </VerticalStackLayout>
+                                </ScrollView>
+                            </tabView:SfTabItem.Content>
+                        </tabView:SfTabItem>
+
+                        <!--  TAB NUMBER THREE  -->
+                        <tabView:SfTabItem Header="Entrenamientos">
+                            <tabView:SfTabItem.Content>
+                                <VerticalStackLayout>
+
+                                    <CollectionView
+                                        x:Name="myExerciseCollection"
+                                        Margin="0,20,0,0"
+                                        HeightRequest="500"
+                                        ItemsSource="{Binding ExerciseGrouplist}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="models:DateGroup">
+                                                <VerticalStackLayout>
+                                                    <accordion:SfAccordion
+                                                        Margin="0,20,0,0"
+                                                        AnimationDuration="250"
+                                                        AnimationEasing="SinInOut"
+                                                        ExpandMode="SingleOrNone"
+                                                        IsVisible="{Binding BindingContext.IsAccordionVisible, Source={x:Reference mainpage}, Mode=TwoWay}">
+
+                                                        <accordion:SfAccordion.Items>
+                                                            <accordion:AccordionItem>
+                                                                <accordion:AccordionItem.Header>
+                                                                    <Grid>
+                                                                        <Label Text="Train:" VerticalOptions="Center" />
+                                                                        <Label
+                                                                            Margin="40,0,0,0"
+                                                                            Text="{Binding FechaEntrenamiento}"
+                                                                            VerticalOptions="Center" />
+                                                                        <CheckBox Margin="300,0,0,0" IsChecked="True" />
+                                                                    </Grid>
+                                                                </accordion:AccordionItem.Header>
+                                                                <accordion:AccordionItem.Content>
+                                                                    <Grid>
+                                                                        <VerticalStackLayout HeightRequest="600">
+
+
+                                                                            <Border>
+                                                                                <CollectionView
+                                                                                    x:Name="myExerciseCollection2"
+                                                                                    Margin="0,20,0,0"
+                                                                                    HeightRequest="500"
+                                                                                    ItemsSource="{Binding Exercises}">
+                                                                                    <CollectionView.ItemTemplate>
+                                                                                        <DataTemplate x:DataType="models:ExerciseModelView">
+                                                                                            <SwipeView>
+
+
+                                                                                                <SwipeView.LeftItems>
+                                                                                                    <SwipeItems>
+                                                                                                        <SwipeItem
+                                                                                                            BackgroundColor="Red"
+                                                                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteCustomTrainingExerciseCommand}"
+                                                                                                            CommandParameter="{Binding .}"
+                                                                                                            Text="Eliminar" />
+                                                                                                        <SwipeItem
+                                                                                                            BackgroundColor="LightGreen"
+                                                                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
+                                                                                                            CommandParameter="{Binding .}"
+                                                                                                            Text="Reemplazar" />
+                                                                                                    </SwipeItems>
+                                                                                                </SwipeView.LeftItems>
+                                                                                                <Grid>
+                                                                                                    <Grid.GestureRecognizers>
+                                                                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myExerciseCollection2}, Path=BindingContext.CustomExerciseTappedCommand}" CommandParameter="{Binding}" />
+                                                                                                    </Grid.GestureRecognizers>
+                                                                                                    <Grid.ColumnDefinitions>
+                                                                                                        <ColumnDefinition Width="Auto" />
+                                                                                                        <ColumnDefinition Width="*" />
+                                                                                                        <ColumnDefinition Width="Auto" />
+                                                                                                        <ColumnDefinition Width="Auto" />
+                                                                                                    </Grid.ColumnDefinitions>
+                                                                                                    <Image
+                                                                                                        Grid.Row="1"
+                                                                                                        Margin="0,20,0,0"
+                                                                                                        HeightRequest="50"
+                                                                                                        Source="{Binding Urls[0]}"
+                                                                                                        WidthRequest="50" />
+                                                                                                    <Label
+                                                                                                        Grid.Column="1"
+                                                                                                        Text="{Binding Name}"
+                                                                                                        VerticalOptions="Center" />
+                                                                                                    <Label
+                                                                                                        Grid.Column="2"
+                                                                                                        Text="{Binding FechaEntrenamiento}"
+                                                                                                        VerticalOptions="Center" />
+                                                                                                    <CheckBox
+                                                                                                        Grid.Column="3"
+                                                                                                        HeightRequest="100"
+                                                                                                        IsChecked="{Binding IsChecked}" />
+                                                                                                </Grid>
+                                                                                            </SwipeView>
+                                                                                        </DataTemplate>
+                                                                                    </CollectionView.ItemTemplate>
+                                                                                </CollectionView>
+
+                                                                            </Border>
+                                                                        </VerticalStackLayout>
+                                                                    </Grid>
+                                                                </accordion:AccordionItem.Content>
+                                                            </accordion:AccordionItem>
+                                                        </accordion:SfAccordion.Items>
+                                                    </accordion:SfAccordion>
+
+
+                                                </VerticalStackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+
+
+                                    <ScrollView>
+                                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="Times New Roman"
+                                                FontSize="25"
+                                                HorizontalOptions="Center"
+                                                Text="Mis Entrenamientos" />
+                                            <Button
+                                                Background="Red"
+                                                Command="{Binding DeleteSelectedExerciseCommand}"
+                                                IsVisible="{Binding IsDeleteExerciseButtonVisible}"
+                                                Text="Borrar"
+                                                WidthRequest="100" />
+                                            <Button
+                                                Background="Red"
+                                                Command="{Binding DeleteSessionCommand}"
+                                                IsVisible="{Binding IsDeleteExerciseButtonVisible}"
+                                                Text="Borrar Todo"
+                                                WidthRequest="150" />
+                                        </HorizontalStackLayout>
+                                    </ScrollView>
+                                </VerticalStackLayout>
+                            </tabView:SfTabItem.Content>
+                        </tabView:SfTabItem>
+                    </tabView:SfTabView.Items>
+                </tabView:SfTabView>
+            </navigationdrawer:SfNavigationDrawer.ContentView>
+
+
+
+        </navigationdrawer:SfNavigationDrawer>
+
+
+
+    </shimmer:SfShimmer>
 
 
 </ContentPage>

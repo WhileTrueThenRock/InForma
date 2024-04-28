@@ -49,6 +49,7 @@ namespace mobileAppTest.ViewModels
                 .Instance
                 .Collection("Users")
                 .Document("123456@gmail.com"); // Cambiar por el email del usuario
+                
 
             // Iterar sobre cada ejercicio terminado y guardarlos directamente bajo la colección con el nombre proporcionado por el usuario
             foreach (var exercise in ExerciseFinishedList)
@@ -57,7 +58,7 @@ namespace mobileAppTest.ViewModels
                 var workoutDocument = userDocument
                     .Collection("Sesiones") // Utilizar el nombre proporcionado por el usuario como nombre de la colección
                     .Document("Saved_Workouts")
-                    .Collection("Saved_Workouts")
+                    .Collection(WorkoutTitle)
                     .Document(exercise.Exercise.Id);// Utilizar el ID del ejercicio como nombre del documento
 
                 // Guardar el ejercicio en Firestore
@@ -65,11 +66,34 @@ namespace mobileAppTest.ViewModels
             }
 
             // Limpiar el título del entrenamiento
+            SaveWorkoutToUserDocument();
             WorkoutTitle = "";
 
             // Cerrar el popup de guardado de entrenamiento
             CloseSaveWorkoutPopup();
         }
+        private async Task SaveWorkoutToUserDocument()
+        {
+            // Crear una referencia al documento del usuario
+            var userDocument = CrossCloudFirestore.Current
+                .Instance
+                .Collection("Users")
+                .Document("123456@gmail.com"); // Cambiar por el email del usuario
+
+            // Crear un objeto que represente el workout a guardar
+            var workout = new
+            {
+                Name = WorkoutTitle,
+                Exercises = ExerciseFinishedList.Select(exercise => exercise.Exercise.Id).ToList()
+            };
+
+            // Agregar el nombre del workout al campo Colecciones del documento del usuario
+            await userDocument.UpdateDataAsync(new { Colecciones = FieldValue.ArrayUnion(WorkoutTitle) });
+
+            // Guardar el workout como un documento en Firestore                                //BETA
+            //await userDocument.Collection("Saved_Workouts").Document(WorkoutTitle).SetAsync(workout);
+        }
+
 
 
 

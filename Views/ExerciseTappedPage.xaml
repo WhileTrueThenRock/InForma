@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:models="clr-namespace:mobileAppTest.Models"
     xmlns:services="clr-namespace:mobileAppTest.Services"
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
@@ -52,7 +53,7 @@
                 ShouldLoopPlayback="{Binding IsVideoPlaying}"
                 ShouldMute="False"
                 ShouldShowPlaybackControls="False"
-                Source="{Binding MyExercise.Urls[1]}"
+                Source="{Binding MyExercise.Urls[2]}"
                 WidthRequest="400" />
             <!--<WebView
             HeightRequest="300"
@@ -294,18 +295,17 @@
 
                     <tabview:SfTabItem Header="Músculos">
                         <tabview:SfTabItem.Content>
-
-                            <VerticalStackLayout>
+                            <HorizontalStackLayout>
                                 <Label
                                     Margin="0,10,0,0"
                                     HorizontalOptions="Start"
                                     Text="{Binding MyExercise.PrimaryMuscles}" />
                                 <Image
                                     HeightRequest="50"
-                                    HorizontalOptions="Start"
                                     Source="{Binding MyExercise.PrimaryMuscles, Converter={StaticResource MuscleToImageConverter}}"
+                                    VerticalOptions="Start"
                                     WidthRequest="60" />
-
+                                <HorizontalStackLayout Margin="100,0,0,0" />
                                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding MyExercise.SecondaryMuscles}">
                                     <BindableLayout.ItemTemplate>
                                         <DataTemplate>
@@ -322,7 +322,8 @@
                                         </DataTemplate>
                                     </BindableLayout.ItemTemplate>
                                 </VerticalStackLayout>
-                            </VerticalStackLayout>
+                            </HorizontalStackLayout>
+
                         </tabview:SfTabItem.Content>
                     </tabview:SfTabItem>
 

@@ -5,61 +5,56 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.NavigationDrawer;assembly=Syncfusion.Maui.NavigationDrawer"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:Name="thisPage"
     x:DataType="viewmodels:LoginViewModel"
     NavigationPage.HasNavigationBar="False">
 
+
     <VerticalStackLayout>
+
         <Label
             HorizontalOptions="Center"
             Text="Welcome to .NET MAUI!"
             TextColor="Green"
             VerticalOptions="Center" />
-        <Frame
-            Margin="0,50,0,0"
-            Padding="0"
-            BorderColor="Green"
-            CornerRadius="20"
-            HorizontalOptions="Center">
-            <StackLayout>
-                <HorizontalStackLayout>
+
+        <VerticalStackLayout Margin="0,20,0,0" WidthRequest="300">
+
+            <inputLayout:SfTextInputLayout
+                ContainerType="Outlined"
+                ErrorText="{Binding EmailErrorText}"
+                FocusedStrokeThickness="4"
+                HasError="{Binding HasEmailError}"
+                HeightRequest="80"
+                Hint="Email"
+                OutlineCornerRadius="8"
+                UnfocusedStrokeThickness="2">
+                <Entry
+                    Margin="0,0,0,-10"
+                    Text="{Binding Email}"
+                    WidthRequest="250" />
+            </inputLayout:SfTextInputLayout>
 
 
-                    <Image
-                        Margin="15,0,0,-10"
-                        Aspect="Fill"
-                        HeightRequest="25"
-                        Source="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-at-256.png"
-                        WidthRequest="25" />
-                    <Entry
-                        Margin="0,0,0,-10"
-                        Placeholder="Email"
-                        Text="{Binding Email}"
-                        WidthRequest="250" />
-                </HorizontalStackLayout>
-                <BoxView
-                    Margin="0,5,0,5"
-                    HeightRequest="1"
-                    HorizontalOptions="FillAndExpand"
-                    Color="Green" />
-                <HorizontalStackLayout IsVisible="True">
-                    <Image
-                        Margin="15,0,0,0"
-                        Aspect="Fill"
-                        HeightRequest="25"
-                        Source="https://cdn1.iconfinder.com/data/icons/web-and-user-interface-23/512/141-512.png"
-                        WidthRequest="25" />
-                    <Entry
-                        Margin="0,0,0,-5"
-                        IsPassword="True"
-                        Placeholder="Contraseña"
-                        Text="{Binding Password}"
-                        WidthRequest="250" />
-                </HorizontalStackLayout>
-            </StackLayout>
+            <inputLayout:SfTextInputLayout
+                CharMaxLength="10"
+                ContainerType="Outlined"
+                ErrorText="{Binding PassErrorText}"
+                FocusedStrokeThickness="4"
+                HasError="{Binding HasPassError}"
+                HeightRequest="80"
+                Hint="Contraseña"
+                OutlineCornerRadius="8"
+                UnfocusedStrokeThickness="2">
+                <Entry Text="{Binding Password}" WidthRequest="250" />
 
-        </Frame>
+            </inputLayout:SfTextInputLayout>
+
+        </VerticalStackLayout>
+
 
         <buttons:SfCheckBox
             Margin="45,0,0,0"
@@ -70,19 +65,20 @@
 
 
 
+
         <Label
             Margin="100,15,0,0"
             HorizontalOptions="Center"
             Text="¿Has olvidado tu contraseña?"
             TextColor="Blue">
             <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ForgotTappedCommand}" CommandParameter="MainPage" />
+                <TapGestureRecognizer Command="{Binding OpenForgotPassPopupCommand}" CommandParameter="MainPage" />
             </Label.GestureRecognizers>
         </Label>
 
         <Button
             Margin="0,50,0,0"
-            Command="{Binding AddEquipmentsToUserCommand}"
+            Command="{Binding LoginTappedAsyncCommand}"
             CommandParameter="MainPage"
             Text="LOGIN"
             WidthRequest="250" />
@@ -138,4 +134,6 @@
             </Label>
         </HorizontalStackLayout>
     </VerticalStackLayout>
+
+
 </ContentPage>

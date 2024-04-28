@@ -75,9 +75,14 @@
 	  <None Remove="Resources\Images\abs1.png" />
 	  <None Remove="Resources\Images\abs2.png" />
 	  <None Remove="Resources\Images\aductores.png" />
-	  <None Remove="Resources\Images\anillas.jpg" />
 	  <None Remove="Resources\Images\antebrazo.png" />
-	  <None Remove="Resources\Images\banco.jpg" />
+	  <None Remove="Resources\Images\bancodeclinado.jpg" />
+	  <None Remove="Resources\Images\bancohorizontal.jpg" />
+	  <None Remove="Resources\Images\bancoinclinado.jpg" />
+	  <None Remove="Resources\Images\bancoromano.jpg" />
+	  <None Remove="Resources\Images\bancoscott.jpg" />
+	  <None Remove="Resources\Images\barras.jpg" />
+	  <None Remove="Resources\Images\barraz.jpg" />
 	  <None Remove="Resources\Images\biceps.png" />
 	  <None Remove="Resources\Images\body1.png" />
 	  <None Remove="Resources\Images\body2.png" />
@@ -87,6 +92,10 @@
 	  <None Remove="Resources\Images\cuello.png" />
 	  <None Remove="Resources\Images\cuello1.png" />
 	  <None Remove="Resources\Images\cuello2.png" />
+	  <None Remove="Resources\Images\defaultAvatar.png" />
+	  <None Remove="Resources\Images\dips.jpg" />
+	  <None Remove="Resources\Images\dominadas.jpg" />
+	  <None Remove="Resources\Images\dumbbells.jpg" />
 	  <None Remove="Resources\Images\espalda.png" />
 	  <None Remove="Resources\Images\facebooklogo.png" />
 	  <None Remove="Resources\Images\femoral.png" />
@@ -97,6 +106,7 @@
 	  <None Remove="Resources\Images\googlelogo.png" />
 	  <None Remove="Resources\Images\gym1.jpg" />
 	  <None Remove="Resources\Images\gym2.jpg" />
+	  <None Remove="Resources\Images\hamburgericon.png" />
 	  <None Remove="Resources\Images\hamstrings1.png" />
 	  <None Remove="Resources\Images\hamstrings2.png" />
 	  <None Remove="Resources\Images\hombro.png" />
@@ -105,7 +115,7 @@
 	  <None Remove="Resources\Images\hombroizq1.png" />
 	  <None Remove="Resources\Images\hombroizq2.png" />
 	  <None Remove="Resources\Images\instalogo.png" />
-	  <None Remove="Resources\Images\invisible.png" />
+	  <None Remove="Resources\Images\landmine.jpg" />
 	  <None Remove="Resources\Images\leftabductor1.png" />
 	  <None Remove="Resources\Images\leftabductor2.png" />
 	  <None Remove="Resources\Images\leftadductor1.png" />
@@ -118,6 +128,33 @@
 	  <None Remove="Resources\Images\leftlat2.png" />
 	  <None Remove="Resources\Images\lefttricep1.png" />
 	  <None Remove="Resources\Images\lefttricep2.png" />
+	  <None Remove="Resources\Images\maquina.jpg" />
+	  <None Remove="Resources\Images\maquinaaductores.jpg" />
+	  <None Remove="Resources\Images\maquinaaperturas.jpg" />
+	  <None Remove="Resources\Images\maquinaasistida.jpg" />
+	  <None Remove="Resources\Images\maquinaburro.jpg" />
+	  <None Remove="Resources\Images\maquinaconvergente.jpg" />
+	  <None Remove="Resources\Images\maquinaextensiones.jpg" />
+	  <None Remove="Resources\Images\maquinafemoraldepie.jpg" />
+	  <None Remove="Resources\Images\maquinafemoralsentado.jpg" />
+	  <None Remove="Resources\Images\maquinafemoraltumbado.jpg" />
+	  <None Remove="Resources\Images\maquinafondos.jpg" />
+	  <None Remove="Resources\Images\maquinagemelospie.jpg" />
+	  <None Remove="Resources\Images\maquinahip.jpg" />
+	  <None Remove="Resources\Images\maquinahombroslat.jpg" />
+	  <None Remove="Resources\Images\maquinahombrospress.jpg" />
+	  <None Remove="Resources\Images\maquinamulti.jpg" />
+	  <None Remove="Resources\Images\maquinapatada.jpg" />
+	  <None Remove="Resources\Images\maquinapoleas.jpg" />
+	  <None Remove="Resources\Images\maquinaprensa.jpg" />
+	  <None Remove="Resources\Images\maquinapresshoriz.jpg" />
+	  <None Remove="Resources\Images\maquinaquads.jpg" />
+	  <None Remove="Resources\Images\maquinaremo.jpg" />
+	  <None Remove="Resources\Images\maquinaremoalto.jpg" />
+	  <None Remove="Resources\Images\maquinaremobajo.jpg" />
+	  <None Remove="Resources\Images\maquinascottplacas.jpg" />
+	  <None Remove="Resources\Images\maquinasentadillas.png" />
+	  <None Remove="Resources\Images\maquinatrapecio.jpg" />
 	  <None Remove="Resources\Images\pecho.png" />
 	  <None Remove="Resources\Images\pecho1.png" />
 	  <None Remove="Resources\Images\pecho2.png" />
@@ -133,15 +170,17 @@
 	  <None Remove="Resources\Images\rightlat2.png" />
 	  <None Remove="Resources\Images\righttricep1.png" />
 	  <None Remove="Resources\Images\righttricep2.png" />
+	  <None Remove="Resources\Images\ruedaabd.jpg" />
 	  <None Remove="Resources\Images\seriesCompleted.gif" />
+	  <None Remove="Resources\Images\sinequipamiento.png" />
 	  <None Remove="Resources\Images\sms.png" />
 	  <None Remove="Resources\Images\sms2.png" />
+	  <None Remove="Resources\Images\soga.jpg" />
 	  <None Remove="Resources\Images\trap1.png" />
 	  <None Remove="Resources\Images\trap2.png" />
 	  <None Remove="Resources\Images\trapecio.png" />
 	  <None Remove="Resources\Images\triceps.png" />
 	  <None Remove="Resources\Images\xlogo.png" />
-	  <None Remove="Resources\Raw\nice.mp4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -166,6 +205,7 @@
 		<PackageReference Include="Syncfusion.Maui.Expander" Version="24.1.46" />
 		<PackageReference Include="Syncfusion.Maui.Gauges" Version="24.2.4" />
 		<PackageReference Include="Syncfusion.Maui.Maps" Version="24.2.4" />
+		<PackageReference Include="Syncfusion.Maui.NavigationDrawer" Version="24.1.47" />
 		<PackageReference Include="Syncfusion.Maui.Picker" Version="24.1.45" />
 		<PackageReference Include="Syncfusion.Maui.Popup" Version="24.1.45" />
 		<PackageReference Include="Syncfusion.Maui.TabView" Version="24.1.43" />
@@ -178,7 +218,7 @@
 	  <MauiXaml Update="Views\FinishedWorkoutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ForgotPasswordPage.xaml">
+	  <MauiXaml Update="Views\Popups\ForgotPasswordPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">
@@ -224,6 +264,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Logos\defaultavatar.png" />
+	  <MauiImage Include="Resources\Images\Logos\hamburgericon.png" />
+	  <MauiImage Include="Resources\Images\Logos\seriescompleted.gif" />
 	  <MauiImage Include="Resources\Images\Logos\sms.png" />
 	  <MauiImage Include="Resources\Images\Logos\googlelogo.png" />
 	  <MauiImage Include="Resources\Images\Muscles\abdomen.png" />
@@ -297,6 +340,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\Popups\ForgotPasswordPopup.xaml.cs">
+	    <DependentUpon>ForgotPasswordPopup.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Popups\CustomExercise.xaml.cs">
 	    <DependentUpon>CustomExercise.xaml</DependentUpon>
 	  </Compile>
