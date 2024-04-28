@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static Android.Icu.Text.CaseMap;
 namespace mobileAppTest.ViewModels
 {
     internal partial class RegisterViewModel : ObservableObject

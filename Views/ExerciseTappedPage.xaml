@@ -4,8 +4,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     xmlns:models="clr-namespace:mobileAppTest.Models"
     xmlns:services="clr-namespace:mobileAppTest.Services"
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
@@ -59,6 +61,12 @@
             HeightRequest="300"
             Source="{Binding MyExercise.Urls[1]}"
             WidthRequest="400" />-->
+
+            <Label
+                Margin="0,10,0,0"
+                HorizontalOptions="Center"
+                Text="{Binding MyExercise.Name}"
+                VerticalOptions="Center" />
 
             <VerticalStackLayout IsVisible="{Binding IsVisible}">
                 <HorizontalStackLayout Margin="0,15,0,0">
@@ -174,72 +182,94 @@
                         Color="Black" />
 
                 </HorizontalStackLayout>
-                <Border
-                    Margin="10"
-                    StrokeShape="RoundRectangle 20,20,20,20"
-                    StrokeThickness="2">
-                    <CollectionView x:Name="seriesCollectionView" ItemsSource="{Binding ExerciseEntries}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:ExerciseModelView">
-                                <SwipeView>
-                                    <!--<SwipeView.GestureRecognizers>
-                                    <SwipeGestureRecognizer
-                                    Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                    CommandParameter="{Binding .}"
-                                    Direction="Right" />
-                                    </SwipeView.GestureRecognizers>-->
 
-                                    <SwipeView.LeftItems>
-                                        <SwipeItems>
-                                            <SwipeItem
-                                                BackgroundColor="Red"
-                                                Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                CommandParameter="{Binding .}"
-                                                Text="Eliminar" />
-                                        </SwipeItems>
-                                    </SwipeView.LeftItems>
-                                    <VerticalStackLayout>
-                                        <HorizontalStackLayout
-                                            BackgroundColor="White"
-                                            HeightRequest="60"
-                                            HorizontalOptions="FillAndExpand">
-                                            <Entry
-                                                Margin="15,0,0,0"
-                                                Placeholder="Reps"
-                                                Text="{Binding Reps[0]}" />
-                                            <Label
-                                                Margin="20,15,0,0"
-                                                FontSize="13"
-                                                Text="Reps" />
-                                            <Label
-                                                Margin="30,10,0,0"
-                                                FontSize="20"
-                                                Text="/" />
-                                            <Label
-                                                Margin="60,15,30,0"
-                                                FontSize="13"
-                                                Text="Kg" />
-                                            <Entry Placeholder="Weight" Text="{Binding Weight[0]}" />
-                                            <Image
-                                                HeightRequest="60"
-                                                IsAnimationPlaying="{Binding Path=BindingContext.IsGifVisible, Source={x:Reference thisPage}}"
-                                                Source="{Binding Path=BindingContext.SeriesGif, Source={x:Reference thisPage}}"
-                                                WidthRequest="70" />
-                                        </HorizontalStackLayout>
-                                        <Label
-                                            Margin="0,0,0,10"
-                                            HorizontalOptions="Center"
-                                            Text="--- Descanso ---" />
+                <CollectionView
+                    x:Name="seriesCollectionView"
+                    Margin="0,20,0,0"
+                    ItemsSource="{Binding ExerciseEntries}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ExerciseModelView">
+                            <SwipeView>
+                                <!--<SwipeView.GestureRecognizers>
+                                <SwipeGestureRecognizer
+                                Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                CommandParameter="{Binding .}"
+                                Direction="Right" />
+                                </SwipeView.GestureRecognizers>-->
 
-                                    </VerticalStackLayout>
-                                </SwipeView>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="Red"
+                                            Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Eliminar" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <HorizontalStackLayout
+                                    Margin="0,15,0,0"
+                                    BackgroundColor="White"
+                                    HeightRequest="100"
+                                    HorizontalOptions="Center">
 
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                    <inputLayout:SfTextInputLayout
+                                        Margin="0,0,0,0"
+                                        ContainerType="Outlined"
+                                        FocusedStrokeThickness="4"
+                                        HeightRequest="100"
+                                        Hint="Repeticiones"
+                                        OutlineCornerRadius="8"
+                                        UnfocusedStrokeThickness="2"
+                                        WidthRequest="145">
+
+                                        <inputs:SfNumericEntry
+                                            AllowNull="False"
+                                            CustomFormat="0"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            UpDownPlacementMode="Inline"
+                                            Value="{Binding Reps[0]}" />
+                                    </inputLayout:SfTextInputLayout>
 
 
-                </Border>
+                                    <inputLayout:SfTextInputLayout
+                                        Margin="5,0,0,0"
+                                        ContainerType="Outlined"
+                                        ErrorText="ss"
+                                        FocusedStrokeThickness="4"
+                                        HasError="False"
+                                        HeightRequest="100"
+                                        Hint="Peso"
+                                        OutlineCornerRadius="8"
+                                        UnfocusedStrokeThickness="2"
+                                        WidthRequest="165">
+
+                                        <editors:SfNumericEntry
+                                            AllowNull="False"
+                                            CustomFormat="0.0"
+                                            Maximum="500"
+                                            Minimum="0"
+                                            UpDownPlacementMode="Inline"
+                                            Value="{Binding Weight[0]}" />
+
+
+                                    </inputLayout:SfTextInputLayout>
+
+                                    <Image
+                                        HeightRequest="60"
+                                        IsAnimationPlaying="{Binding Path=BindingContext.IsGifVisible, Source={x:Reference thisPage}}"
+                                        Source="{Binding Path=BindingContext.SeriesGif, Source={x:Reference thisPage}}"
+                                        WidthRequest="70" />
+                                </HorizontalStackLayout>
+
+
+                            </SwipeView>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+
 
                 <HorizontalStackLayout Spacing="200">
                     <Button
@@ -265,11 +295,7 @@
                 Text="Confirmar Serie"
                 VerticalOptions="End"
                 WidthRequest="200" />
-            <Label
-                Margin="0,10,0,0"
-                HorizontalOptions="Center"
-                Text="{Binding MyExercise.Name}"
-                VerticalOptions="Center" />
+
             <tabview:SfTabView
                 x:Name="tabView"
                 Margin="0,10,0,0"

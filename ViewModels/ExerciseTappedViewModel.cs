@@ -85,13 +85,13 @@ namespace mobileAppTest.ViewModels
         private int _seriesCounter;
 
         [ObservableProperty]
-        private string[] _reps = { "10" };
+        private double[] _reps = { 10 };
 
         [ObservableProperty]
-        private string[] _weight = { "12.5" };
+        private double[] _weight = { 12.5 };
 
-        List<string> repsList = new List<string>();
-        List<string> weightList = new List<string>();
+        List<double> repsList = new List<double>();
+        List<double> weightList = new List<double>();
 
         [ObservableProperty]
         private int _segundosDescanso;
@@ -244,13 +244,6 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public void LogSeries()
         {
-            if (Reps == null || Reps.Length == 0 || Reps.Any(string.IsNullOrEmpty) ||
-       Weight == null || Weight.Length == 0 || Weight.Any(string.IsNullOrEmpty))
-            {
-                App.Current.MainPage.DisplayAlert("Info", "Te faltan campos por rellenar!", "ACEPTAR");
-                return;
-            }
-
             SeriesGif = "seriescompleted.gif";
             StartStopwatch();
             IsGifVisible = true;

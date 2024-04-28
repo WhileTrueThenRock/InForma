@@ -461,7 +461,7 @@ namespace mobileAppTest.ViewModels
             IsCalfsVisible = false;
 
             IsCustomExerciseButtonVisible = false;
-            IsAccordionVisible = false;
+            //IsAccordionVisible = false;
             MiContador = 0;
 
             ExerciseListColor = Colors.Black;
@@ -518,14 +518,14 @@ namespace mobileAppTest.ViewModels
                             exercisesByWorkoutTitle[workoutTitle].Add(exercise);
                         }
                     }
-         
+
 
                     // Crear una lista de DateGroup para cada título de entrenamiento
                     var dateGroups = exercisesByWorkoutTitle.Select(kvp => new DateGroup
                     {
                         FechaEntrenamiento = kvp.Key,
                         Exercises = kvp.Value,
-                }).ToList();
+                    }).ToList();
 
                     // Asignar los grupos a ExerciseSessionlist
                     ExerciseGrouplist = new ObservableCollection<DateGroup>(dateGroups);
@@ -533,6 +533,7 @@ namespace mobileAppTest.ViewModels
                     IsAccordionVisible = true;
                 }
             }
+
         }
 
 
@@ -1388,30 +1389,18 @@ namespace mobileAppTest.ViewModels
                 foreach (var exercise in exercises)
                 {
 
-                    ExerciseView = ModelMapper.ExerciseModelToExerciseModelView(exercise);
-                    ExerciseList.Add(ExerciseView);
+                    if( exercise.Name != null )
+                    {
+                        ExerciseView = ModelMapper.ExerciseModelToExerciseModelView(exercise);
+                        ExerciseList.Add(ExerciseView);
+                    }
+           
 
                     string[] dateArray = ExerciseView.FechaEntrenamiento.Split(' ');
                     var dateTime = dateArray[0];
 
                     DateTime dateTimeKey = DateTime.Parse(dateTime);
                     ExerciseView.FechaEntrenamiento = dateTimeKey.ToString("dd/MM/yyyy");
-
-                    // Update the total workout duration for the specific day
-                    if (!totalWorkoutDurations.ContainsKey(dateTimeKey))
-                    {
-                        totalWorkoutDurations.Add(dateTimeKey, ConvertStopwatchLabelToMinutes(exercise.Duration));
-                    }
-                    else
-                    {
-                        totalWorkoutDurations[dateTimeKey] += ConvertStopwatchLabelToMinutes(exercise.Duration);
-                    }
-
-                    // Update the totalWorkoutDuration for the UI
-                    //totalWorkoutDuration = totalWorkoutDurations.Values.Sum();  //Suma todos los ejercicios de la db
-                    totalWorkoutDuration = totalWorkoutDurations[dateTimeKey];   // Suma el último dia (15)
-                    TotalWorkoutDurationLabel = totalWorkoutDuration.ToString();
-                    // Verificar si la clave ya existe en Events antes de agregarla
 
                     if (!Events.ContainsKey(dateTimeKey))
                     {

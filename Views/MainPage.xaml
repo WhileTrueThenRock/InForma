@@ -164,7 +164,10 @@
 
         <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer">
             <navigationdrawer:SfNavigationDrawer.DrawerSettings>
-                <navigationdrawer:DrawerSettings DrawerHeaderHeight="160" DrawerWidth="250">
+                <navigationdrawer:DrawerSettings
+                    DrawerHeaderHeight="160"
+                    DrawerWidth="250"
+                    EnableSwipeGesture="False">
                     <navigationdrawer:DrawerSettings.DrawerHeaderView>
                         <Grid BackgroundColor="#6750A4" RowDefinitions="120,40">
                             <sfavatar:SfAvatarView

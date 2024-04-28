@@ -13,14 +13,14 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
-        BindingContext = new MainViewModel();
     }
 
     private async void ThisPage_Loaded(object sender, EventArgs e)
     {
         MainViewModel? viewModel = BindingContext as MainViewModel;
+        viewModel?.GetExercisesEvents();
         viewModel?.FilterBySelectedMuscle();
-        viewModel?.ChangeFinishedExercisesColor();
+        //viewModel?.ChangeFinishedExercisesColor();
         viewModel?.StartShimmer();
         await Task.Delay(2000);
         viewModel.IsShimmerPlaying = false;

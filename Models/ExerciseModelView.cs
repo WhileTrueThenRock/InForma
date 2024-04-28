@@ -26,10 +26,10 @@ namespace mobileAppTest.Models
         private string _primaryMuscles;
 
         [ObservableProperty]
-        private string [] _reps;
+        private double[] _reps;
 
         [ObservableProperty]
-        private string [] _weight;
+        private double[] _weight;
 
         [ObservableProperty]
         private bool _IsChecked;
