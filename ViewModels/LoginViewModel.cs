@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Firebase.Auth;
 using mobileAppTest.Models;
 using mobileAppTest.Views;
+using mobileAppTest.Views.Popups;
 using Newtonsoft.Json;
 using Plugin.CloudFirestore;
 using System;
@@ -58,16 +59,34 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string _emailHintText;
 
+        [ObservableProperty]
+        private ProfilePopup _profilePopup;
+
         public LoginViewModel()
         {
             CheckStoredCredentials();
-            
+            RememberMe = false;
             PassOK = false;
             HasEmailError = false;
             HasPassError = false;
         }
 
-  
+        [RelayCommand]
+        public async Task OpenProfilePopup()
+        {
+
+            ProfilePopup = new ProfilePopup();
+            await App.Current.MainPage.ShowPopupAsync(ProfilePopup);
+        }
+
+        [RelayCommand]
+        public async Task CloseProfilePopup()
+        {
+            ProfilePopup.Close();
+
+        }
+
+
         private async Task ValidateEmail()
         {
             HasEmailError = true;
@@ -168,7 +187,11 @@ namespace mobileAppTest.ViewModels
                 await SecureStorage.SetAsync("username", "");
                 await SecureStorage.SetAsync("password", "");
             }
-            await Shell.Current.GoToAsync("//MainPage");
+            await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
+            {
+                ["Email"] = Email
+            }); 
+         
         }
 
         [RelayCommand]

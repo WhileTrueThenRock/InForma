@@ -193,46 +193,46 @@ namespace mobileAppTest.ViewModels
 
             if (segundos == "15")
             {
-                DurationHeader = "15'";
+                DurationHeader = "15";
                 TimeLabel = "15";
                 SegundosDescanso = 15;
 
             }
             else if (segundos == "30")
             {
-                DurationHeader = "30'";
+                DurationHeader = "30";
                 TimeLabel = "30";
                 SegundosDescanso = 30;
             }
             else if (segundos == "45")
             {
-                DurationHeader = "45'";
+                DurationHeader = "45";
                 TimeLabel = "45";
                 SegundosDescanso = 45;
             }
             else if (segundos == "60")
             {
-                DurationHeader = "60'";
+                DurationHeader = "60";
                 TimeLabel = "60";
                 SegundosDescanso = 60;
             }
             else if (segundos == "90")
             {
-                DurationHeader = "90'";
+                DurationHeader = "90";
                 TimeLabel = "90";
                 SegundosDescanso = 90;
 
             }
             else if (segundos == "120")
             {
-                DurationHeader = "120'";
+                DurationHeader = "120";
                 TimeLabel = "120";
                 SegundosDescanso = 120;
 
             }
             else if (segundos == "150")
             {
-                DurationHeader = "150'";
+                DurationHeader = "150";
                 TimeLabel = "150";
                 SegundosDescanso = 150;
             }
@@ -331,6 +331,8 @@ namespace mobileAppTest.ViewModels
                 // Remover el último elemento de la colección
                 ExerciseEntries.RemoveAt(ExerciseEntries.Count - 1);
             }
+            repsList.RemoveAt(repsList.Count-1);
+            weightList.RemoveAt(weightList.Count-1);
             IsRemoveSerieEnabled = false;
             if (SeriesCounter > 0)
             {
@@ -341,8 +343,19 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         private void DeleteSwipedRow(ExerciseModelView rowToDelete)
         {
-            ExerciseEntries.Remove(rowToDelete);
+            if (ExerciseEntries.Count > 0)
+            {
+                // Remover el último elemento de la colección
+               ExerciseEntries.Remove(rowToDelete);
+            }
+            repsList.RemoveAt(repsList.Count - 1);
+            weightList.RemoveAt(weightList.Count - 1);
             IsRemoveSerieEnabled = false;
+            if (SeriesCounter > 0)
+            {
+                SeriesCounter--;
+            }
+
         }
 
         [RelayCommand]

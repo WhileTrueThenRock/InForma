@@ -196,6 +196,7 @@
 		<PackageReference Include="Mopups" Version="1.3.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Plugin.CloudFirestore" Version="4.1.0" />
+		<PackageReference Include="Plugin.LocalNotification" Version="9.2.0" />
 		<PackageReference Include="Plugin.Maui.Calendar" Version="1.1.1" />
 		<PackageReference Include="Syncfusion.Maui.Buttons" Version="24.1.43" />
 		<PackageReference Include="Syncfusion.Maui.Calendar" Version="24.1.43" />
@@ -242,6 +243,9 @@
 	  <MauiXaml Update="Views\Popups\MuscleSelectionPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\ProfilePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\SaveWorkoutPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -264,8 +268,50 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Equipment\bancodeclinado.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\bancohorizontal.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\bancoinclinado.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\bancoromano.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\bancoscott.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\barras.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\barraz.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\dips.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\dominadas.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\dumbbells.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\landmine.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquina.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaaductores.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaaperturas.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaasistida.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaburro.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaconvergente.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaextensiones.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinafemoraldepie.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinafemoralsentado.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinafemoraltumbado.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinafondos.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinagemelospie.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinahip.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinahombroslat.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinahombrospress.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinamulti.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinapatada.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinapoleas.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaprensa.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinapresshoriz.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaquads.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaremo.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaremoalto.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinaremobajo.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinascottplacas.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinasentadillas.png" />
+	  <MauiImage Include="Resources\Images\Equipment\maquinatrapecio.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\ruedaabd.jpg" />
+	  <MauiImage Include="Resources\Images\Equipment\sinequipamiento.png" />
+	  <MauiImage Include="Resources\Images\Equipment\soga.jpg" />
 	  <MauiImage Include="Resources\Images\Logos\defaultavatar.png" />
 	  <MauiImage Include="Resources\Images\Logos\hamburgericon.png" />
+	  <MauiImage Include="Resources\Images\Logos\rotation.png" />
 	  <MauiImage Include="Resources\Images\Logos\seriescompleted.gif" />
 	  <MauiImage Include="Resources\Images\Logos\sms.png" />
 	  <MauiImage Include="Resources\Images\Logos\googlelogo.png" />

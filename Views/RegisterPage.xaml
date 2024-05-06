@@ -3,6 +3,7 @@
     x:Class="mobileAppTest.Views.RegisterPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:models="clr-namespace:mobileAppTest.Models"
     xmlns:viewmodel="clr-namespace:mobileAppTest.ViewModels"
@@ -16,7 +17,8 @@
             Text="CREAR CUENTA"
             TextColor="Green"
             VerticalOptions="Center" />
-        <VerticalStackLayout Margin="0,20,0,0" WidthRequest="300">
+
+        <VerticalStackLayout Margin="0,10,0,0" WidthRequest="300">
 
             <inputLayout:SfTextInputLayout
                 ContainerType="Outlined"
@@ -53,6 +55,7 @@
             <inputLayout:SfTextInputLayout
                 CharMaxLength="10"
                 ContainerType="Outlined"
+                EnablePasswordVisibilityToggle="True"
                 ErrorText="{Binding PassErrorText}"
                 FocusedStrokeThickness="4"
                 HasError="{Binding HasPassError}"

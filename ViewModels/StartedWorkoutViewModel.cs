@@ -96,10 +96,17 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task NavegarMainPage()
         {
+
             time = new();
                     TimeLabel = "00:00:00";
                     _isRunning = false;
-            if(ExerciseFinishedList.Count==0 ) 
+            if(null == ExerciseFinishedList)
+            {
+                await Shell.Current.GoToAsync("//MainPage");
+                return;
+            }
+
+            if (ExerciseFinishedList.Count==0) 
             {
                 await Shell.Current.GoToAsync("//MainPage");
             }

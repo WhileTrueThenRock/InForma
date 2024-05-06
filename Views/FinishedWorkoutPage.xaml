@@ -5,179 +5,179 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:card="clr-namespace:Syncfusion.Maui.Cards;assembly=Syncfusion.Maui.Cards"
     xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:tabview="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:Name="thisPage"
     x:DataType="viewmodels:FinishedWorkoutViewModel"
     BindingContext="{viewmodels:FinishedWorkoutViewModel}">
 
-    <VerticalStackLayout VerticalOptions="Center">
+    <VerticalStackLayout>
 
-        <!--  First Card  -->
-        <card:SfCardLayout
-            x:Name="cardLayout"
-            BackgroundColor="#F0F0F0"
-            HeightRequest="400"
-            Tapped="SfCardLayout_Tapped_1">
 
-            <!--  Customer shared code snippet  -->
-            <card:SfCardView BackgroundColor="Beige" InputTransparent="True">
-                <ScrollView Orientation="Vertical">
-                    <VerticalStackLayout>
-                        <Border
-                            Margin="0,5,0,0"
-                            Background="LightGray"
-                            StrokeShape="RoundRectangle 20,20,20,20"
-                            StrokeThickness="2"
-                            VerticalOptions="Center">
-                            <Label
-                                Margin="0,0,10,0"
-                                HorizontalOptions="End"
-                                Text="{Binding Fecha}"
-                                VerticalOptions="Center" />
-                        </Border>
-                        <Label
-                            FontSize="20"
-                            HorizontalOptions="Center"
-                            Text="Músculos"
-                            TextColor="Black" />
-                        <CollectionView ItemsSource="{Binding UniquePrimaryMuscles}">
-                            <CollectionView.ItemTemplate>
+        <tabview:SfTabView HeightRequest="650">
+            <tabview:SfTabView.Items>
+                <tabview:SfTabItem Header="Ejercicios y Músculos">
+                    <tabview:SfTabItem.Content>
+                        <ScrollView Orientation="Vertical">
+                            <VerticalStackLayout>
+                                <Border
+                                    Margin="0,5,0,0"
+                                    Background="LightGray"
+                                    StrokeShape="RoundRectangle 20,20,20,20"
+                                    StrokeThickness="2"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        Margin="0,0,10,0"
+                                        HorizontalOptions="End"
+                                        Text="{Binding Fecha}"
+                                        VerticalOptions="Center" />
+                                </Border>
+                                <Label
+                                    FontSize="20"
+                                    HorizontalOptions="Center"
+                                    Text="Músculos"
+                                    TextColor="Black" />
+                                <CollectionView ItemsSource="{Binding UniquePrimaryMuscles}">
+                                    <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="models:ExerciseModelView">
-                                    <HorizontalStackLayout>
-                                        <Label Text="{Binding PrimaryMuscles}" TextColor="Black" />
-                                        <Image
-                                            HeightRequest="50"
-                                            HorizontalOptions="Start"
-                                            Source="{Binding PrimaryMuscles, Converter={StaticResource MuscleToImageConverter}}"
-                                            WidthRequest="60" />
-                                    </HorizontalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                        <Label
-                            FontSize="20"
-                            HorizontalOptions="Center"
-                            Text="Ejercicios"
-                            TextColor="Black" />
-                        <CollectionView ItemsSource="{Binding ExerciseFinishedList}">
-                            <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:ExerciseModelView">
+                                            <HorizontalStackLayout>
+                                                <Label Text="{Binding PrimaryMuscles}" TextColor="Black" />
+                                                <Image
+                                                    HeightRequest="50"
+                                                    HorizontalOptions="Start"
+                                                    Source="{Binding PrimaryMuscles, Converter={StaticResource MuscleToImageConverter}}"
+                                                    WidthRequest="60" />
+                                            </HorizontalStackLayout>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                                <Label
+                                    FontSize="20"
+                                    HorizontalOptions="Center"
+                                    Text="Ejercicios"
+                                    TextColor="Black" />
+                                <CollectionView ItemsSource="{Binding ExerciseFinishedList}">
+                                    <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="models:ExerciseModelView">
-                                    <HorizontalStackLayout Spacing="50">
-                                        <Label Text="{Binding Exercise.Name}" TextColor="Black" />
-                                        <Image
-                                            HeightRequest="50"
-                                            Source="{Binding Exercise.Urls[0]}"
-                                            WidthRequest="50" />
-                                    </HorizontalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </ScrollView>
+                                        <DataTemplate x:DataType="models:ExerciseModelView">
+                                            <HorizontalStackLayout Spacing="50">
+                                                <Label Text="{Binding Exercise.Name}" TextColor="Black" />
+                                                <Image
+                                                    HeightRequest="50"
+                                                    Source="{Binding Exercise.Urls[0]}"
+                                                    WidthRequest="50" />
+                                            </HorizontalStackLayout>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </ScrollView>
 
-            </card:SfCardView>
+                    </tabview:SfTabItem.Content>
+                </tabview:SfTabItem>
 
-            <!--  Second Card  -->
-            <card:SfCardView BackgroundColor="#f6f27b" InputTransparent="True">
-                <ScrollView Orientation="Vertical">
-                    <VerticalStackLayout>
-                        <Border
-                            Margin="0,5,0,0"
-                            Background="LightGray"
-                            StrokeShape="RoundRectangle 20,20,20,20"
-                            StrokeThickness="2"
-                            VerticalOptions="Center">
-                            <Label
-                                Margin="0,0,10,0"
-                                HorizontalOptions="End"
-                                Text="{Binding Fecha}"
-                                VerticalOptions="Center" />
-                        </Border>
-                        <Label
-                            FontSize="20"
-                            HorizontalOptions="Center"
-                            Text="Resumen"
-                            TextColor="Black" />
+                <tabview:SfTabItem Header="Series Y Repeticiones">
+                    <tabview:SfTabItem.Content>
+                        <ScrollView Orientation="Vertical">
+                            <VerticalStackLayout>
+                                <Border
+                                    Margin="0,5,0,0"
+                                    Background="LightGray"
+                                    StrokeShape="RoundRectangle 20,20,20,20"
+                                    StrokeThickness="2"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        Margin="0,0,10,0"
+                                        HorizontalOptions="End"
+                                        Text="{Binding Fecha}"
+                                        VerticalOptions="Center" />
+                                </Border>
+                                <Label
+                                    FontSize="20"
+                                    HorizontalOptions="Center"
+                                    Text="Resumen"
+                                    TextColor="Black" />
 
-                        <CollectionView ItemsSource="{Binding ExerciseFinishedList}">
-                            <CollectionView.ItemTemplate>
+                                <CollectionView ItemsSource="{Binding ExerciseFinishedList}">
+                                    <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="models:ExerciseModelView">
-                                    <VerticalStackLayout>
-
-                                        <Border
-                                            Margin="0,5,0,0"
-                                            Background="LightGray"
-                                            StrokeShape="RoundRectangle 20,20,20,20"
-                                            StrokeThickness="2"
-                                            VerticalOptions="Center">
+                                        <DataTemplate x:DataType="models:ExerciseModelView">
                                             <VerticalStackLayout>
-                                                <Label
-                                                    Margin="10,0,0,0"
-                                                    FontAttributes="Bold"
-                                                    Text="{Binding Exercise.Name}"
-                                                    TextColor="Black" />
-                                                <HorizontalStackLayout>
-                                                    <Label
-                                                        Margin="10,0,0,0"
-                                                        FontAttributes="Bold"
-                                                        Text="Tiempo:"
-                                                        TextColor="Black" />
-                                                    <Label
-                                                        Margin="10,0,0,0"
-                                                        FontAttributes="Bold"
-                                                        Text="{Binding Exercise.Duration}"
-                                                        TextColor="Black" />
-                                                </HorizontalStackLayout>
 
-                                            </VerticalStackLayout>
-
-                                        </Border>
-
-                                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="60">
-                                            <Label
-                                                FontAttributes="Bold"
-                                                HorizontalOptions="Center"
-                                                Text="Reps" />
-                                            <Label
-                                                FontAttributes="Bold"
-                                                HorizontalOptions="Center"
-                                                Text="Peso" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="55">
-                                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Reps}">
-                                                <BindableLayout.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Label Text="{Binding}" TextColor="Black" />
-                                                    </DataTemplate>
-                                                </BindableLayout.ItemTemplate>
-                                            </VerticalStackLayout>
-
-                                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Weight}">
-                                                <BindableLayout.ItemTemplate>
-                                                    <DataTemplate>
+                                                <Border
+                                                    Margin="0,5,0,0"
+                                                    Background="LightGray"
+                                                    StrokeShape="RoundRectangle 20,20,20,20"
+                                                    StrokeThickness="2"
+                                                    VerticalOptions="Center">
+                                                    <VerticalStackLayout>
                                                         <Label
-                                                            Margin="20,0,0,0"
-                                                            Text="{Binding}"
+                                                            Margin="10,0,0,0"
+                                                            FontAttributes="Bold"
+                                                            Text="{Binding Exercise.Name}"
                                                             TextColor="Black" />
+                                                        <HorizontalStackLayout>
+                                                            <Label
+                                                                Margin="10,0,0,0"
+                                                                FontAttributes="Bold"
+                                                                Text="Tiempo:"
+                                                                TextColor="Black" />
+                                                            <Label
+                                                                Margin="10,0,0,0"
+                                                                FontAttributes="Bold"
+                                                                Text="{Binding Exercise.Duration}"
+                                                                TextColor="Black" />
+                                                        </HorizontalStackLayout>
 
-                                                    </DataTemplate>
-                                                </BindableLayout.ItemTemplate>
+                                                    </VerticalStackLayout>
+
+                                                </Border>
+
+                                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="60">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        HorizontalOptions="Center"
+                                                        Text="Reps" />
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        HorizontalOptions="Center"
+                                                        Text="Peso" />
+                                                </HorizontalStackLayout>
+                                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="55">
+                                                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Reps}">
+                                                        <BindableLayout.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Label Text="{Binding}" TextColor="Black" />
+                                                            </DataTemplate>
+                                                        </BindableLayout.ItemTemplate>
+                                                    </VerticalStackLayout>
+
+                                                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Weight}">
+                                                        <BindableLayout.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Label
+                                                                    Margin="20,0,0,0"
+                                                                    Text="{Binding}"
+                                                                    TextColor="Black" />
+
+                                                            </DataTemplate>
+                                                        </BindableLayout.ItemTemplate>
+                                                    </VerticalStackLayout>
+                                                </HorizontalStackLayout>
                                             </VerticalStackLayout>
-                                        </HorizontalStackLayout>
-                                    </VerticalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </ScrollView>
-            </card:SfCardView>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </ScrollView>
+                    </tabview:SfTabItem.Content>
+                </tabview:SfTabItem>
+            </tabview:SfTabView.Items>
+        </tabview:SfTabView>
 
 
-        </card:SfCardLayout>
         <HorizontalStackLayout>
             <Button
                 Margin="20"

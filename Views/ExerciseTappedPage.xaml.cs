@@ -17,4 +17,5 @@ public partial class ExerciseTappedPage : ContentPage
         viewModel?.StartStopwatchExercise();
         viewModel?.StartVideo();
     }
+
 }

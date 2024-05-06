@@ -20,15 +20,12 @@ using Syncfusion.Maui.Accordion;
 using CommunityToolkit.Maui.Alerts;
 using System.Diagnostics;
 using Firebase.Auth;
+using System.Text.RegularExpressions;
 
 /*
  * 
-SfNumericEntry for age/height/weight               
 Firebase : Explore extensions :Delete User Data     
-SfEffectsView                                       
-SfParallaxView
-SfSwitch
-SfTextInputLayout
+notification
 *
 */
 namespace mobileAppTest.ViewModels
@@ -36,6 +33,7 @@ namespace mobileAppTest.ViewModels
     [QueryProperty("ExerciseFinishedLists", "ExerciseFinishedLists")]
     internal partial class MainViewModel : ObservableObject
     {
+        public string webApiKey = "AIzaSyAJ2z8_aTTkgCz-dYXhLt-bt4nEcXqjPxY";
 
         #region Popups
         [ObservableProperty]
@@ -52,10 +50,61 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private InfoExercisePopup _infoExercisePopup;
-        #endregion
 
         [ObservableProperty]
+        private ProfilePopup _profilePopup;
+        #endregion
+
+        #region UserRelated
+        [ObservableProperty]
         private UserModel _user;
+
+        [ObservableProperty]
+        private string _email;
+
+        [ObservableProperty]
+        private string _passwordText;
+
+        [ObservableProperty]
+        private Color _passwordChangedColor;
+
+        [ObservableProperty]
+        private bool _isResetPassEnabled;
+
+        [ObservableProperty]
+        private DateTime _lastResetTime;
+
+        [ObservableProperty]
+        private string _name;
+
+        [ObservableProperty]
+        private bool _emailOK;
+
+        [ObservableProperty]
+        private bool _nameOK;
+
+        [ObservableProperty]
+        private bool _hasEmailError;
+
+        [ObservableProperty]
+        private bool _hasPassError;
+
+        [ObservableProperty]
+        private bool _hasNameError;
+
+        [ObservableProperty]
+        private string _emailErrorText;
+
+        [ObservableProperty]
+        private string _nameErrorText;
+
+        [ObservableProperty]
+        private bool _isProfileEditable;
+
+        [ObservableProperty]
+        private string _emailSentLabel;
+
+        #endregion
 
         [ObservableProperty]
         private ExerciseModel _exercise;
@@ -386,9 +435,9 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private bool _isShimmerPlaying;
 
+
         public MainViewModel()
         {
-            IsShimmerPlaying = true;
             InitComponents();
             ShowName();
             GetProfilePic();
@@ -405,15 +454,9 @@ namespace mobileAppTest.ViewModels
             // MuscleExpander = false;
             SelectDurationWorkout("15");
             //FilterBySelectedMuscle();
-            //IsShimmerPlaying = true;
         }
 
-        public async Task StartShimmer()
-        {
-            IsShimmerPlaying = true;
-            await Task.Delay(3000);
-            IsShimmerPlaying = false;
-        }
+
 
         private void InitComponents()
         {
@@ -462,6 +505,9 @@ namespace mobileAppTest.ViewModels
 
             IsCustomExerciseButtonVisible = false;
             //IsAccordionVisible = false;
+            IsProfileEditable = false;
+            PasswordText = "Cambiar contraseña";
+            IsResetPassEnabled = true;
             MiContador = 0;
 
             ExerciseListColor = Colors.Black;
@@ -474,6 +520,38 @@ namespace mobileAppTest.ViewModels
             SelectedMuscles.Add("Hombro");
       
         }
+
+        [RelayCommand]
+        public async Task LoadUserProfileInfo()
+        {
+            var userDocument = await CrossCloudFirestore.Current
+              .Instance
+              .Collection("Users")
+              .Document("123456@gmail.com") // Cambiar por el email del usuario
+              .GetAsync();
+            User = userDocument.ToObject<UserModel>();
+            Name = User.Name;
+            Email = User.Email;
+        }
+
+
+        public async Task StartShimmerAndWait()
+        {
+            IsShimmerPlaying = true;
+
+            try
+            {
+                // Realiza todas las operaciones asincrónicas
+                await GetExercisesEvents();
+                await FilterBySelectedMuscle();
+            }
+            finally
+            {
+                // Independientemente de si las operaciones son exitosas o no, detén el shimmer
+                IsShimmerPlaying = false;
+            }
+        }
+
 
 
         public async Task LoadCustomWorkouts()
@@ -1081,9 +1159,6 @@ namespace mobileAppTest.ViewModels
 
             }
             DurationExpander = false;
-            IsShimmerPlaying = true;
-            await Task.Delay(500);
-            IsShimmerPlaying = false;
         }
 
 
@@ -1391,16 +1466,35 @@ namespace mobileAppTest.ViewModels
 
                     if( exercise.Name != null )
                     {
-                        ExerciseView = ModelMapper.ExerciseModelToExerciseModelView(exercise);
-                        ExerciseList.Add(ExerciseView);
+        
                     }
-           
+                           ExerciseView = ModelMapper.ExerciseModelToExerciseModelView(exercise);
+                        ExerciseList.Add(ExerciseView);
 
                     string[] dateArray = ExerciseView.FechaEntrenamiento.Split(' ');
                     var dateTime = dateArray[0];
 
                     DateTime dateTimeKey = DateTime.Parse(dateTime);
                     ExerciseView.FechaEntrenamiento = dateTimeKey.ToString("dd/MM/yyyy");
+
+
+
+                    // Update the total workout duration for the specific day
+                    if (!totalWorkoutDurations.ContainsKey(dateTimeKey))
+                    {
+                        totalWorkoutDurations.Add(dateTimeKey, ConvertStopwatchLabelToMinutes(exercise.Duration));
+                    }
+                    else
+                    {
+                        totalWorkoutDurations[dateTimeKey] += ConvertStopwatchLabelToMinutes(exercise.Duration);
+                    }
+
+                    // Update the totalWorkoutDuration for the UI
+                    //totalWorkoutDuration = totalWorkoutDurations.Values.Sum();  //Suma todos los ejercicios de la db
+                    totalWorkoutDuration = totalWorkoutDurations[dateTimeKey];   // Suma el último dia (15)
+                    TotalWorkoutDurationLabel = totalWorkoutDuration.ToString();
+
+
 
                     if (!Events.ContainsKey(dateTimeKey))
                     {
@@ -1775,6 +1869,8 @@ namespace mobileAppTest.ViewModels
             User = avatar.ToObject<UserModel>();
 
             AvatarImage = User.Avatar;
+            Name = User.Name;
+            Email = User.Email;
             
             
         }
@@ -1951,6 +2047,115 @@ namespace mobileAppTest.ViewModels
             EquipmentPopup.Close();
 
         }
+
+        [RelayCommand]
+        public async Task OpenProfilePopup()
+        {
+
+            ProfilePopup = new ProfilePopup();
+            await App.Current.MainPage.ShowPopupAsync(ProfilePopup);
+        }
+
+        [RelayCommand]
+        public async Task CloseProfilePopup()
+        {
+            ProfilePopup.Close();
+
+        }
+
+        [RelayCommand]
+        private async Task ResetPassword()
+        {
+            await ValidateEmail();
+            if (!EmailOK)
+            {
+                return;
+            }
+
+            if (!ValidateName())
+            {
+                return;
+            }
+
+           // var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApiKey));
+           // await authProvider.SendPasswordResetEmailAsync(Email);
+            PasswordText = "Correo enviado !";
+            EmailSentLabel = "Puedes volver a solicitar otro cambio dentro de 10 minutos.";
+
+           // PasswordChangedColor = Colors.LightGreen; //agregar una etiqueta para notificar que el correo ha sido enviado
+
+            IsResetPassEnabled = false;
+
+            LastResetTime = DateTime.Now;
+
+            // Iniciar el temporizador para habilitar el botón después de 10 minutos
+            await Task.Delay(TimeSpan.FromMinutes(1));
+            TimeSpan elapsedTime = DateTime.Now - LastResetTime; 
+            if (elapsedTime.TotalMinutes >= 1)
+            {
+                IsResetPassEnabled = true;
+                PasswordText = "Cambiar contraseña";
+                EmailSentLabel = "";
+            }
+        }
+
+        private bool ValidateName()
+        {
+            if (Name == null || Name.Any(Char.IsWhiteSpace))
+            {
+                HasNameError = true;
+                NameErrorText = "Se te olvidó el nombre wey!";
+                return false;
+            }
+
+            if (Name.Length >= 1 && Name.Length <= 15)
+            {
+                HasNameError = false;
+                NameErrorText = "";
+                return true;
+            }
+            else
+            {
+                NameErrorText = "Debe tener entre 1 y 15 caracteres!";
+                HasNameError = true;
+                return false;
+            }
+
+        }
+
+        private bool ValidatePattern(string email)
+        {
+
+            if (Email == null || Email.Any(Char.IsWhiteSpace))
+            {
+                HasEmailError = true;
+                EmailErrorText = "Introduce un email!";
+                EmailOK = false;
+                return false;
+            }
+
+            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+            return Regex.IsMatch(email, pattern);
+        }
+
+        private async Task ValidateEmail()
+        {
+            HasEmailError = true;
+            EmailOK = false;
+
+            if (!ValidatePattern(Email))
+            {
+                return;
+            }
+
+
+            HasEmailError = false;
+            EmailOK = true;
+
+        }
+
+
 
         [RelayCommand]
         public async Task OpenMuscleSelectionPopup()

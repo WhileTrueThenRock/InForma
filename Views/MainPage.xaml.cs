@@ -2,6 +2,7 @@
 using mobileAppTest.ViewModels;
 using Plugin.CloudFirestore;
 using Syncfusion.Maui.Accordion;
+using Syncfusion.Maui.Core;
 using Syncfusion.Maui.Core.Carousel;
 using System.ComponentModel;
 
@@ -18,13 +19,13 @@ public partial class MainPage : ContentPage
     private async void ThisPage_Loaded(object sender, EventArgs e)
     {
         MainViewModel? viewModel = BindingContext as MainViewModel;
-        viewModel?.GetExercisesEvents();
-        viewModel?.FilterBySelectedMuscle();
-        //viewModel?.ChangeFinishedExercisesColor();
-        viewModel?.StartShimmer();
-        await Task.Delay(2000);
-        viewModel.IsShimmerPlaying = false;
+        // Llama al nuevo método que espera a que todas las operaciones asincrónicas hayan terminado
+        await viewModel?.StartShimmerAndWait(); 
     }
+
+
+
+
 
     private void HamburgerButton_Clicked(object sender, EventArgs e)
     {
@@ -36,5 +37,8 @@ public partial class MainPage : ContentPage
     {
         popup.Show(40,350);
     }
+
+
+
 
 }

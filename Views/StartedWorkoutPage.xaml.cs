@@ -11,7 +11,7 @@ public partial class StartedWorkoutPage : ContentPage
 		
 	}
 
-    private void thisPage_Loaded(object sender, EventArgs e)
+    private void ThisPage_Loaded(object sender, EventArgs e)
     {
 		StartedWorkoutViewModel? viewModel = BindingContext as StartedWorkoutViewModel;
 		viewModel?.StartStopwatch();

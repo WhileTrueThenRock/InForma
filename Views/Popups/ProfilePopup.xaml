@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="mobileAppTest.Views.Popups.ProfilePopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:DataType="viewmodels:MainViewModel">
+
+
+
+    <VerticalStackLayout HeightRequest="600" WidthRequest="400">
+
+        <HorizontalStackLayout
+            Margin="380,50,0,0"
+            Spacing="0"
+            WidthRequest="300">
+            <Label Margin="3,10,10,0" Text="Editar" />
+            <buttons:SfSwitch AllowIndeterminateState="False" IsOn="{Binding IsProfileEditable}">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="On">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <buttons:SwitchSettings
+                                            ThumbBackground="#FF029BFF"
+                                            ThumbStroke="#FF029BFF"
+                                            TrackBackground="#22029BFF"
+                                            TrackStroke="#FF029BFF" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Off">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <buttons:SwitchSettings
+                                            ThumbBackground="#FFFF0199"
+                                            ThumbStroke="#FFFF0199"
+                                            TrackBackground="#22FF0199"
+                                            TrackStroke="#FFFF0199" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </buttons:SfSwitch>
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout
+            Margin="0,50,0,0"
+            IsEnabled="{Binding IsProfileEditable}"
+            WidthRequest="300">
+
+            <inputLayout:SfTextInputLayout
+                ContainerType="Outlined"
+                ErrorText="{Binding NameErrorText}"
+                FocusedStrokeThickness="4"
+                HasError="{Binding HasNameError}"
+                HeightRequest="80"
+                HelperText="No puede tener más de 15 caracteres"
+                Hint="Nombre / Alias"
+                OutlineCornerRadius="8"
+                UnfocusedStrokeThickness="2">
+                <Entry
+                    Margin="0,0,0,-10"
+                    Text="{Binding Name}"
+                    WidthRequest="250" />
+            </inputLayout:SfTextInputLayout>
+
+            <inputLayout:SfTextInputLayout
+                ContainerType="Outlined"
+                ErrorText="{Binding EmailErrorText}"
+                FocusedStrokeThickness="4"
+                HasError="{Binding HasEmailError}"
+                HeightRequest="80"
+                Hint="Email"
+                OutlineCornerRadius="8"
+                UnfocusedStrokeThickness="2">
+                <Entry
+                    Margin="0,0,0,-10"
+                    Text="{Binding Email}"
+                    WidthRequest="250" />
+            </inputLayout:SfTextInputLayout>
+
+
+            <Button
+                BackgroundColor="LightGray"
+                Command="{Binding ResetPasswordCommand}"
+                IsEnabled="{Binding IsResetPassEnabled}"
+                Text="{Binding PasswordText}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <!--<Setter Property="BackgroundColor" Value="LightGray" />-->
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding IsProfileEditable}"
+                                TargetType="Button"
+                                Value="True">
+                                <Setter Property="BackgroundColor" Value="White" />
+                                <Setter Property="TextColor" Value="Black" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Label Text="{Binding EmailSentLabel}" />
+
+        </VerticalStackLayout>
+
+
+    </VerticalStackLayout>
+
+</toolkit:Popup>

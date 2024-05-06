@@ -14,12 +14,7 @@
 
 
     <VerticalStackLayout>
-
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            TextColor="Green"
-            VerticalOptions="Center" />
+        <Button Clicked="Send_Notification" Text="click me" />
 
         <VerticalStackLayout Margin="0,20,0,0" WidthRequest="300">
 
@@ -42,6 +37,7 @@
             <inputLayout:SfTextInputLayout
                 CharMaxLength="10"
                 ContainerType="Outlined"
+                EnablePasswordVisibilityToggle="True"
                 ErrorText="{Binding PassErrorText}"
                 FocusedStrokeThickness="4"
                 HasError="{Binding HasPassError}"
@@ -55,13 +51,47 @@
 
         </VerticalStackLayout>
 
+        <HorizontalStackLayout>
 
-        <buttons:SfCheckBox
-            Margin="45,0,0,0"
-            CheckedColor="Green"
-            IsChecked="{Binding RememberMe}"
-            Text="Recuérdame"
-            TickColor="Yellow" />
+            <buttons:SfSwitch
+                Margin="45,0,0,0"
+                AllowIndeterminateState="False"
+                IsOn="{Binding RememberMe}">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="On">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <buttons:SwitchSettings
+                                            ThumbBackground="#FF029BFF"
+                                            ThumbStroke="#FF029BFF"
+                                            TrackBackground="#22029BFF"
+                                            TrackStroke="#FF029BFF" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Off">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <buttons:SwitchSettings
+                                            ThumbBackground="#FFFF0199"
+                                            ThumbStroke="#FFFF0199"
+                                            TrackBackground="#22FF0199"
+                                            TrackStroke="#FFFF0199" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </buttons:SfSwitch>
+
+            <Label Margin="10,9,0,0" Text="Mantenerme logueado" />
+        </HorizontalStackLayout>
 
 
 
@@ -75,13 +105,13 @@
                 <TapGestureRecognizer Command="{Binding OpenForgotPassPopupCommand}" CommandParameter="MainPage" />
             </Label.GestureRecognizers>
         </Label>
-
         <Button
             Margin="0,50,0,0"
             Command="{Binding LoginTappedAsyncCommand}"
             CommandParameter="MainPage"
             Text="LOGIN"
             WidthRequest="250" />
+
         <HorizontalStackLayout Margin="0,15,0,0">
             <BoxView
                 HeightRequest="1"

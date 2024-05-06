@@ -15,82 +15,82 @@ namespace mobileAppTest.Services
             {
                 switch (equipmentName)
                 {
-                    case "Banco ":
-                        return "Images/bancohorizontal.jpg";
+                    case "Banco":
+                        return "Images/Equipment/bancohorizontal.jpg";
                     case "Banco Declinado":
-                        return "Images/bancodeclinado.jpg";
+                        return "Images/Equipment/bancodeclinado.jpg";
                     case "Banco Inclinado":
-                        return "Images/bancoinclinado.jpg";
+                        return "Images/Equipment/bancoinclinado.jpg";
                     case "Banco Romano":
-                        return "Images/bancoromano.jpg";
+                        return "Images/Equipment/bancoromano.jpg";
                     case "Banco Scott":
-                        return "Images/bancoscott.jpg";
+                        return "Images/Equipment/bancoscott.jpg";
                     case "Barras":
-                        return "Images/landmine.jpg";
+                        return "Images/Equipment/landmine.jpg";
                     case "Barra T":
-                        return "Images/barras.jpg";
+                        return "Images/Equipment/barras.jpg";
                     case "Barra Z":
-                        return "Images/barraz.jpg";
+                        return "Images/Equipment/barraz.jpg";
                     case "Rueda Abdominal":
-                        return "Images/ruedaabd.jpg";
+                        return "Images/Equipment/ruedaabd.jpg";
                     case "Sin Equipamiento":
-                        return "Images/sinequipamiento.png";
+                        return "Images/Equipment/sinequipamiento.png";
                     case "Soga":
-                        return "Images/soga.jpg";
+                        return "Images/Equipment/soga.jpg";
                     case "Soporte Dominadas":
-                        return "Images/dominadas.jpg";
+                        return "Images/Equipment/dominadas.jpg";
                     case "Mancuernas":
-                        return "Images/dumbbells.jpg";
+                        return "Images/Equipment/dumbbells.jpg";
                     case "Máquinas Convergentes":
-                        return "Images/maquinaconvergente.jpg";
+                        return "Images/Equipment/maquinaconvergente.jpg";
                     case "Máquina de Poleas":
-                        return "Images/maquinapoleas.jpg";
+                        return "Images/Equipment/maquinapoleas.jpg";
                     case "Máquina Scott":
-                        return "Images/maquinascottplacas.jpg";
+                        return "Images/Equipment/maquinascottplacas.jpg";
                     case "Máquina Patada Glúteos":
-                        return "Images/maquinapatada.jpg";
+                        return "Images/Equipment/maquinapatada.jpg";
                     case "Máquina Abductores y Aductores":
-                        return "Images/maquinaaductores.jpg";
+                        return "Images/Equipment/maquinaaductores.jpg";
                     case "Máquina Trapecio":
-                        return "Images/maquinatrapecio.jpg";
+                        return "Images/Equipment/maquinatrapecio.jpg";
                     case "Máquina Hip Thrust":
-                        return "Images/maquinahip.jpg";
+                        return "Images/Equipment/maquinahip.jpg";
                     case "Máquina Hombros Press":
-                        return "Images/maquinahombrospress.jpg";
+                        return "Images/Equipment/maquinahombrospress.jpg";
                     case "Máquina Hombros Laterales":
-                        return "Images/maquinahombroslat.jpg";
+                        return "Images/Equipment/maquinahombroslat.jpg";
                     case "Máquina para gemelos de pie":
-                        return "Images/maquinagemelospie.jpg";
+                        return "Images/Equipment/maquinagemelospie.jpg";
                     case "Máquina para gemelos Tipo Burro":
-                        return "Images/maquinaburro.jpg";
+                        return "Images/Equipment/maquinaburro.jpg";
                     case "Máquina Multipower":
-                        return "Images/maquinamulti.jpg";
+                        return "Images/Equipment/maquinamulti.jpg";
                     case "Máquina Aperturas":
-                        return "Images/maquinaaperturas.jpg";
+                        return "Images/Equipment/maquinaaperturas.jpg";
                     case "Máquina Remo Alto":
-                        return "Images/maquinaremoalto.jpg";
+                        return "Images/Equipment/maquinaremoalto.jpg";
                     case "Máquina Remo":
-                        return "Images/maquinaremo.jpg";
+                        return "Images/Equipment/maquinaremo.jpg";
                     case "Máquina Remo Bajo":
-                        return "Images/maquinaremobajo.jpg";
+                        return "Images/Equipment/maquinaremobajo.jpg";
                     case "Máquina Fondos":
-                        return "Images/maquinafondos.jpg";
+                        return "Images/Equipment/maquinafondos.jpg";
                     case "Máquina Asistida":
-                        return "Images/maquinaasistida.jpg";
+                        return "Images/Equipment/maquinaasistida.jpg";
                     case "Máquina Sentadillas":
-                        return "Images/maquinasentadillas.jpg";
+                        return "Images/Equipment/maquinasentadillas.jpg";
                     case "Máquina Femoral Tumbado":
-                        return "Images/maquinafemoraltumbado.jpg";
+                        return "Images/Equipment/maquinafemoraltumbado.jpg";
                     case "Máquina Femoral Sentado":
-                        return "Images/maquinafemoralsentado.jpg";
+                        return "Images/Equipment/maquinafemoralsentado.jpg";
                     case "Máquina Femoral de Pie":
-                        return "Images/maquinafemoraldepie.jpg";
+                        return "Images/Equipment/maquinafemoraldepie.jpg";
                     case "Máquina Extensiones Cuádriceps":
-                        return "Images/maquinaquads.jpg";
+                        return "Images/Equipment/maquinaquads.jpg";
                     case "Máquina Press Pierna":
-                        return "Images/maquinaprensa.jpg";
+                        return "Images/Equipment/maquinaprensa.jpg";
                     case "Máquina Press Pierna Horizontal":
-                        return "Images/maquinapresshoriz.jpg";
+                        return "Images/Equipment/maquinapresshoriz.jpg";
                     default:
                         return null; // Return null for unknown equipment names
                 }

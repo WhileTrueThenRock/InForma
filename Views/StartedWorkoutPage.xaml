@@ -10,7 +10,7 @@
     x:Name="thisPage"
     x:DataType="viewmodels:StartedWorkoutViewModel"
     BindingContext="{viewmodels:StartedWorkoutViewModel}"
-    Loaded="thisPage_Loaded">
+    Loaded="ThisPage_Loaded">
     <ScrollView>
         <VerticalStackLayout>
             <Label

@@ -200,7 +200,7 @@
 
                             <Button
                                 Margin="50,20,10,0"
-                                Command="{Binding OpenEquipmentPopupCommand}"
+                                Command="{Binding OpenProfilePopupCommand}"
                                 HeightRequest="40"
                                 HorizontalOptions="Start"
                                 Text="Perfil"
@@ -252,15 +252,6 @@
                                 </popup:SfPopup.PopupStyle>
 
                             </popup:SfPopup>
-                            <!--  Otras opciones   <popup:SfPopup.ContentTemplate>
-                            <DataTemplate>
-                            <Label
-                            BackgroundColor="SkyBlue"
-                            HorizontalTextAlignment="Center"
-                            Text="This is the Customized view for SfPopup"
-                            VerticalTextAlignment="Center" />
-                            </DataTemplate>
-                            </popup:SfPopup.ContentTemplate>-->
                         </VerticalStackLayout>
                     </navigationdrawer:DrawerSettings.DrawerContentView>
                 </navigationdrawer:DrawerSettings>
