@@ -20,6 +20,7 @@ public partial class MainPage : ContentPage
     {
         MainViewModel? viewModel = BindingContext as MainViewModel;
         // Llama al nuevo método que espera a que todas las operaciones asincrónicas hayan terminado
+        viewModel?.GetUserCredentials();
         await viewModel?.StartShimmerAndWait(); 
     }
 

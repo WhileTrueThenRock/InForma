@@ -31,7 +31,7 @@ namespace mobileAppTest.Models
         public string Duration { get; set; }
         public string []Urls { get; set; }
         public string FechaEntrenamiento { get; set; }
-        public double [] Reps { get; set; }
+        public double[] Reps { get; set; }
         public double[] Weight { get; set; }
         public string DateGroup { get; set; } 
 

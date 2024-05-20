@@ -6,5 +6,13 @@ public partial class FinishedWorkoutPage : ContentPage
 	{
 		InitializeComponent();
 	}
+    private void ClickToShowPopup_Clicked(object sender, EventArgs e)
+    {
+        SavePopup.Show(40, 350);
+    }
 
+    private void ClickToClosePopup_Clicked(object sender, EventArgs e)
+    {
+        SavePopup.Dismiss();
+    }
 }

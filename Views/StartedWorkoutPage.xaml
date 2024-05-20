@@ -11,15 +11,52 @@
     x:DataType="viewmodels:StartedWorkoutViewModel"
     BindingContext="{viewmodels:StartedWorkoutViewModel}"
     Loaded="ThisPage_Loaded">
+    <ContentPage.Background>
+
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
     <ScrollView>
         <VerticalStackLayout>
+            <HorizontalStackLayout>
+                <Image
+                    Margin="80,0,0,0"
+                    HeightRequest="60"
+                    IsAnimationPlaying="{Binding IsVisible}"
+                    IsVisible="False"
+                    Source="reddot.gif"
+                    WidthRequest="100" />
+                <Label
+                    Margin="-30,0,0,0"
+                    FontAttributes="Bold"
+                    FontFamily="Calibri"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    IsVisible="False"
+                    Text="{Binding TimeLabel}"
+                    TextColor="{AppThemeBinding Dark=#ff7b00,
+                    Light=#48cae4}"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
             <Label
                 FontAttributes="Bold"
                 FontFamily="Calibri"
-                FontSize="20"
+                FontSize="15"
                 HorizontalOptions="Center"
-                Text="{Binding TimeLabel}"
-                TextColor="Red"
+                Text="Pulsa sobre los ejercicios para registrar series y repeticiones"
+                VerticalOptions="Center" />
+
+            <Label
+                Margin="10"
+                FontAttributes="Bold"
+                FontFamily="Calibri"
+                FontSize="15"
+                HorizontalOptions="Center"
+                Text="{Binding ExercisesLeftLabel}"
                 VerticalOptions="Center" />
 
             <CollectionView
@@ -28,41 +65,52 @@
                 ItemsSource="{Binding ExerciseList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:ExerciseModelView">
-                        <Grid Padding="10">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionV}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
-                            </Grid.GestureRecognizers>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Image
-                                Grid.Row="1"
-                                Margin="0,20,0,0"
-                                HeightRequest="50"
-                                Source="{Binding Urls[0]}"
-                                WidthRequest="50" />
-                            <Label
-                                Grid.Column="1"
-                                Text="{Binding Name}"
-                                VerticalOptions="Center" />
-                        </Grid>
+                        <Border>
+                            <Grid>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionV}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
+                                </Grid.GestureRecognizers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="1"
+                                    Margin="5"
+                                    HeightRequest="100"
+                                    Source="{Binding Urls[0]}"
+                                    WidthRequest="150" />
+                                <Label
+                                    Grid.Column="2"
+                                    FontSize="15"
+                                    Text="{Binding Exercise.Name}"
+                                    TextColor="{AppThemeBinding Dark=White,
+                                    Light=Black}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-
-            <buttons:SfButton
+            <Button
                 x:Name="sfButton"
-                Margin="0,300,0,0"
-                Background="Red"
+                Margin="0,100,0,0"
                 Command="{Binding NavegarMainPageCommand}"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
                 Text="Finalizar"
                 TextColor="Black"
-                WidthRequest="150" />
+                WidthRequest="150">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                    </LinearGradientBrush>
+                </Button.Background>
+
+            </Button>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

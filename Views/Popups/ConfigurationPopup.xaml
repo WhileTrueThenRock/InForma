@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="mobileAppTest.Views.Popups.ConfigurationPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:DataType="viewmodels:MainViewModel"
+    CanBeDismissedByTappingOutsideOfPopup="False">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#D2D5DB}" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <ScrollView HeightRequest="700" WidthRequest="400">
+            <VerticalStackLayout>
+
+
+                <VerticalStackLayout Margin="0,20,0,0" WidthRequest="320">
+
+                    <Border Margin="0,50,0,0">
+                        <VerticalStackLayout>
+
+                            <HorizontalStackLayout Margin="0,20,0,0">
+                                <Label Margin="40,5,0,0" Text="Notificaciones" />
+                                <buttons:SfSwitch
+                                    Margin="100,0,0,0"
+                                    AllowIndeterminateState="False"
+                                    IsOn="{Binding NotificationOutside}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="On">
+                                                <VisualState.Setters>
+                                                    <Setter Property="SwitchSettings">
+                                                        <Setter.Value>
+                                                            <buttons:SwitchSettings
+                                                                ThumbBackground="{AppThemeBinding Dark=#ff7b00,
+                                                                Light=#FF029BFF}"
+                                                                ThumbStroke="{AppThemeBinding Dark=#ff7b00,
+                                                                Light=#FF029BFF}"
+                                                                TrackBackground="#22029BFF"
+                                                                TrackStroke="{AppThemeBinding Dark=#ff7b00,
+                                                                Light=#FF029BFF}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Off">
+                                                <VisualState.Setters>
+                                                    <Setter Property="SwitchSettings">
+                                                        <Setter.Value>
+                                                            <buttons:SwitchSettings
+                                                                ThumbBackground="#adb5bd"
+                                                                ThumbStroke="#adb5bd"
+                                                                TrackBackground="{AppThemeBinding Dark=lightgray,
+                                                                Light=#f8f9fa}"
+                                                                TrackStroke="#adb5bd" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </buttons:SfSwitch>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Margin="0,20,0,0">
+                                <Label Margin="40,5,0,0" Text="Video para ejercicios" />
+                                <buttons:SfSwitch
+                                    Margin="57,0,0,0"
+                                    AllowIndeterminateState="False"
+                                    IsOn="{Binding VideoPlaying}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="On">
+                                                <VisualState.Setters>
+                                                    <Setter Property="SwitchSettings">
+                                                        <Setter.Value>
+                                                            <buttons:SwitchSettings
+                                                                ThumbBackground="{AppThemeBinding Dark=#ff7b00,
+                                                                Light=#FF029BFF}"
+                                                                ThumbStroke="{AppThemeBinding Dark=#ff7b00,
+                                                                Light=#FF029BFF}"
+                                                                TrackBackground="#22029BFF"
+                                                                TrackStroke="{AppThemeBinding Dark=#ff7b00,
+                                                                Light=#FF029BFF}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Off">
+                                                <VisualState.Setters>
+                                                    <Setter Property="SwitchSettings">
+                                                        <Setter.Value>
+                                                            <buttons:SwitchSettings
+                                                                ThumbBackground="#adb5bd"
+                                                                ThumbStroke="#adb5bd"
+                                                                TrackBackground="{AppThemeBinding Dark=lightgray,
+                                                                Light=#f8f9fa}"
+                                                                TrackStroke="#adb5bd" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </buttons:SfSwitch>
+                            </HorizontalStackLayout>
+
+                            <inputLayout:SfTextInputLayout
+                                Margin="5,20,0,0"
+                                ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                Light=#caf0f8}"
+                                ContainerType="Outlined"
+                                FocusedStrokeThickness="4"
+                                HeightRequest="100"
+                                Hint="Repeticiones por defecto"
+                                OutlineCornerRadius="8"
+                                UnfocusedStrokeThickness="2"
+                                WidthRequest="250">
+
+                                <inputs:SfNumericEntry
+                                    AllowNull="False"
+                                    CustomFormat="0"
+                                    Maximum="100"
+                                    Minimum="1"
+                                    UpDownPlacementMode="Inline"
+                                    Value="{Binding Reps}" />
+                            </inputLayout:SfTextInputLayout>
+
+                            <inputLayout:SfTextInputLayout
+                                Margin="0,0,0,0"
+                                ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                Light=#caf0f8}"
+                                ContainerType="Outlined"
+                                ErrorText="ss"
+                                FocusedStrokeThickness="4"
+                                HasError="False"
+                                HeightRequest="100"
+                                Hint="Kg por defecto"
+                                OutlineCornerRadius="8"
+                                UnfocusedStrokeThickness="2"
+                                WidthRequest="250">
+
+                                <editors:SfNumericEntry
+                                    AllowNull="False"
+                                    CustomFormat="0.0"
+                                    Maximum="500"
+                                    Minimum="0"
+                                    UpDownPlacementMode="Inline"
+                                    Value="{Binding Weight}" />
+
+                            </inputLayout:SfTextInputLayout>
+
+
+                            <inputLayout:SfTextInputLayout
+                                Margin="0,0,0,0"
+                                ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                Light=#caf0f8}"
+                                ContainerType="Outlined"
+                                ErrorText="ss"
+                                FocusedStrokeThickness="4"
+                                HasError="False"
+                                HeightRequest="100"
+                                Hint="Segundos de descanso"
+                                OutlineCornerRadius="8"
+                                UnfocusedStrokeThickness="2"
+                                WidthRequest="250">
+
+                                <editors:SfNumericEntry
+                                    AllowNull="False"
+                                    CustomFormat="0"
+                                    Maximum="300"
+                                    Minimum="15"
+                                    UpDownPlacementMode="Inline"
+                                    Value="{Binding Break}" />
+
+                            </inputLayout:SfTextInputLayout>
+
+
+                        </VerticalStackLayout>
+
+                    </Border>
+
+
+                </VerticalStackLayout>
+
+                <Button
+                    Margin="0,20,0,0"
+                    Command="{Binding SaveUserConfigurationCommand}"
+                    Text="Ok"
+                    WidthRequest="150">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</toolkit:Popup>

@@ -8,12 +8,12 @@ public partial class ExerciseTappedPage : ContentPage
     public ExerciseTappedPage()
     {
         InitializeComponent();
-        BindingContext = new ExerciseTappedViewModel();
     }
 
     private void thisPage_Loaded(object sender, EventArgs e)
     {
         ExerciseTappedViewModel? viewModel = BindingContext as ExerciseTappedViewModel;
+        viewModel?.GetUserInfo();
         viewModel?.StartStopwatchExercise();
         viewModel?.StartVideo();
     }

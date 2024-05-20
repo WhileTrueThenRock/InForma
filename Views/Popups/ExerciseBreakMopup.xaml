@@ -21,12 +21,13 @@
     </mopups:PopupPage.Animation>
 
 
-
-    <Border
-        BackgroundColor="White"
-        HeightRequest="400"
-        WidthRequest="300">
-
+    <Border HeightRequest="400" WidthRequest="300">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+            </LinearGradientBrush>
+        </Border.Background>
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="40,0,0,40" />
         </Border.StrokeShape>
@@ -62,9 +63,15 @@
                             <gauge:RangePointer
                                 CornerStyle="BothCurve"
                                 EnableAnimation="True"
-                                Fill="GreenYellow"
                                 PointerWidth="20"
-                                Value="{Binding TimeLabel}" />
+                                Value="{Binding TimeLabel}">
+                                <gauge:RangePointer.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                    </LinearGradientBrush>
+                                </gauge:RangePointer.Fill>
+                            </gauge:RangePointer>
 
                         </gauge:RadialAxis.Pointers>
                         <gauge:RadialAxis.Annotations>
@@ -79,7 +86,8 @@
                                         FontAttributes="Bold"
                                         FontSize="50"
                                         Text="{Binding TimeLabel}"
-                                        TextColor="Black" />
+                                        TextColor="{AppThemeBinding Dark=#ff7b00,
+                                        Light=#48cae4}" />
 
                                 </gauge:GaugeAnnotation.Content>
                             </gauge:GaugeAnnotation>
@@ -90,14 +98,19 @@
             </gauge:SfRadialGauge>
 
             <Button
-                Background="Black"
                 Command="{Binding CloseExerciseBreakMopupCommand}"
                 HeightRequest="40"
                 Text="Ok"
                 TextColor="White"
-                WidthRequest="200" />
+                WidthRequest="200">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
         </VerticalStackLayout>
 
     </Border>
-
 </mopups:PopupPage>

@@ -8,114 +8,85 @@
     xmlns:models="clr-namespace:mobileAppTest.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
-    x:DataType="viewmodels:MainViewModel">
+    x:DataType="viewmodels:MainViewModel"
+    CanBeDismissedByTappingOutsideOfPopup="False">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#D2D5DB}" />
+            </LinearGradientBrush>
+        </Grid.Background>
 
 
-
-    <VerticalStackLayout HeightRequest="600" WidthRequest="400">
-
-        <HorizontalStackLayout
-            Margin="380,50,0,0"
-            Spacing="0"
-            WidthRequest="300">
-            <Label Margin="3,10,10,0" Text="Editar" />
-            <buttons:SfSwitch AllowIndeterminateState="False" IsOn="{Binding IsProfileEditable}">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="On">
-                            <VisualState.Setters>
-                                <Setter Property="SwitchSettings">
-                                    <Setter.Value>
-                                        <buttons:SwitchSettings
-                                            ThumbBackground="#FF029BFF"
-                                            ThumbStroke="#FF029BFF"
-                                            TrackBackground="#22029BFF"
-                                            TrackStroke="#FF029BFF" />
-                                    </Setter.Value>
-                                </Setter>
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState x:Name="Off">
-                            <VisualState.Setters>
-                                <Setter Property="SwitchSettings">
-                                    <Setter.Value>
-                                        <buttons:SwitchSettings
-                                            ThumbBackground="#FFFF0199"
-                                            ThumbStroke="#FFFF0199"
-                                            TrackBackground="#22FF0199"
-                                            TrackStroke="#FFFF0199" />
-                                    </Setter.Value>
-                                </Setter>
-                            </VisualState.Setters>
-                        </VisualState>
-
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-            </buttons:SfSwitch>
-        </HorizontalStackLayout>
-
-        <VerticalStackLayout
-            Margin="0,50,0,0"
-            IsEnabled="{Binding IsProfileEditable}"
-            WidthRequest="300">
-
-            <inputLayout:SfTextInputLayout
-                ContainerType="Outlined"
-                ErrorText="{Binding NameErrorText}"
-                FocusedStrokeThickness="4"
-                HasError="{Binding HasNameError}"
-                HeightRequest="80"
-                HelperText="No puede tener más de 15 caracteres"
-                Hint="Nombre / Alias"
-                OutlineCornerRadius="8"
-                UnfocusedStrokeThickness="2">
-                <Entry
-                    Margin="0,0,0,-10"
-                    Text="{Binding Name}"
-                    WidthRequest="250" />
-            </inputLayout:SfTextInputLayout>
-
-            <inputLayout:SfTextInputLayout
-                ContainerType="Outlined"
-                ErrorText="{Binding EmailErrorText}"
-                FocusedStrokeThickness="4"
-                HasError="{Binding HasEmailError}"
-                HeightRequest="80"
-                Hint="Email"
-                OutlineCornerRadius="8"
-                UnfocusedStrokeThickness="2">
-                <Entry
-                    Margin="0,0,0,-10"
-                    Text="{Binding Email}"
-                    WidthRequest="250" />
-            </inputLayout:SfTextInputLayout>
+        <VerticalStackLayout HeightRequest="600" WidthRequest="400">
 
 
-            <Button
-                BackgroundColor="LightGray"
-                Command="{Binding ResetPasswordCommand}"
-                IsEnabled="{Binding IsResetPassEnabled}"
-                Text="{Binding PasswordText}">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <!--<Setter Property="BackgroundColor" Value="LightGray" />-->
-                        <Style.Triggers>
-                            <DataTrigger
-                                Binding="{Binding IsProfileEditable}"
-                                TargetType="Button"
-                                Value="True">
-                                <Setter Property="BackgroundColor" Value="White" />
-                                <Setter Property="TextColor" Value="Black" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Label Text="{Binding EmailSentLabel}" />
+            <VerticalStackLayout Margin="0,80,0,0" WidthRequest="300">
+                <inputLayout:SfTextInputLayout
+                    ContainerBackground="{AppThemeBinding Dark=lightgray,
+                    Light=#caf0f8}"
+                    ContainerType="Outlined"
+                    ErrorText="{Binding NameErrorText}"
+                    FocusedStrokeThickness="4"
+                    HasError="{Binding HasNameError}"
+                    HeightRequest="80"
+                    HelperText="No puede tener más de 15 caracteres"
+                    Hint="Nombre / Alias"
+                    OutlineCornerRadius="8"
+                    UnfocusedStrokeThickness="2">
+                    <Entry
+                        Margin="0,0,0,-10"
+                        Text="{Binding Name}"
+                        WidthRequest="250" />
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout
+                    ContainerBackground="{AppThemeBinding Dark=lightgray,
+                    Light=#caf0f8}"
+                    ContainerType="Outlined"
+                    ErrorText="{Binding EmailErrorText}"
+                    FocusedStrokeThickness="4"
+                    HasError="{Binding HasEmailError}"
+                    HeightRequest="80"
+                    Hint="Email"
+                    OutlineCornerRadius="8"
+                    UnfocusedStrokeThickness="2">
+                    <Entry
+                        Margin="0,0,0,-10"
+                        IsEnabled="False"
+                        Text="{Binding Email}"
+                        WidthRequest="250" />
+                </inputLayout:SfTextInputLayout>
+
+
+                <Button
+                    Command="{Binding ResetPasswordCommand}"
+                    IsEnabled="{Binding IsResetPassEnabled}"
+                    Text="{Binding PasswordText}"
+                    TextColor="{Binding PasswordTextColor}">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Label Text="{Binding EmailSentLabel}" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Margin="0,20,0,0" WidthRequest="150">
+                <Button Command="{Binding UpdateUserCredentialsCommand}" Text="Ok">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
-
-
-    </VerticalStackLayout>
-
+    </Grid>
 </toolkit:Popup>

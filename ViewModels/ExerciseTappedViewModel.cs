@@ -5,7 +5,10 @@ using mobileAppTest.Models;
 using mobileAppTest.Views.Popups;
 using Mopups.Services;
 using Plugin.CloudFirestore;
+using Plugin.LocalNotification;
+using Plugin.Maui.Audio;
 using System.Collections.ObjectModel;
+using System.Xml.Linq;
 
 namespace mobileAppTest.ViewModels
 {
@@ -16,7 +19,8 @@ namespace mobileAppTest.ViewModels
 
     public partial class ExerciseTappedViewModel : ObservableObject
     {
-
+        [ObservableProperty]
+        private UserModel _user;
 
         [ObservableProperty]
         public ExerciseModel _myExercise;
@@ -85,10 +89,16 @@ namespace mobileAppTest.ViewModels
         private int _seriesCounter;
 
         [ObservableProperty]
-        private double[] _reps = { 10 };
+        private double[] _reps = {10};
 
         [ObservableProperty]
         private double[] _weight = { 12.5 };
+
+        [ObservableProperty]
+        private double _defaultrep;
+
+        [ObservableProperty]
+        private double _defaultWeight;
 
         List<double> repsList = new List<double>();
         List<double> weightList = new List<double>();
@@ -111,29 +121,66 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private bool _isFinishedButtonEnabled;
 
+        [ObservableProperty]
+        private bool _isVideoVisible;
+
+        [ObservableProperty]
+        private  IAudioManager _audioManager = new AudioManager();
+
 
         public ExerciseTappedViewModel()
         {
+            User = new UserModel();
             ExerciseView = new ExerciseModelView();
             ExerciseEntries = new ObservableCollection<ExerciseModelView>();
             SeriesRegistered = new ObservableCollection<ExerciseModelView>();
             ExerciseFinishedList = new ObservableCollection<ExerciseModelView>();
             UniquePrimaryMuscles = new ObservableCollection<ExerciseModelView>();
             exerciseBreakMopup = new ExerciseBreakMopup(this);
-            AddSeriesRow();
-            DurationHeader = "60'";
-            SegundosDescanso = 60;
+            IsSerieEnabled = true;
+            //AddSeriesRow();
             IsVideoPlaying = true; //code behind start video
+            IsVisible = false;
         }
+
 
         [RelayCommand]
-        public async Task StartVideo()
+        public async Task TestDarkMode()
         {
-            IsVideoPlaying = true;
+
+
+            if (Application.Current.UserAppTheme == AppTheme.Dark)
+            {
+                Application.Current.UserAppTheme = AppTheme.Light;
+
+            }
+            else
+            {
+                Application.Current.UserAppTheme = AppTheme.Dark;
+
+            }
+
         }
 
 
 
+        [RelayCommand]
+        public async Task GetUserInfo()
+        {
+
+            var avatar = await CrossCloudFirestore.Current //Test video
+                            .Instance
+                            .Collection("Users")
+                            .Document("123456@gmail.com") 
+                            .GetAsync();
+            User = avatar.ToObject<UserModel>();
+            Reps[0]= User.Reps;
+            Weight[0] = User.Weight;
+            SegundosDescanso = User.Break;
+            DurationHeader = SegundosDescanso.ToString();
+            IsVideoVisible = User.VideoPlaying;
+
+        }
 
         [RelayCommand]
         public async Task AddSeriesRow()
@@ -152,6 +199,75 @@ namespace mobileAppTest.ViewModels
             IsSerieEnabled = false;
 
         }
+
+        [RelayCommand]
+        public void LogSeries()
+        {
+            SeriesGif = "seriescompleted.gif";
+            StartStopwatch();
+            IsGifVisible = true;
+            OpenExerciseBreakMopupAsync();
+            IsSerieEnabled = true;
+            SeriesRegistered = ExerciseEntries;
+            IsRegisterSerieEnabled = false;
+            IsFinishedButtonEnabled = true;
+            repsList.AddRange(Reps);
+            weightList.AddRange(Weight);
+        }
+
+        [RelayCommand]
+        public async void Play_Sound()
+        {
+            if (!User.NotificationOutside)
+            {
+                return;
+            }
+
+            //var player = AudioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("rick.mp3"));
+            //player.Play();
+            //await Task.Delay(4000);
+            var request = new NotificationRequest
+            {
+                NotificationId = 1337,
+                Title = "Testing",
+                Subtitle = "subtitle :D",
+                Description = "You need to go back to training fella",
+                Sound = DeviceInfo.Platform == DevicePlatform.Android ? "rick" : "rick.mp3",
+                BadgeNumber = 1,
+                Schedule = new NotificationRequestSchedule
+                {
+                    NotifyTime = DateTime.Now,
+
+                },
+                Android = new Plugin.LocalNotification.AndroidOption.AndroidOptions
+                {
+                    Color = new Plugin.LocalNotification.AndroidOption.AndroidColor(System.Drawing.Color.Blue.ToArgb()),
+                    LedColor = System.Drawing.Color.Yellow.ToArgb(),
+
+                },
+
+                iOS = new Plugin.LocalNotification.iOSOption.iOSOptions
+                {
+                    PlayForegroundSound = true
+
+                }
+            };
+            await LocalNotificationCenter.Current.Show(request);
+           // player.Dispose();
+        }
+
+        [RelayCommand]
+        public async Task StartVideo()
+        {
+            if (User.VideoPlaying)
+            {
+                IsVideoPlaying = true;
+
+            }
+        }
+
+
+    
 
         public static int ConvertStopwatchLabelToMinutes(string stopwatchLabel)
         {
@@ -241,20 +357,7 @@ namespace mobileAppTest.ViewModels
         }
 
 
-        [RelayCommand]
-        public void LogSeries()
-        {
-            SeriesGif = "seriescompleted.gif";
-            StartStopwatch();
-            IsGifVisible = true;
-            OpenExerciseBreakMopupAsync();
-            IsSerieEnabled = true;
-            SeriesRegistered = ExerciseEntries;
-            IsRegisterSerieEnabled = false;
-            IsFinishedButtonEnabled = true;
-            repsList.AddRange(Reps);
-            weightList.AddRange(Weight);
-        }
+  
 
         [RelayCommand]
         public async Task OpenExerciseBreakMopupAsync()
@@ -276,7 +379,7 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public void StartStopwatch()
         {
-
+            IsVisible = true;
             if (_isRunning == false)
             {
                 time = new();
@@ -314,7 +417,8 @@ namespace mobileAppTest.ViewModels
 
             if (time.Second >= SegundosDescanso || time.Second == 0)
             {
-                StopStopwatch(); //Añadir notificaciones / alarma
+                StopStopwatch(); 
+                Play_Sound();
                 CloseExerciseBreakMopup();
             }
         }
@@ -330,6 +434,10 @@ namespace mobileAppTest.ViewModels
             {
                 // Remover el último elemento de la colección
                 ExerciseEntries.RemoveAt(ExerciseEntries.Count - 1);
+            }
+            if (repsList.Count == 0)
+            {
+                return;
             }
             repsList.RemoveAt(repsList.Count-1);
             weightList.RemoveAt(weightList.Count-1);
@@ -362,13 +470,14 @@ namespace mobileAppTest.ViewModels
         public async Task NavegarMainPage()
         {
             IsVideoPlaying = false;
+            SeriesGif = "";
 
             if (SeriesRegistered.Count == 0)
             {
                     ExerciseEntries.Clear();
                     SeriesRegistered.Clear();
                     IsSerieEnabled = true;
-                    SeriesCounter = 1;
+                    SeriesCounter = 0;
 
                     if (IsVisible)
                     {
@@ -418,6 +527,8 @@ namespace mobileAppTest.ViewModels
                         }
                     
                     }
+             
+
                     ExerciseList.Remove(exerciseModelViewToRemove);
                     NewTrainingSession();
                     ExerciseEntries.Clear();
@@ -425,9 +536,14 @@ namespace mobileAppTest.ViewModels
                     IsSerieEnabled = true; //confirmarEnabledFlase
                     IsRegisterSerieEnabled = false;
                     SeriesCounter = 0;
+                    Reps[0] = User.Reps;
+                    Weight[0] = User.Weight;
+                    repsList.Clear();
+                    weightList.Clear();
 
                     if (ExerciseList.Count == 0)
                     {
+
                         //await App.Current.MainPage.DisplayAlert("Info", "Ejercicio " + MyExercise.Name + " registrado!", "ACEPTAR");
                         timeExercise = new();
                         time = new(); //new code

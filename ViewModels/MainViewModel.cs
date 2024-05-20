@@ -21,17 +21,25 @@ using CommunityToolkit.Maui.Alerts;
 using System.Diagnostics;
 using Firebase.Auth;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 /*
  * 
 Firebase : Explore extensions :Delete User Data     
 notification
+<ContentPage ...>
+    <StackLayout Margin="20">
+        <Label Text="This text is green in light mode, and red in dark mode."
+               TextColor="{AppThemeBinding Light=Green, Dark=Red}" />
+        <Image Source="{AppThemeBinding Light=lightlogo.png, Dark=darklogo.png}" />
+    </StackLayout>
+</ContentPage>
 *
 */
 namespace mobileAppTest.ViewModels
 {
     [QueryProperty("ExerciseFinishedLists", "ExerciseFinishedLists")]
-    internal partial class MainViewModel : ObservableObject
+    internal partial class MainViewModel : ObservableObject, INotifyPropertyChanged
     {
         public string webApiKey = "AIzaSyAJ2z8_aTTkgCz-dYXhLt-bt4nEcXqjPxY";
 
@@ -53,6 +61,10 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private ProfilePopup _profilePopup;
+
+        [ObservableProperty]
+        private ConfigurationPopup _configurationPopup;
+
         #endregion
 
         #region UserRelated
@@ -63,19 +75,40 @@ namespace mobileAppTest.ViewModels
         private string _email;
 
         [ObservableProperty]
+        private string _name;
+
+        [ObservableProperty]
+        private double _reps;
+
+        [ObservableProperty]
+        private double _weight;
+
+        [ObservableProperty]
+        private double _break;
+
+        [ObservableProperty]
+        private bool _notificationOutside;
+
+        [ObservableProperty]
+        private bool _notificationInside;
+
+        [ObservableProperty]
+        private bool _videoPlaying;
+
+        [ObservableProperty]
         private string _passwordText;
 
         [ObservableProperty]
-        private Color _passwordChangedColor;
+        private Color _passwordTextColor;
+
+        [ObservableProperty]
+        private Color _drawerColor;
 
         [ObservableProperty]
         private bool _isResetPassEnabled;
 
         [ObservableProperty]
         private DateTime _lastResetTime;
-
-        [ObservableProperty]
-        private string _name;
 
         [ObservableProperty]
         private bool _emailOK;
@@ -99,10 +132,10 @@ namespace mobileAppTest.ViewModels
         private string _nameErrorText;
 
         [ObservableProperty]
-        private bool _isProfileEditable;
+        private string _emailSentLabel;
 
         [ObservableProperty]
-        private string _emailSentLabel;
+        private bool _emailSent;
 
         #endregion
 
@@ -119,19 +152,34 @@ namespace mobileAppTest.ViewModels
         private string _searchText;
 
         [ObservableProperty]
-        private string _userName;
+        private string _equipmentSearchText;
 
         [ObservableProperty]
         private int _exerciseCount;
 
         [ObservableProperty]
+        private string _startTrainingText;
+
+        [ObservableProperty]
+        private bool _isStartTrainingVisible;
+
+        [ObservableProperty]
         private int _miContador;
 
         [ObservableProperty]
-        private string _durationHeader;
+        private int _miCustomContador;
 
         [ObservableProperty]
-        private string _muscleHeader;
+        private int _searchExerciseContador;
+
+        [ObservableProperty]
+        private bool _showNewTrainingButton;
+
+        [ObservableProperty]
+        private string _newTrainingButtonText;
+
+        [ObservableProperty]
+        private string _durationHeader;
 
         [ObservableProperty]
         private bool _durationExpander;
@@ -139,8 +187,6 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private bool _isDurationChecked;
 
-        [ObservableProperty]
-        private bool _muscleExpander;
 
         [ObservableProperty]
         private bool _isVisible;
@@ -149,7 +195,7 @@ namespace mobileAppTest.ViewModels
         private bool _isDeleteExerciseButtonVisible;
 
         [ObservableProperty]
-        private bool _isCustomExerciseButtonVisible;
+        private bool _isDeleteCustomExerciseButtonVisible;
 
         [ObservableProperty]
         private bool _isDetailsExerciseButtonVisible;
@@ -417,20 +463,32 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private ObservableCollection<string> selectedMuscles;
 
-        [ObservableProperty]
+        //[ObservableProperty]
+        //private string _avatarImage;
         private string _avatarImage;
+        public string AvatarImage
+        {
+            get { return _avatarImage; }
+            set
+            {
+                _avatarImage = value;
+                OnPropertyChanged();
+            }
+        }
 
-        [ObservableProperty]
-        private string totalWorkoutDurationLabel;
-
-        [ObservableProperty]
-        private Color _exerciseListColor;
-
-        [ObservableProperty]
-        private bool _isExerciseFinished;
-
-        [ObservableProperty]
+        //[ObservableProperty]
+        //private bool _isAccordionVisible;
         private bool _isAccordionVisible;
+        public bool IsAccordionVisible
+        {
+            get { return _isAccordionVisible; }
+            set
+            {
+                _isAccordionVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         [ObservableProperty]
         private bool _isShimmerPlaying;
@@ -439,19 +497,17 @@ namespace mobileAppTest.ViewModels
         public MainViewModel()
         {
             InitComponents();
-            ShowName();
-            GetProfilePic();
+            //ShowName();
+            //GetUserCredentials();
             //ShowAllExercises();
             //GetSessionExercises();
-            //RealTimeUpdateFilter();
+            //RealTimeUpdateFilter();//xd
             GetExercisesEvents();
             LoadUserEquipments();
             LoadCustomWorkouts();
             //ShowExercisesWithAvailableEquipment();
             //DurationHeader = "15 min";
             // IsDurationChecked = true;
-            MuscleHeader = "Cuerpo Entero";
-            // MuscleExpander = false;
             SelectDurationWorkout("15");
             //FilterBySelectedMuscle();
         }
@@ -503,14 +559,18 @@ namespace mobileAppTest.ViewModels
             IsHamstringsVisible = false;
             IsCalfsVisible = false;
 
-            IsCustomExerciseButtonVisible = false;
-            //IsAccordionVisible = false;
-            IsProfileEditable = false;
-            PasswordText = "Cambiar contraseña";
+            IsAccordionVisible = false;
+            PasswordText = "Restablecer contraseña";
+            PasswordTextColor = Colors.White;
             IsResetPassEnabled = true;
+            NotificationOutside = true;
+            NotificationInside = true;
+            EmailSent = false;
             MiContador = 0;
+            MiCustomContador = 0;
+            SearchExerciseContador = 0;
+            ShowNewTrainingButton = false;
 
-            ExerciseListColor = Colors.Black;
             ChestColor = "pecho2.png";
             IsChestSelected = true;
             LeftShoulderColor = "hombroizq2.png";
@@ -518,20 +578,50 @@ namespace mobileAppTest.ViewModels
             IsRightShoulderSelected = true;
             SelectedMuscles.Add("Pecho");
             SelectedMuscles.Add("Hombro");
-      
+
         }
 
         [RelayCommand]
-        public async Task LoadUserProfileInfo()
+        public async Task SaveUserConfiguration()
         {
-            var userDocument = await CrossCloudFirestore.Current
-              .Instance
-              .Collection("Users")
-              .Document("123456@gmail.com") // Cambiar por el email del usuario
-              .GetAsync();
-            User = userDocument.ToObject<UserModel>();
-            Name = User.Name;
-            Email = User.Email;
+
+            var userDocument = CrossCloudFirestore.Current
+               .Instance
+               .Collection("Users")
+               .Document(Email);
+
+            await userDocument.UpdateDataAsync(new
+            {
+                Reps = Reps,
+                Weight = Weight,
+                Break = Break,
+                NotificationOutside = NotificationOutside,
+                NotificationInside = NotificationInside,
+                VideoPlaying = VideoPlaying,
+            });
+
+            CloseConfigurationPopup();
+
+    }
+
+        [RelayCommand]
+        public async Task TestDarkMode()
+        {
+
+
+            if (Application.Current.UserAppTheme == AppTheme.Dark)
+            {
+                Application.Current.UserAppTheme = AppTheme.Light;
+                DrawerColor = Colors.White;
+
+            }
+            else
+            {
+                Application.Current.UserAppTheme = AppTheme.Dark;
+                DrawerColor = Colors.Black;
+
+            }
+
         }
 
 
@@ -542,8 +632,15 @@ namespace mobileAppTest.ViewModels
             try
             {
                 // Realiza todas las operaciones asincrónicas
+                //await GetUserCredentials();
                 await GetExercisesEvents();
                 await FilterBySelectedMuscle();
+                await SelectDurationWorkoutRandom("15");
+                IsStartTrainingVisible = true;
+                MiContador = 0;
+                IsDeleteExerciseButtonVisible = false;
+                IsDetailsExerciseButtonVisible = false;
+
             }
             finally
             {
@@ -615,55 +712,6 @@ namespace mobileAppTest.ViewModels
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        [RelayCommand]
-        public async Task ChangeFinishedExercisesColor()
-        {
-            if (ExerciseFinishedLists.Count == 0)
-            {
-                return;
-            }
-
-            //var matchingExercises = ExerciseList.Intersect(ExerciseFinishedLists).ToList();
-            ExerciseList.Clear();
-            ExerciseCount = 0;
-
-            foreach (var exercise in ExerciseFinishedLists)
-            {
-                if (exercise == null)
-                {
-                    continue;
-                }
-                ExerciseList.Add(exercise);
-
-                if (exercise.Exercise.Name.All(ex => ExerciseList.Contains(exercise)))
-                {
-                    ExerciseList.Add(exercise);
-                    ExerciseCount++;
-                    //ExerciseListColor = Colors.LightGreen;
-
-                    // Si el ejercicio está terminado, establece la propiedad IsFinished en true
-                    IsExerciseFinished = true;
-                }
-            }
-        }
-
-
-
         [RelayCommand]
         private async void DeleteSwipedRow(ExerciseModelView rowToDelete)
         {
@@ -679,8 +727,35 @@ namespace mobileAppTest.ViewModels
                 {
                     ExerciseList.Add(rowToDelete);
                     ExerciseCount++;
+                    if (ExerciseCount == 1)
+                    {
+                        StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+                    }
+                    else
+                    {
+                        StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+                    }
                 },"Rehacer",TimeSpan.FromSeconds(5), snackbarOptions);
+         
             await snackbar.Show();
+
+            if(ExerciseCount == 0)
+            {
+                IsStartTrainingVisible = false;
+            }
+
+            else if (ExerciseCount == 1)
+            {
+                IsStartTrainingVisible = true;
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+            }
+            else
+            {
+                IsStartTrainingVisible = true;
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+            }
         }
 
 
@@ -707,6 +782,24 @@ namespace mobileAppTest.ViewModels
 
             // Remove the exercise from the local list
             ExerciseSessionlist.Remove(exercise);
+
+            if (ExerciseCount == 0)
+            {
+                IsStartTrainingVisible = false;
+            }
+
+            else if (ExerciseCount == 1)
+            {
+                IsStartTrainingVisible = true;
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+            }
+            else
+            {
+                IsStartTrainingVisible = true;
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+            }
+
         }
 
         [RelayCommand]
@@ -738,22 +831,6 @@ namespace mobileAppTest.ViewModels
                     SelectedMuscles.Remove(muscle);
                 }
 
-            }
-
-            if (muscle.Contains("Cuello"))
-            {
-                IsNeckSelected = !IsNeckSelected;
-
-                if (IsNeckSelected)
-                {
-                    NeckColor = "cuello2.png";
-                    SelectedMuscles.Add(muscle);
-                }
-                else
-                {
-                    NeckColor = "cuello1.png";
-                    SelectedMuscles.Remove(muscle);
-                }
             }
 
             if (muscle.Contains("Hombro"))
@@ -1082,9 +1159,117 @@ namespace mobileAppTest.ViewModels
                 await CloseMuscleSelectionPopup();
             }
 
+            if (ExerciseCount == 1)
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+            }
+            else
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+            }
+            IsStartTrainingVisible = true;
+
         }
 
         [RelayCommand]
+        public async Task SelectDurationWorkoutRandom(string minutos)
+        {
+
+            if (minutos == "15")
+            {
+                DurationHeader = "15 min";
+
+            }
+            else if (minutos == "30")
+            {
+                DurationHeader = "30 min";
+
+            }
+            else if (minutos == "45")
+            {
+                DurationHeader = "45 min";
+
+            }
+            else if (minutos == "60")
+            {
+                DurationHeader = "1 hr";
+
+            }
+            else if (minutos == "90")
+            {
+                DurationHeader = "1:30 hr";
+
+            }
+            else if (minutos == "120")
+            {
+                DurationHeader = "2 hr";
+
+            }
+            else if (minutos == "150")
+            {
+                DurationHeader = "2:30 hr";
+
+            }
+            else if (minutos == "180")
+            {
+                DurationHeader = "3 hr";
+
+            }
+
+
+
+            if (int.TryParse(minutos, out int selectedMinutes))
+            {
+                await ShowExercisesWithAvailableEquipment();
+
+
+                var filteredByMuscles = ExerciseList
+                   .Where(exercise => SelectedMuscles.Any(muscle => exercise.PrimaryMuscles.Contains(muscle)))
+                   .ToList();
+
+                var filteredByTimeAndMuscles = filteredByMuscles
+                    .Where(exercise => exercise.Duration != null && int.Parse(exercise.Duration) <= selectedMinutes)
+                    .ToList();
+
+                ExerciseList.Clear();
+                int totalMinutes = 0;
+                ExerciseCount = 0;
+                var random = new Random();
+                var randomizedList = filteredByTimeAndMuscles.OrderBy(x => random.Next()).ToList();
+
+                foreach (var exercise in randomizedList)
+                {
+                    int exerciseMinutes = int.Parse(exercise.Duration);
+                    totalMinutes += exerciseMinutes;
+
+                    if (totalMinutes <= selectedMinutes)
+                    {
+                        ExerciseList.Add(exercise);
+                        ExerciseCount++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            DurationExpander = false;
+            IsStartTrainingVisible = true;
+
+            if (ExerciseCount == 1)
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+            }
+            else
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+            }
+        }
+
+        [RelayCommand]
+
         public async Task SelectDurationWorkout(string minutos)
         {
 
@@ -1158,132 +1343,27 @@ namespace mobileAppTest.ViewModels
                 }
 
             }
+
+            if(ExerciseCount == 1)
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+            }
+            else
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+            }
+            IsStartTrainingVisible = true;
             DurationExpander = false;
         }
-
-
-        [RelayCommand]
-        public async Task SelectMuscleWorkout(string muscle)
-        {
-            if (muscle == "fullBody")
-            {
-                MuscleHeader = "Cuerpo Entero";
-
-            }
-            else if (muscle == "Pecho")
-            {
-                MuscleHeader = "Pecho";
-
-            }
-            else if (muscle == "Espalda")
-            {
-                MuscleHeader = "Espalda";
-
-            }
-
-            else if (muscle == "Dorsales")
-            {
-                MuscleHeader = "Dorsales";
-
-            }
-
-            else if (muscle == "Gemelos")
-            {
-                MuscleHeader = "Gemelos";
-
-            }
-
-            else if (muscle == "Femoral")
-            {
-                MuscleHeader = "Femoral";
-
-            }
-
-            else if (muscle == "Cuádriceps")
-            {
-                MuscleHeader = "Cuádriceps";
-
-            }
-
-            else if (muscle == "Aductores")
-            {
-                MuscleHeader = "Aductores";
-
-            }
-
-            else if (muscle == "Abductores")
-            {
-                MuscleHeader = "Abductores";
-
-            }
-
-            else if (muscle == "Hombro")
-            {
-                MuscleHeader = "Hombro";
-
-            }
-            else if (muscle == "Bíceps")
-            {
-                MuscleHeader = "Bíceps";
-
-            }
-            else if (muscle == "Tríceps")
-            {
-                MuscleHeader = "Tríceps";
-
-            }
-            else if (muscle == "Trapecio")
-            {
-                MuscleHeader = "Trapecio";
-
-            }
-            else if (muscle == "Glúteos")
-            {
-                MuscleHeader = "Glúteos";
-
-            }
-            else if (muscle == "Abdomen")
-            {
-                MuscleHeader = "Abdomen";
-
-            }
-            else if (muscle == "Antebrazo")
-            {
-                MuscleHeader = "Antebrazo";
-
-            }
-
-
-            await ShowExercisesWithAvailableEquipment();
-
-            // Filtrar nuevamente por el músculo seleccionado
-            var filteredByMuscle = ExerciseList.Where(exercise => exercise.PrimaryMuscles.Equals(MuscleHeader) || muscle.Equals("fullBody")).ToList();
-
-
-            ExerciseList.Clear();
-            ExerciseCount = 0;
-            foreach (var exercise in filteredByMuscle)
-            {
-                ExerciseList.Add(exercise);
-                ExerciseCount++;
-            }
-
-            MuscleExpander = false;
-
-
-        }
-
-
-
-
-
-
 
 
         // Método que carga los ejercicios segun el equipamiento de un usuario en el
         //
         //
         // ExercisePopup
+
+
         [RelayCommand]
         public async Task ShowExercisesWithAvailableEquipment() //Usarlo en workout en vez de customExercise
         {
@@ -1360,6 +1440,16 @@ namespace mobileAppTest.ViewModels
                 }
             }
 
+            if (ExerciseCount == 1)
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+            }
+            else
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+            }
+
         }
 
 
@@ -1368,6 +1458,7 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task NewTrainingSession()
         {
+
             // Filtra la lista para obtener solo los ejercicios seleccionados
             var SelectedExercises = ExerciseList
                 .Where(exercise => exercise.IsChecked)
@@ -1375,29 +1466,35 @@ namespace mobileAppTest.ViewModels
 
             if (SelectedExercises.Any())
             {
-                // Crear una subcolección dentro de "Users" con el nombre Sesiones, en caso de guardar entrenamiento custom
-                //var userDocument = CrossCloudFirestore.Current
-                //    .Instance
-                //    .Collection("Users")
-                //    .Document("123456@gmail.com");
                 ExerciseList.Clear();
                 ExerciseCount = 0;
                 foreach (var selectedExercise in SelectedExercises)
                 {
-                    //// Agrega cada ejercicio a la subcolección Sesiones, se podría llamar MiCustomLista
-                    //await userDocument
-                    //    .Collection("Sesiones")
-                    //    .AddAsync(selectedExercise.Exercise);
                     ExerciseList.Add(selectedExercise);
                     ExerciseCount++;
                 }
-                IsCustomExerciseButtonVisible = false;
                 CustomExercisePopup.Close();
             }
             else
             {
                 // cambiar de color
             }
+            SearchExerciseContador = 0;
+            ShowNewTrainingButton = false;
+            NewTrainingButtonText = "";
+            IsStartTrainingVisible = true;
+
+            //await SelectedDurationWorkout();
+            if (ExerciseCount == 1)
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+            }
+            else
+            {
+                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+            }
+
         }
 
 
@@ -1460,7 +1557,6 @@ namespace mobileAppTest.ViewModels
                 ExerciseList.Clear();
                 Events.Clear();
                 int totalWorkoutDuration = 0;
-                totalWorkoutDurations.Clear();
                 foreach (var exercise in exercises)
                 {
 
@@ -1476,24 +1572,6 @@ namespace mobileAppTest.ViewModels
 
                     DateTime dateTimeKey = DateTime.Parse(dateTime);
                     ExerciseView.FechaEntrenamiento = dateTimeKey.ToString("dd/MM/yyyy");
-
-
-
-                    // Update the total workout duration for the specific day
-                    if (!totalWorkoutDurations.ContainsKey(dateTimeKey))
-                    {
-                        totalWorkoutDurations.Add(dateTimeKey, ConvertStopwatchLabelToMinutes(exercise.Duration));
-                    }
-                    else
-                    {
-                        totalWorkoutDurations[dateTimeKey] += ConvertStopwatchLabelToMinutes(exercise.Duration);
-                    }
-
-                    // Update the totalWorkoutDuration for the UI
-                    //totalWorkoutDuration = totalWorkoutDurations.Values.Sum();  //Suma todos los ejercicios de la db
-                    totalWorkoutDuration = totalWorkoutDurations[dateTimeKey];   // Suma el último dia (15)
-                    TotalWorkoutDurationLabel = totalWorkoutDuration.ToString();
-
 
 
                     if (!Events.ContainsKey(dateTimeKey))
@@ -1518,17 +1596,6 @@ namespace mobileAppTest.ViewModels
             }
 
         }
-        private Dictionary<DateTime, int> totalWorkoutDurations = new Dictionary<DateTime, int>();
-
-        public static int ConvertStopwatchLabelToMinutes(string stopwatchLabel)
-        {
-            if (int.TryParse(stopwatchLabel, out int duration))
-            {
-                return duration;
-            }
-            return 0; // Default value or handle the conversion failure
-        }
-
 
 
         // Método que carga el equipamiento de un usuario específico en el CustomEquipmentPopup
@@ -1595,6 +1662,7 @@ namespace mobileAppTest.ViewModels
                     .Document(name)
                   .UpdateAsync("disponible", available);
             }
+            EquipmentSearchText = "";
 
             CloseEquipmentPopup();
             await SelectedDurationWorkout();
@@ -1642,17 +1710,17 @@ namespace mobileAppTest.ViewModels
 
 
         //Metodo para mostrar el nombre del usuario que ha hecho el Login
-        public async void ShowName()
-        {
+        //public async void ShowName()
+        //{
 
-            var nombreusuario = await CrossCloudFirestore.Current
-                         .Instance
-                         .Collection("Users")
-                         .Document("123456@gmail.com") //LoginViewModel.Email_name
-                         .GetAsync();
-            User = nombreusuario.ToObject<UserModel>();
-            UserName = User.Name;
-        }
+        //    var nombreusuario = await CrossCloudFirestore.Current
+        //                 .Instance
+        //                 .Collection("Users")
+        //                 .Document("123456@gmail.com") //LoginViewModel.Email_name
+        //                 .GetAsync();
+        //    User = nombreusuario.ToObject<UserModel>();
+        //    UserName = User.Name;
+        //}
 
 
         //Metodo que muestra todos los ejercicios en el CustomExercisePopup 
@@ -1687,16 +1755,49 @@ namespace mobileAppTest.ViewModels
             exercise.IsChecked = !exercise.IsChecked;
             if (exercise.IsChecked)
             {
+                SearchExerciseContador++;
+                ShowNewTrainingButton = true;
+                NewTrainingButtonText = "Añadir ejercicio";
+                if(SearchExerciseContador > 1)
+                {
+                    NewTrainingButtonText = "Añadir " + SearchExerciseContador + " ejercicios";
+
+                }
+            }
+            else if (!exercise.IsChecked)
+            {
+                SearchExerciseContador--;
+
+                if (SearchExerciseContador > 1)
+                {
+                    NewTrainingButtonText = "Añadir " + SearchExerciseContador + " ejercicios";
+
+                }
+                else
+                {
+                    NewTrainingButtonText = "Añadir ejercicio";
+                }
+
+            }
+            if (SearchExerciseContador == 0)
+            {
+                ShowNewTrainingButton = false;
+            }
+        }
+
+        [RelayCommand]
+        private void CalendarExerciseTapped(ExerciseModelView exercise)
+        {
+            exercise.IsChecked = !exercise.IsChecked;
+            if (exercise.IsChecked)
+            {
                 MiContador++;
                 IsDeleteExerciseButtonVisible = true;
                 IsDetailsExerciseButtonVisible = true;
-                IsCustomExerciseButtonVisible = true;
             }
             else if (!exercise.IsChecked)
             {
                 MiContador--;
-                //IsDeleteExerciseButtonVisible = false;
-                //IsDetailsExerciseButtonVisible = false;
 
             }
             if (MiContador == 0)
@@ -1713,22 +1814,17 @@ namespace mobileAppTest.ViewModels
             exercise.IsChecked = !exercise.IsChecked;
             if (exercise.IsChecked)
             {
-                MiContador++;
-                IsDeleteExerciseButtonVisible = true;
-                IsDetailsExerciseButtonVisible = true;
-                IsCustomExerciseButtonVisible = true;
+                MiCustomContador++;
+                IsDeleteCustomExerciseButtonVisible = true;
             }
             else if (!exercise.IsChecked)
             {
-                MiContador--;
-                //IsDeleteExerciseButtonVisible = false;
-                //IsDetailsExerciseButtonVisible = false;
+                MiCustomContador--;
 
             }
-            if (MiContador == 0)
+            if (MiCustomContador == 0)
             {
-                IsDeleteExerciseButtonVisible = false;
-                IsDetailsExerciseButtonVisible = false;
+                IsDeleteCustomExerciseButtonVisible = false;
             }
         }
 
@@ -1759,6 +1855,7 @@ namespace mobileAppTest.ViewModels
                 // Remove the exercise from the local list
                 ExerciseSessionlist.Remove(exerciseToDelete);
                 IsDeleteExerciseButtonVisible = false;
+                IsDeleteCustomExerciseButtonVisible = false;
             }
 
         }
@@ -1852,13 +1949,13 @@ namespace mobileAppTest.ViewModels
                 await userDocument.UpdateDataAsync(new { Avatar = fotoUrl });
 
             }
-            GetProfilePic();
+            GetUserCredentials();
 
 
         }
 
         [RelayCommand]
-        public async Task GetProfilePic()
+        public async Task GetUserCredentials()
         {
             
             var avatar = await CrossCloudFirestore.Current
@@ -1867,45 +1964,21 @@ namespace mobileAppTest.ViewModels
                             .Document("123456@gmail.com") //LoginViewModel.Email_name
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
+           
 
             AvatarImage = User.Avatar;
-            Name = User.Name;
             Email = User.Email;
-            
+            Name = User.Name;
+            Reps = User.Reps;
+            Weight = User.Weight;
+            Break = User.Break;
+            NotificationOutside = User.NotificationOutside;
+            NotificationInside = User.NotificationInside;
+            VideoPlaying = User.VideoPlaying;
             
         }
 
 
-
-        //FILTROS
-        //Filtro en tiempo real para el searchbar del CustomExercisePopup
-        private async Task RealTimeUpdateFilter()
-        {
-            var exercisesSnapshot = await CrossCloudFirestore.Current
-             .Instance
-             .Collection("Exercises")
-             .GetAsync();
-
-            if (exercisesSnapshot != null && exercisesSnapshot.Documents.Any())
-            {
-                ExerciseList.Clear(); // Limpiar la lista existente
-
-                foreach (var exerciseDocument in exercisesSnapshot.Documents)
-                {
-                    var exercise = exerciseDocument.ToObject<ExerciseModel>();
-                    var exerciseModelView = ModelMapper.ExerciseModelToExerciseModelView(exercise);
-                    ExerciseList.Add(exerciseModelView);
-                }
-
-                UpdateFilteredExercises();
-            }
-            else
-            {
-                // No se encontraron documentos
-                // Puedes manejar este caso según tus necesidades
-            }
-
-        }
         //Filtra el texto del search bar en el CustomExercisePopup
         public void UpdateFilteredExercises()
         {
@@ -1913,18 +1986,39 @@ namespace mobileAppTest.ViewModels
             string searchQuery = SearchText?.ToLower() ?? string.Empty; //Si el resultado anterior es nulo, utiliza una cadena vacía 
             if (string.IsNullOrWhiteSpace(searchQuery))
             {
-                //ShowAllExercises();
                 ShowExercisesWithAvailableEquipment();
 
             }
 
             else
             {
+                var searchTerms = searchQuery.Split(' ',StringSplitOptions.RemoveEmptyEntries);
+
                 ExerciseList = new ObservableCollection<ExerciseModelView>(
-                ExerciseList.Where(exercise => exercise.Name?.ToLower().Contains(searchQuery) == true));
+                ExerciseList.Where(exercise => searchTerms.All(term => exercise.Name?.ToLower().Contains(term) == true)));
                 // Verifica si el nombre del ejercicio (si no es nulo) en minúsculas contiene la cadena de búsqueda, devolviendo true si la condición se cumple.
             }
         }
+
+        public void FilterAvailableEquipment()
+        {
+            string searchQuery = EquipmentSearchText?.ToLower() ?? string.Empty; //Si el resultado anterior es nulo, utiliza una cadena vacía 
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                LoadUserEquipments();
+
+            }
+
+            else
+            {
+                var searchTerms = searchQuery.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                EquipmentList = new ObservableCollection<EquipmentModelView>(
+                EquipmentList.Where(equipment => searchTerms.All(term => equipment.Name?.ToLower().Contains(term) == true))
+                );
+            }
+        }
+
 
         //Filtra por los nombres/botones de CustomExercisePopup
         [RelayCommand]
@@ -2017,6 +2111,7 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task OpenCustomExercisePopup(string mode)
         {
+          await  ShowExercisesWithAvailableEquipment();
 
             CustomExercisePopup = new CustomExercises();
             await App.Current.MainPage.ShowPopupAsync(CustomExercisePopup);
@@ -2025,9 +2120,9 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task ClosecustomExercisePopup()
         {
-            //ShowExercisesWithAvailableEquipment();
-            //RealTimeUpdateFilter();
-            await SelectedDurationWorkout();
+            SearchText = "";
+            //await SelectedDurationWorkout();
+            await SelectDurationWorkoutRandom("15");
             CustomExercisePopup.Close();
 
 
@@ -2064,25 +2159,49 @@ namespace mobileAppTest.ViewModels
         }
 
         [RelayCommand]
-        private async Task ResetPassword()
+        public async Task OpenConfigurationPopup()
         {
-            await ValidateEmail();
-            if (!EmailOK)
-            {
-                return;
-            }
 
+            ConfigurationPopup = new ConfigurationPopup();
+            await App.Current.MainPage.ShowPopupAsync(ConfigurationPopup);
+        }
+
+        [RelayCommand]
+        public async Task CloseConfigurationPopup()
+        {
+            ConfigurationPopup.Close();
+
+        }
+
+
+        [RelayCommand]
+        public async Task UpdateUserCredentials()
+        {
             if (!ValidateName())
             {
                 return;
             }
 
-           // var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApiKey));
-           // await authProvider.SendPasswordResetEmailAsync(Email);
+            var userDocument = CrossCloudFirestore.Current
+               .Instance
+               .Collection("Users")
+               .Document(Email);
+
+            // Agregar el nombre del workout al campo Colecciones del documento del usuario
+            await userDocument.UpdateDataAsync(new { Name = Name });
+
+            CloseProfilePopup();
+        }
+
+
+        [RelayCommand]
+        private async Task ResetPassword()
+        {
+
+            // var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApiKey));
+            // await authProvider.SendPasswordResetEmailAsync(Email);
             PasswordText = "Correo enviado !";
             EmailSentLabel = "Puedes volver a solicitar otro cambio dentro de 10 minutos.";
-
-           // PasswordChangedColor = Colors.LightGreen; //agregar una etiqueta para notificar que el correo ha sido enviado
 
             IsResetPassEnabled = false;
 
@@ -2094,7 +2213,7 @@ namespace mobileAppTest.ViewModels
             if (elapsedTime.TotalMinutes >= 1)
             {
                 IsResetPassEnabled = true;
-                PasswordText = "Cambiar contraseña";
+                PasswordText = "Restablecer contraseña";
                 EmailSentLabel = "";
             }
         }
@@ -2122,39 +2241,6 @@ namespace mobileAppTest.ViewModels
             }
 
         }
-
-        private bool ValidatePattern(string email)
-        {
-
-            if (Email == null || Email.Any(Char.IsWhiteSpace))
-            {
-                HasEmailError = true;
-                EmailErrorText = "Introduce un email!";
-                EmailOK = false;
-                return false;
-            }
-
-            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-
-            return Regex.IsMatch(email, pattern);
-        }
-
-        private async Task ValidateEmail()
-        {
-            HasEmailError = true;
-            EmailOK = false;
-
-            if (!ValidatePattern(Email))
-            {
-                return;
-            }
-
-
-            HasEmailError = false;
-            EmailOK = true;
-
-        }
-
 
 
         [RelayCommand]
@@ -2221,8 +2307,8 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task LoadTappedExercise(ExerciseModel selectedExercise)
         {
-            IsVisible = false;
             IsBackButtonVisible = true;
+
             await Shell.Current.GoToAsync("//ExerciseTappedPage", new Dictionary<string, object>()
             {
                 ["MyExercise"] = selectedExercise,
@@ -2251,47 +2337,5 @@ namespace mobileAppTest.ViewModels
             });
 
         }
-
-        //[RelayCommand]
-        //public async Task ShowNotification()
-        //{
-        //    if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
-        //    {
-        //        // Pregunta al usuario si permite la recepcion de notificaciones
-        //        if (await LocalNotificationCenter.Current.AreNotificationsEnabled() == false)
-        //        {
-        //            await LocalNotificationCenter.Current.RequestNotificationPermission();
-        //        }
-
-        //        // Creamos la notificacion
-        //        var notification = new NotificationRequest
-        //        {
-        //            NotificationId = 100,
-        //            Title = "Esto es el titulo",
-        //            Sound = "sound",
-        //            Description = "Esto es el contenido del mensaje"
-        //        };
-
-        //        // Muestra la notificacion
-        //        await LocalNotificationCenter.Current.Show(notification);
-
-
-        //    }
-        //}
-
-
-
-
-        //}
-        //// Si la plataforma es windows...
-        //else if (DeviceInfo.Platform == DevicePlatform.WinUI)
-        //{
-        //    // Muestra el toast con el mensaje
-        //    await Toast.Make("Tienes un mensaje", ToastDuration.Short).Show();
-
-
-
-
-
     }
 }

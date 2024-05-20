@@ -1,6 +1,10 @@
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using mobileAppTest.Views;
 using Mopups.Hosting;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.AndroidOption;
+using Plugin.Maui.Audio;
 using Syncfusion.Maui.Core.Hosting;
 namespace mobileAppTest
 {
@@ -12,6 +16,16 @@ namespace mobileAppTest
             builder
                 .UseMauiCommunityToolkit().ConfigureMopups()
                 .ConfigureSyncfusionCore()
+                .UseLocalNotification(config =>
+                {
+                    config.AddAndroid(android =>
+                    {
+                        android.AddChannel(new NotificationChannelRequest
+                        {
+                            Sound = "rick"
+                        });
+                    });
+                })
                 .UseMauiCommunityToolkitMediaElement()
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -21,7 +35,9 @@ namespace mobileAppTest
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
+            builder.Services.AddSingleton(AudioManager.Current);
+            builder.Services.AddTransient<LoginPage>();
 #endif
             return builder.Build();
         }

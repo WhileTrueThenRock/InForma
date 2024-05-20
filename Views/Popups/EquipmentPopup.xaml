@@ -8,54 +8,80 @@
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:DataType="viewmodels:MainViewModel"
     CanBeDismissedByTappingOutsideOfPopup="False">
-    <ScrollView>
-        <VerticalStackLayout Background="White">
-            <Button
-                Margin="10"
-                BackgroundColor="Black"
-                Command="{Binding UpdateUserEquipmentsCommand}"
-                CommandParameter="{Binding SelectedEquipment}"
-                HeightRequest="50"
-                Text="Guardar Cambios"
-                TextColor="Green"
-                WidthRequest="150" />
-            <CollectionView
-                x:Name="myCollectionViewz"
-                HeightRequest="500"
-                ItemsSource="{Binding EquipmentList}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EquipmentModelView">
-                        <Border>
-                            <Grid Padding="10">
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionViewz}, Path=BindingContext.EquipmentTappedCommand}" CommandParameter="{Binding}" />
-                                </Grid.GestureRecognizers>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=White}" />
+                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=White}" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <ScrollView>
+            <VerticalStackLayout Margin="10">
+                <Button
+                    Margin="0,0,0,0"
+                    BackgroundColor="Black"
+                    Command="{Binding UpdateUserEquipmentsCommand}"
+                    CommandParameter="{Binding SelectedEquipment}"
+                    HeightRequest="50"
+                    HorizontalOptions="End"
+                    Text="X"
+                    WidthRequest="50">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <SearchBar
+                    x:Name="searchEntry"
+                    Margin="0,20,0,0"
+                    Background="AliceBlue"
+                    Placeholder="Buscar"
+                    Text="{Binding EquipmentSearchText}"
+                    TextChanged="OnSearchTextChanged"
+                    TextColor="Black"
+                    WidthRequest="380" />
+                <CollectionView
+                    x:Name="myCollectionViewz"
+                    HeightRequest="500"
+                    ItemsSource="{Binding EquipmentList}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:EquipmentModelView">
+                            <Border>
+                                <Grid Padding="10">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionViewz}, Path=BindingContext.EquipmentTappedCommand}" CommandParameter="{Binding}" />
+                                    </Grid.GestureRecognizers>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Image
-                                    Grid.Row="1"
-                                    Margin="0,20,0,0"
-                                    HeightRequest="100"
-                                    Source="{Binding Url}"
-                                    WidthRequest="100" />
-                                <Label
-                                    Grid.Column="1"
-                                    Text="{Binding Name}"
-                                    TextColor="Red"
-                                    VerticalOptions="Center" />
-                                <CheckBox
-                                    Grid.Column="3"
-                                    HeightRequest="100"
-                                    IsChecked="{Binding IsChecked, Mode=TwoWay}" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
+                                    <Image
+                                        Grid.Row="1"
+                                        Margin="0,20,0,0"
+                                        HeightRequest="100"
+                                        Source="{Binding Url}"
+                                        WidthRequest="100" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding Name}"
+                                        TextColor="Red"
+                                        VerticalOptions="Center" />
+                                    <CheckBox
+                                        Grid.Column="3"
+                                        HeightRequest="100"
+                                        IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                        Color="{AppThemeBinding Dark=#ff7b00,
+                                        Light=#48cae4}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </toolkit:Popup>

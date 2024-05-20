@@ -10,38 +10,60 @@
     x:Name="thisPage"
     x:DataType="viewmodels:MainViewModel"
     CanBeDismissedByTappingOutsideOfPopup="True">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#D2D5DB}" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <VerticalStackLayout HeightRequest="600" WidthRequest="400">
+            <Label
+                HorizontalOptions="Center"
+                Text="Selecciona el ejercicio a cambiar"
+                TextColor="Blue"
+                VerticalOptions="Center" />
+            <Border Margin="5">
+                <CollectionView
+                    x:Name="myCollection"
+                    HeightRequest="500"
+                    ItemsSource="{Binding MuscleExerciselist}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ExerciseModelView">
+                            <Border>
+                                <Grid Margin="0,20,0,0">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={x:Reference myCollection}, Path=BindingContext.CloseMuscleReplacementPopupCommand}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-    <VerticalStackLayout HeightRequest="600" WidthRequest="400">
-        <Label
-            HorizontalOptions="Center"
-            Text="Selecciona el ejercicio a cambiar"
-            TextColor="Blue"
-            VerticalOptions="Center" />
+                                    <Image
+                                        Grid.Column="1"
+                                        Margin="5"
+                                        HeightRequest="60"
+                                        Source="{Binding Urls[0]}"
+                                        WidthRequest="80" />
 
-        <CollectionView
-            x:Name="myCollection"
-            HeightRequest="500"
-            ItemsSource="{Binding MuscleExerciselist}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:ExerciseModelView">
-
-                    <HorizontalStackLayout Margin="0,20,0,0">
-                        <HorizontalStackLayout.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Source={x:Reference myCollection}, Path=BindingContext.CloseMuscleReplacementPopupCommand}"
-                                CommandParameter="{Binding .}"
-                                NumberOfTapsRequired="1" />
-                        </HorizontalStackLayout.GestureRecognizers>
-
-                        <Image
-                            Margin="0,20,0,0"
-                            HeightRequest="50"
-                            Source="{Binding Urls[0]}"
-                            WidthRequest="50" />
-                        <Label Text="{Binding Exercise.Name}" VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+                                    <Label
+                                        Grid.Column="2"
+                                        Margin="10,15,0,0"
+                                        FontSize="18"
+                                        Text="{Binding Exercise.Name}"
+                                        TextColor="{AppThemeBinding Dark=White,
+                                        Light=Black}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
 </toolkit:Popup>

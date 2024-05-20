@@ -38,7 +38,6 @@
                         VerticalOptions="Start"
                         WidthRequest="100" />
 
-
                     <BoxView
                         Margin="10,20,10,0"
                         BackgroundColor="Gray"
@@ -169,7 +168,13 @@
                     DrawerWidth="250"
                     EnableSwipeGesture="False">
                     <navigationdrawer:DrawerSettings.DrawerHeaderView>
-                        <Grid BackgroundColor="#6750A4" RowDefinitions="120,40">
+                        <Grid RowDefinitions="120,40">
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                    <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                </LinearGradientBrush>
+                            </Grid.Background>
                             <sfavatar:SfAvatarView
                                 AvatarName="Alex"
                                 ContentType="Default"
@@ -191,39 +196,96 @@
                                 FontSize="20"
                                 HorizontalOptions="Center"
                                 HorizontalTextAlignment="Center"
-                                Text="{Binding UserName}"
+                                Text="{Binding Name}"
                                 TextColor="White" />
                         </Grid>
                     </navigationdrawer:DrawerSettings.DrawerHeaderView>
                     <navigationdrawer:DrawerSettings.DrawerContentView>
-                        <VerticalStackLayout>
+                        <VerticalStackLayout BackgroundColor="{Binding DrawerColor}">
+                            <HorizontalStackLayout Margin="10,50,10,0">
+                                <Image
+                                    HeightRequest="30"
+                                    Source="backblack.png"
+                                    WidthRequest="30" />
+                                <Button
+                                    Command="{Binding OpenProfilePopupCommand}"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Start"
+                                    Text="Perfil"
+                                    VerticalOptions="Start"
+                                    WidthRequest="150">
+                                    <Button.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                        </LinearGradientBrush>
+                                    </Button.Background>
+                                </Button>
+                            </HorizontalStackLayout>
 
-                            <Button
-                                Margin="50,20,10,0"
-                                Command="{Binding OpenProfilePopupCommand}"
-                                HeightRequest="40"
-                                HorizontalOptions="Start"
-                                Text="Perfil"
-                                VerticalOptions="Start"
-                                WidthRequest="150" />
+                            <HorizontalStackLayout Margin="10,20,10,0">
+                                <Image
+                                    HeightRequest="30"
+                                    Source="backblack.png"
+                                    WidthRequest="30" />
+                                <Button
+                                    Command="{Binding OpenEquipmentPopupCommand}"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Start"
+                                    Text="Mi Equipamiento"
+                                    VerticalOptions="Start"
+                                    WidthRequest="150">
+                                    <Button.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                        </LinearGradientBrush>
+                                    </Button.Background>
+                                </Button>
+                            </HorizontalStackLayout>
 
-                            <Button
-                                Margin="50,20,10,0"
-                                Command="{Binding OpenEquipmentPopupCommand}"
-                                HeightRequest="40"
-                                HorizontalOptions="Start"
-                                Text="Mi Equipamiento"
-                                VerticalOptions="Start"
-                                WidthRequest="150" />
+                            <HorizontalStackLayout Margin="10,20,10,0">
+                                <Image
+                                    HeightRequest="30"
+                                    Source="backblack.png"
+                                    WidthRequest="30" />
+                                <Button
+                                    Command="{Binding OpenConfigurationPopupCommand}"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Start"
+                                    Text="Configuración"
+                                    VerticalOptions="Start"
+                                    WidthRequest="150">
+                                    <Button.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                        </LinearGradientBrush>
+                                    </Button.Background>
+                                </Button>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Margin="10,20,10,0">
+                                <Image
+                                    HeightRequest="30"
+                                    Source="backblack.png"
+                                    WidthRequest="30" />
 
-                            <Button
-                                Margin="50,20,10,0"
-                                Clicked="ClickToShowPopup_Clicked"
-                                HeightRequest="40"
-                                HorizontalOptions="Start"
-                                Text="Salir"
-                                VerticalOptions="Start"
-                                WidthRequest="150" />
+                                <Button
+                                    Clicked="ClickToShowPopup_Clicked"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Start"
+                                    Text="Salir"
+                                    VerticalOptions="Start"
+                                    WidthRequest="150">
+                                    <Button.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                        </LinearGradientBrush>
+                                    </Button.Background>
+                                </Button>
+
+                            </HorizontalStackLayout>
 
                             <popup:SfPopup
                                 x:Name="popup"
@@ -261,119 +323,197 @@
                 <tabView:SfTabView x:Name="tabView" TabBarPlacement="Bottom">
                     <tabView:SfTabView.Items>
                         <!--  TAB NUMBER ONE  -->
-                        <tabView:SfTabItem Header="Calendar">
+                        <tabView:SfTabItem Header="Calendar" TextColor="{AppThemeBinding Dark=white, Light=black}">
                             <tabView:SfTabItem.Content>
 
                                 <ScrollView>
-                                    <VerticalStackLayout Spacing="25">
-                                        <ImageButton
-                                            x:Name="hamburgerButton"
-                                            Background="Transparent"
-                                            Clicked="HamburgerButton_Clicked"
-                                            HeightRequest="50"
-                                            HorizontalOptions="Start"
-                                            Source="hamburgericon.png"
-                                            VerticalOptions="Start"
-                                            WidthRequest="50" />
+                                    <VerticalStackLayout>
+                                        <VerticalStackLayout HeightRequest="70" Spacing="25">
+                                            <VerticalStackLayout.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                    <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                </LinearGradientBrush>
+                                            </VerticalStackLayout.Background>
+                                            <ImageButton
+                                                x:Name="hamburgerButton"
+                                                Margin="10"
+                                                Background="Transparent"
+                                                Clicked="HamburgerButton_Clicked"
+                                                HeightRequest="50"
+                                                HorizontalOptions="Start"
+                                                Source="hamburgericon.png"
+                                                VerticalOptions="Start"
+                                                WidthRequest="50" />
+                                        </VerticalStackLayout>
 
+                                        <VerticalStackLayout>
 
-                                        <cal:Calendar
-                                            Culture="{Binding Culture}"
-                                            Events="{Binding Events, Mode=TwoWay}"
-                                            HeaderSectionVisible="True"
-                                            HeightRequest="400"
-                                            SelectedDate="{Binding Exercise.FechaEntrenamiento}"
-                                            SelectedDateColor="Orange"
-                                            SelectedDayBackgroundColor="Green"
-                                            SelectedDayEvents="{Binding EventsList, Mode=TwoWay}"
-                                            ShowYearPicker="False"
-                                            TodayOutlineColor="Aqua"
-                                            WidthRequest="350" />
-                                        <Border>
-                                            <CollectionView
-                                                x:Name="myCalendarCollection"
-                                                HeightRequest="300"
-                                                ItemsSource="{Binding EventsList}"
-                                                SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
-                                                SelectionMode="Single">
-                                                <CollectionView.ItemTemplate>
-                                                    <DataTemplate x:DataType="models:ExerciseModelView">
-                                                        <Border>
-                                                            <Grid>
-                                                                <Grid.GestureRecognizers>
-                                                                    <TapGestureRecognizer Command="{Binding Source={x:Reference myCalendarCollection}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
-                                                                </Grid.GestureRecognizers>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition Width="*" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="Auto" />
-                                                                    <RowDefinition Height="Auto" />
-                                                                    <RowDefinition Height="Auto" />
-                                                                </Grid.RowDefinitions>
-                                                                <Label
-                                                                    Grid.Row="1"
-                                                                    Text="{Binding Name}"
-                                                                    TextColor="Black"
-                                                                    VerticalOptions="Center" />
-                                                                <!--<Label Text="{Binding Path=BindingContext.TotalWorkoutDurationLabel, Source={x:Reference mainpage}}" />-->
-                                                                <Image
-                                                                    Grid.Row="1"
-                                                                    Margin="160,0,0,0"
-                                                                    HeightRequest="100"
-                                                                    Source="{Binding Urls[0]}"
-                                                                    WidthRequest="200" />
-                                                                <CheckBox
-                                                                    Grid.Row="1"
-                                                                    Grid.Column="3"
-                                                                    HeightRequest="50"
-                                                                    IsChecked="{Binding IsChecked}" />
-                                                            </Grid>
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </CollectionView.ItemTemplate>
-                                            </CollectionView>
-                                        </Border>
-                                        <VerticalStackLayout Margin="0,20,0,0">
+                                            <cal:Calendar
+                                                ArrowsBackgroundColor="{AppThemeBinding Dark=#ff7b00,
+                                                Light=#48cae4}"
+                                                Culture="{Binding Culture}"
+                                                DaysTitleColor="{AppThemeBinding Dark=White,
+                                                Light=Black}"
+                                                DaysTitleWeekendColor="{AppThemeBinding Dark=#FFFFFF,
+                                                Light=#000000}"
+                                                DeselectedDayTextColor="{AppThemeBinding Dark=White,
+                                                Light=Black}"
+                                                EventIndicatorColor="{AppThemeBinding Dark=#ff7b00,
+                                                Light=Red}"
+                                                EventIndicatorSelectedTextColor="{AppThemeBinding Dark=White,
+                                                Light=Black}"
+                                                EventIndicatorTextColor="{AppThemeBinding Dark=White,
+                                                Light=Black}"
+                                                Events="{Binding Events, Mode=TwoWay}"
+                                                HeaderSectionVisible="True"
+                                                HeightRequest="400"
+                                                MonthLabelColor="{AppThemeBinding Dark=#ff7b00,
+                                                Light=#48cae4}"
+                                                SelectedDate="{Binding Exercise.FechaEntrenamiento}"
+                                                SelectedDateColor="{AppThemeBinding Dark=#ff7b00,
+                                                Light=#48cae4}"
+                                                SelectedDayBackgroundColor="{AppThemeBinding Dark=#ff7b00,
+                                                Light=#48cae4}"
+                                                SelectedDayEvents="{Binding EventsList, Mode=TwoWay}"
+                                                ShowYearPicker="False"
+                                                TodayOutlineColor="{AppThemeBinding Dark=#ff7b00,
+                                                Light=#48cae4}"
+                                                TodayTextColor="{AppThemeBinding Dark=White,
+                                                Light=Black}"
+                                                WeekendDayColor="{AppThemeBinding Dark=White,
+                                                Light=Black}"
+                                                WidthRequest="350" />
+                                            <Button
+                                                Command="{Binding TestDarkModeCommand}"
+                                                Text="switch"
+                                                WidthRequest="100" />
                                             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                                                 <Button
-                                                    Background="Red"
                                                     Command="{Binding DeleteSelectedEventCommand}"
                                                     IsVisible="{Binding IsDeleteExerciseButtonVisible}"
                                                     Text="Borrar"
-                                                    WidthRequest="100" />
+                                                    WidthRequest="100">
+                                                    <Button.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ef233c, Light=#e01e37}" />
+                                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#780000, Light=#780000}" />
+                                                        </LinearGradientBrush>
+                                                    </Button.Background>
+                                                </Button>
                                                 <Button
-                                                    Background="GreenYellow"
                                                     Command="{Binding BindingContext.OpenInfoExercisePopupCommand, Source={x:Reference myCalendarCollection}}"
                                                     IsVisible="{Binding IsDetailsExerciseButtonVisible}"
                                                     Text="Detalles"
-                                                    TextColor="Black"
-                                                    WidthRequest="150" />
+                                                    WidthRequest="150">
+                                                    <Button.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                        </LinearGradientBrush>
+                                                    </Button.Background>
+                                                </Button>
                                             </HorizontalStackLayout>
+                                            <Border Margin="5">
+                                                <CollectionView
+                                                    x:Name="myCalendarCollection"
+                                                    HeightRequest="300"
+                                                    ItemsSource="{Binding EventsList}"
+                                                    SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
+                                                    SelectionMode="Single">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate x:DataType="models:ExerciseModelView">
+                                                            <Border>
+
+                                                                <Grid>
+                                                                    <Grid.GestureRecognizers>
+                                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCalendarCollection}, Path=BindingContext.CalendarExerciseTappedCommand}" CommandParameter="{Binding}" />
+                                                                    </Grid.GestureRecognizers>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="5" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <CheckBox
+                                                                        Grid.Column="1"
+                                                                        HeightRequest="50"
+                                                                        IsChecked="{Binding IsChecked}"
+                                                                        Color="{AppThemeBinding Dark=#ff7b00,
+                                                                        Light=#48cae4}" />
+                                                                    <Label
+                                                                        Grid.Column="2"
+                                                                        Margin="5"
+                                                                        Text="{Binding Name}"
+                                                                        TextColor="{AppThemeBinding Dark=White,
+                                                                        Light=Black}"
+                                                                        VerticalOptions="Center"
+                                                                        WidthRequest="175" />
+                                                                    <Image
+                                                                        Grid.Column="4"
+                                                                        HeightRequest="60"
+                                                                        Source="{Binding Urls[0]}"
+                                                                        WidthRequest="200" />
+
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+
+                                            </Border>
 
                                         </VerticalStackLayout>
-
                                     </VerticalStackLayout>
                                 </ScrollView>
                             </tabView:SfTabItem.Content>
                         </tabView:SfTabItem>
                         <!--  TAB NUMBER TWO  -->
-                        <tabView:SfTabItem Header="Gym">
+                        <tabView:SfTabItem Header="Gym" TextColor="{AppThemeBinding Dark=white, Light=black}">
                             <tabView:SfTabItem.Content>
 
                                 <ScrollView>
                                     <VerticalStackLayout Margin="10">
+                                        <Label Text="Filtra por:" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Margin="20"
+                                                Text="Tiempo" />
+                                            <Label
+                                                Grid.Column="2"
+                                                Margin="50,20,0,0"
+                                                Text="Músculos" />
+                                            <Label
+                                                Grid.Column="3"
+                                                Margin="60,10,0,0"
+                                                Text="O crea tu propio entreno"
+                                                WidthRequest="98" />
+                                        </Grid>
+
                                         <ScrollView Orientation="Horizontal">
                                             <HorizontalStackLayout>
 
                                                 <VerticalStackLayout>
                                                     <Border
-                                                        BackgroundColor="Orange"
+                                                        BackgroundColor="{AppThemeBinding Dark=#ff7b00,
+                                                        Light=#48cae4}"
                                                         StrokeShape="RoundRectangle 0,20,20,0"
                                                         StrokeThickness="2">
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                            </LinearGradientBrush>
+                                                        </Border.Background>
                                                         <syncfusion:SfExpander
                                                             x:Name="durationExpander"
                                                             Margin="10,10,0,0"
@@ -381,15 +521,23 @@
                                                             WidthRequest="100">
                                                             <syncfusion:SfExpander.Header>
                                                                 <Grid>
-                                                                    <Label HeightRequest="40" Text="{Binding DurationHeader}" />
+                                                                    <Label
+                                                                        HeightRequest="40"
+                                                                        Text="{Binding DurationHeader}"
+                                                                        TextColor="{AppThemeBinding Dark=Black,
+                                                                        Light=White}" />
                                                                 </Grid>
                                                             </syncfusion:SfExpander.Header>
                                                             <syncfusion:SfExpander.Content>
                                                                 <Grid>
                                                                     <buttons:SfRadioGroup>
-                                                                        <Label Text="Tiempo de entrenamiento" />
 
-                                                                        <buttons:SfRadioButton IsChecked="True" Text="15 min">
+                                                                        <buttons:SfRadioButton
+                                                                            IsChecked="True"
+                                                                            Text="15 min"
+                                                                            TextColor="{AppThemeBinding Dark=Black,
+                                                                            Light=White}">
+
                                                                             <buttons:SfRadioButton.GestureRecognizers>
                                                                                 <TapGestureRecognizer
                                                                                     Command="{Binding SelectDurationWorkoutCommand}"
@@ -398,7 +546,7 @@
                                                                             </buttons:SfRadioButton.GestureRecognizers>
                                                                         </buttons:SfRadioButton>
 
-                                                                        <buttons:SfRadioButton Text="30 min">
+                                                                        <buttons:SfRadioButton Text="30 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                             <buttons:SfRadioButton.GestureRecognizers>
                                                                                 <TapGestureRecognizer
                                                                                     Command="{Binding SelectDurationWorkoutCommand}"
@@ -407,7 +555,7 @@
                                                                             </buttons:SfRadioButton.GestureRecognizers>
                                                                         </buttons:SfRadioButton>
 
-                                                                        <buttons:SfRadioButton Text="45 min">
+                                                                        <buttons:SfRadioButton Text="45 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                             <buttons:SfRadioButton.GestureRecognizers>
                                                                                 <TapGestureRecognizer
                                                                                     Command="{Binding SelectDurationWorkoutCommand}"
@@ -416,7 +564,7 @@
                                                                             </buttons:SfRadioButton.GestureRecognizers>
                                                                         </buttons:SfRadioButton>
 
-                                                                        <buttons:SfRadioButton Text="1 hr">
+                                                                        <buttons:SfRadioButton Text="1 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                             <buttons:SfRadioButton.GestureRecognizers>
                                                                                 <TapGestureRecognizer
                                                                                     Command="{Binding SelectDurationWorkoutCommand}"
@@ -425,7 +573,7 @@
                                                                             </buttons:SfRadioButton.GestureRecognizers>
                                                                         </buttons:SfRadioButton>
 
-                                                                        <buttons:SfRadioButton Text="1:30 hr">
+                                                                        <buttons:SfRadioButton Text="1:30 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                             <buttons:SfRadioButton.GestureRecognizers>
                                                                                 <TapGestureRecognizer
                                                                                     Command="{Binding SelectDurationWorkoutCommand}"
@@ -434,7 +582,7 @@
                                                                             </buttons:SfRadioButton.GestureRecognizers>
                                                                         </buttons:SfRadioButton>
 
-                                                                        <buttons:SfRadioButton Text="2 hr">
+                                                                        <buttons:SfRadioButton Text="2 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                             <buttons:SfRadioButton.GestureRecognizers>
                                                                                 <TapGestureRecognizer
                                                                                     Command="{Binding SelectDurationWorkoutCommand}"
@@ -443,7 +591,7 @@
                                                                             </buttons:SfRadioButton.GestureRecognizers>
                                                                         </buttons:SfRadioButton>
 
-                                                                        <buttons:SfRadioButton Text="2:30 hr">
+                                                                        <buttons:SfRadioButton Text="2:30 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                             <buttons:SfRadioButton.GestureRecognizers>
                                                                                 <TapGestureRecognizer
                                                                                     Command="{Binding SelectDurationWorkoutCommand}"
@@ -452,7 +600,7 @@
                                                                             </buttons:SfRadioButton.GestureRecognizers>
                                                                         </buttons:SfRadioButton>
 
-                                                                        <buttons:SfRadioButton Text="3 hr">
+                                                                        <buttons:SfRadioButton Text="3 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                             <buttons:SfRadioButton.GestureRecognizers>
                                                                                 <TapGestureRecognizer
                                                                                     Command="{Binding SelectDurationWorkoutCommand}"
@@ -474,7 +622,14 @@
                                                     HorizontalOptions="Start"
                                                     Text="Músculos"
                                                     VerticalOptions="Start"
-                                                    WidthRequest="110" />
+                                                    WidthRequest="110">
+                                                    <Button.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                        </LinearGradientBrush>
+                                                    </Button.Background>
+                                                </Button>
 
 
                                                 <Button
@@ -483,99 +638,82 @@
                                                     HeightRequest="40"
                                                     Text="Custom"
                                                     VerticalOptions="Start"
-                                                    WidthRequest="100" />
+                                                    WidthRequest="100">
+                                                    <Button.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                        </LinearGradientBrush>
+                                                    </Button.Background>
+                                                </Button>
                                             </HorizontalStackLayout>
                                         </ScrollView>
                                         <HorizontalStackLayout>
-                                            <Label
-                                                Margin="10,0,0,0"
-                                                FontAttributes="Bold"
-                                                FontFamily="Calibri"
-                                                FontSize="20"
-                                                Text="{Binding ExerciseCount}"
-                                                TextColor="Red" />
-                                            <Label
-                                                Margin="10,0,0,0"
-                                                FontAttributes="Bold"
-                                                FontFamily="Calibri"
-                                                FontSize="20"
-                                                Text="Ejercicios" />
+                                            <Button
+                                                Command="{Binding TestDarkModeCommand}"
+                                                Text="switch"
+                                                WidthRequest="100" />
                                         </HorizontalStackLayout>
                                         <ScrollView>
+                                            <Border>
+                                                <CollectionView
+                                                    x:Name="myCollectionView"
+                                                    HeightRequest="400"
+                                                    ItemsSource="{Binding ExerciseList}">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate x:DataType="models:ExerciseModelView">
+                                                            <Border>
 
-                                            <CollectionView
-                                                x:Name="myCollectionView"
-                                                HeightRequest="500"
-                                                ItemsSource="{Binding ExerciseList}">
-                                                <CollectionView.ItemTemplate>
-                                                    <DataTemplate x:DataType="models:ExerciseModelView">
+                                                                <SwipeView>
+                                                                    <SwipeView.LeftItems>
+                                                                        <SwipeItems>
+                                                                            <SwipeItem
+                                                                                BackgroundColor="{AppThemeBinding Dark=#ef233c,
+                                                                                Light=#e01e37}"
+                                                                                Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                                                CommandParameter="{Binding .}"
+                                                                                IconImageSource="trash.png"
+                                                                                Text="Eliminar" />
+                                                                            <SwipeItem
+                                                                                BackgroundColor="{AppThemeBinding Dark=#ff7b00,
+                                                                                Light=#023e8a}"
+                                                                                Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
+                                                                                CommandParameter="{Binding .}"
+                                                                                IconImageSource="replace.png"
+                                                                                Text="Reemplazar" />
+                                                                        </SwipeItems>
+                                                                    </SwipeView.LeftItems>
+                                                                    <Grid>
+                                                                        <Grid.GestureRecognizers>
+                                                                            <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
+                                                                        </Grid.GestureRecognizers>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="*" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Image
+                                                                            Grid.Column="1"
+                                                                            Margin="5"
+                                                                            HeightRequest="100"
+                                                                            Source="{Binding Urls[0]}"
+                                                                            WidthRequest="150" />
+                                                                        <Label
+                                                                            Grid.Column="2"
+                                                                            FontSize="15"
+                                                                            Text="{Binding Exercise.Name}"
+                                                                            TextColor="{AppThemeBinding Dark=White,
+                                                                            Light=Black}"
+                                                                            VerticalOptions="Center" />
 
+                                                                    </Grid>
 
-                                                        <SwipeView>
-                                                            <!--<SwipeView.GestureRecognizers>
-                                                            <SwipeGestureRecognizer
-                                                            Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                            CommandParameter="{Binding .}"
-                                                            Direction="Right" />
-                                                            </SwipeView.GestureRecognizers>-->
-
-                                                            <SwipeView.LeftItems>
-                                                                <SwipeItems>
-                                                                    <SwipeItem
-                                                                        BackgroundColor="Red"
-                                                                        Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                                        CommandParameter="{Binding .}"
-                                                                        Text="Eliminar" />
-                                                                    <SwipeItem
-                                                                        BackgroundColor="LightGreen"
-                                                                        Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
-                                                                        CommandParameter="{Binding .}"
-                                                                        Text="Reemplazar" />
-                                                                </SwipeItems>
-                                                            </SwipeView.LeftItems>
-                                                            <Grid Padding="10">
-                                                                <Grid.GestureRecognizers>
-                                                                    <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
-                                                                </Grid.GestureRecognizers>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition Width="*" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                </Grid.ColumnDefinitions>
-                                                                <Image
-                                                                    Grid.Row="1"
-                                                                    Margin="0,20,0,0"
-                                                                    HeightRequest="50"
-                                                                    Source="{Binding Urls[0]}"
-                                                                    WidthRequest="50" />
-                                                                <!--  TextColor="{Binding Path=BindingContext.ExerciseListColor, Source={x:Reference mainpage}}"  -->
-                                                                <Label
-                                                                    Grid.Column="1"
-                                                                    Text="{Binding Exercise.Name}"
-                                                                    VerticalOptions="Center">
-                                                                    <Label.Triggers>
-                                                                        <DataTrigger
-                                                                            Binding="{Binding Path=BindingContext.IsExerciseFinished, Source={x:Reference mainpage}}"
-                                                                            TargetType="Label"
-                                                                            Value="True">
-                                                                            <Setter Property="TextColor" Value="LightGreen" />
-                                                                        </DataTrigger>
-                                                                        <DataTrigger
-                                                                            Binding="{Binding Path=BindingContext.IsExerciseFinished, Source={x:Reference mainpage}}"
-                                                                            TargetType="Label"
-                                                                            Value="False">
-                                                                            <Setter Property="TextColor" Value="Black" />
-                                                                        </DataTrigger>
-                                                                    </Label.Triggers>
-                                                                </Label>
-                                                            </Grid>
-
-                                                        </SwipeView>
-
-                                                    </DataTemplate>
-                                                </CollectionView.ItemTemplate>
-                                            </CollectionView>
-
+                                                                </SwipeView>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </Border>
                                         </ScrollView>
 
                                         <Button
@@ -583,16 +721,24 @@
                                             Command="{Binding LoadStartedWorkoutCommand}"
                                             CommandParameter="{Binding ExerciseList}"
                                             HeightRequest="40"
-                                            Text="Start"
+                                            IsVisible="{Binding IsStartTrainingVisible}"
+                                            Text="{Binding StartTrainingText}"
                                             VerticalOptions="End"
-                                            WidthRequest="80" />
+                                            WidthRequest="180">
+                                            <Button.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                    <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
                                     </VerticalStackLayout>
                                 </ScrollView>
                             </tabView:SfTabItem.Content>
                         </tabView:SfTabItem>
 
                         <!--  TAB NUMBER THREE  -->
-                        <tabView:SfTabItem Header="Entrenamientos">
+                        <tabView:SfTabItem Header="Entrenamientos" TextColor="{AppThemeBinding Dark=white, Light=black}">
                             <tabView:SfTabItem.Content>
                                 <VerticalStackLayout>
 
@@ -609,7 +755,7 @@
                                                         AnimationDuration="250"
                                                         AnimationEasing="SinInOut"
                                                         ExpandMode="SingleOrNone"
-                                                        IsVisible="{Binding BindingContext.IsAccordionVisible, Source={x:Reference mainpage}, Mode=TwoWay}">
+                                                        IsVisible="{Binding BindingContext.IsAccordionVisible, Source={x:Reference mainpage}, Mode=OneWayToSource}">
 
                                                         <accordion:SfAccordion.Items>
                                                             <accordion:AccordionItem>
@@ -713,13 +859,13 @@
                                             <Button
                                                 Background="Red"
                                                 Command="{Binding DeleteSelectedExerciseCommand}"
-                                                IsVisible="{Binding IsDeleteExerciseButtonVisible}"
+                                                IsVisible="{Binding IsDeleteCustomExerciseButtonVisible}"
                                                 Text="Borrar"
                                                 WidthRequest="100" />
                                             <Button
                                                 Background="Red"
                                                 Command="{Binding DeleteSessionCommand}"
-                                                IsVisible="{Binding IsDeleteExerciseButtonVisible}"
+                                                IsVisible="{Binding IsDeleteCustomExerciseButtonVisible}"
                                                 Text="Borrar Todo"
                                                 WidthRequest="150" />
                                         </HorizontalStackLayout>

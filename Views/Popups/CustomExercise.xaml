@@ -8,196 +8,324 @@
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:DataType="viewmodels:MainViewModel"
     CanBeDismissedByTappingOutsideOfPopup="False">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#D2D5DB}" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <!--  HeightRequest="600" WidthRequest="400"  -->
+        <VerticalStackLayout Margin="10">
+            <Button
+                BackgroundColor="Red"
+                Command="{Binding ClosecustomExercisePopupCommand}"
+                HeightRequest="50"
+                HorizontalOptions="End"
+                Text="X"
+                WidthRequest="50">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=Red}" />
+                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Label
+                Margin="0,20,0,0"
+                FontAttributes="Bold,Italic"
+                HorizontalOptions="Center"
+                Text="Selecciona tus ejercicios"
+                TextColor="{AppThemeBinding Dark=white,
+                Light=black}" />
 
-    <!--  HeightRequest="600" WidthRequest="400"  -->
-    <VerticalStackLayout Margin="10">
-        <Button
-            BackgroundColor="Red"
-            Command="{Binding ClosecustomExercisePopupCommand}"
-            HeightRequest="50"
-            HorizontalOptions="End"
-            Text="X"
-            WidthRequest="50" />
-        <Label
-            Margin="0,20,0,0"
-            FontAttributes="Bold,Italic"
-            HorizontalOptions="Center"
-            Text="Selecciona tus ejercicios"
-            TextColor="Black" />
+            <SearchBar
+                x:Name="searchEntry"
+                Margin="0,20,0,0"
+                Background="AliceBlue"
+                Placeholder="Buscar"
+                Text="{Binding SearchText}"
+                TextChanged="OnSearchTextChanged"
+                TextColor="Black"
+                WidthRequest="380" />
+            <ScrollView Orientation="Horizontal">
+                <HorizontalStackLayout>
+                    <Button
+                        Margin="10"
+                        Command="{Binding ShowExercisesWithAvailableEquipmentCommand}"
+                        Text="Todos"
+                        WidthRequest="70">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
 
-        <SearchBar
-            x:Name="searchEntry"
-            Margin="0,20,0,0"
-            Background="AliceBlue"
-            Placeholder="Buscar"
-            Text="{Binding SearchText}"
-            TextChanged="OnSearchTextChanged"
-            WidthRequest="380" />
-        <ScrollView Orientation="Horizontal">
-            <HorizontalStackLayout>
-                <Button
-                    Margin="10"
-                    Command="{Binding ShowExercisesWithAvailableEquipmentCommand}"
-                    Text="Todos"
-                    WidthRequest="70" />
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Pecho"
+                        HeightRequest="50"
+                        Text="Pecho"
+                        WidthRequest="70">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Hombro"
+                        HeightRequest="50"
+                        Text="Hombro"
+                        WidthRequest="90">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Espalda"
+                        HeightRequest="50"
+                        Text="Espalda"
+                        WidthRequest="80">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Cuádriceps"
+                        HeightRequest="50"
+                        Text="Cuádriceps"
+                        WidthRequest="100">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Femoral"
+                        HeightRequest="50"
+                        Text="Femoral"
+                        WidthRequest="85">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Gemelos"
+                        HeightRequest="50"
+                        Text="Gemelos"
+                        WidthRequest="85">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
 
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Pecho"
-                    HeightRequest="50"
-                    Text="Pecho"
-                    WidthRequest="70" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Hombro"
-                    HeightRequest="50"
-                    Text="Hombro"
-                    WidthRequest="90" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Espalda"
-                    HeightRequest="50"
-                    Text="Espalda"
-                    WidthRequest="80" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Cuádriceps"
-                    HeightRequest="50"
-                    Text="Cuádriceps"
-                    WidthRequest="100" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Femoral"
-                    HeightRequest="50"
-                    Text="Femoral"
-                    WidthRequest="85" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Gemelos"
-                    HeightRequest="50"
-                    Text="Gemelos"
-                    WidthRequest="85" />
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Bíceps"
+                        HeightRequest="50"
+                        Text="Bíceps"
+                        WidthRequest="80">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Tríceps"
+                        HeightRequest="50"
+                        Text="Tríceps"
+                        WidthRequest="80">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Glúteos"
+                        HeightRequest="50"
+                        Text="Glúteos"
+                        WidthRequest="80">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Antebrazo"
+                        HeightRequest="50"
+                        Text="Antrebrazo"
+                        WidthRequest="110">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
 
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Bíceps"
-                    HeightRequest="50"
-                    Text="Bíceps"
-                    WidthRequest="80" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Tríceps"
-                    HeightRequest="50"
-                    Text="Tríceps"
-                    WidthRequest="80" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Glúteos"
-                    HeightRequest="50"
-                    Text="Glúteos"
-                    WidthRequest="80" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Antebrazo"
-                    HeightRequest="50"
-                    Text="Antrebrazo"
-                    WidthRequest="110" />
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Abdomen"
+                        HeightRequest="50"
+                        Text="Abdomen"
+                        WidthRequest="100">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Trapecio"
+                        HeightRequest="50"
+                        Text="Trapecio"
+                        WidthRequest="100">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
 
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Abdomen"
-                    HeightRequest="50"
-                    Text="Abdomen"
-                    WidthRequest="100" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Trapecio"
-                    HeightRequest="50"
-                    Text="Trapecio"
-                    WidthRequest="100" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Cuello"
-                    HeightRequest="50"
-                    Text="Cuello"
-                    WidthRequest="100" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Aductores"
-                    HeightRequest="50"
-                    Text="Aductores"
-                    WidthRequest="100" />
-                <Button
-                    Margin="10"
-                    Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
-                    CommandParameter="Abductores"
-                    HeightRequest="50"
-                    Text="Abductores"
-                    WidthRequest="105" />
-                <Button
-                    Margin="10"
-                    HeightRequest="50"
-                    Text="Estiramientos"
-                    WidthRequest="130" />
-            </HorizontalStackLayout>
-        </ScrollView>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Aductores"
+                        HeightRequest="50"
+                        Text="Aductores"
+                        WidthRequest="100">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button
+                        Margin="10"
+                        Command="{Binding WhereEqualsToPrimaryMusclesCommand}"
+                        CommandParameter="Abductores"
+                        HeightRequest="50"
+                        Text="Abductores"
+                        WidthRequest="105">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
 
-        <CollectionView
-            x:Name="myCollectionView"
-            HeightRequest="400"
-            ItemsSource="{Binding ExerciseList}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:ExerciseModelView">
-                    <Grid Padding="10">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
-                        </Grid.GestureRecognizers>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            Grid.Row="1"
-                            Margin="0,20,0,0"
-                            HeightRequest="50"
-                            Source="{Binding Urls[0]}"
-                            WidthRequest="50" />
-                        <Label
-                            Grid.Column="1"
-                            Text="{Binding Name}"
-                            VerticalOptions="Center" />
-                        <CheckBox
-                            Grid.Column="3"
-                            HeightRequest="100"
-                            IsChecked="{Binding IsChecked}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                </HorizontalStackLayout>
+            </ScrollView>
+            <Border Margin="5">
+                <CollectionView
+                    x:Name="myCollectionView"
+                    HeightRequest="400"
+                    ItemsSource="{Binding ExerciseList}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ExerciseModelView">
+                            <Border>
+                                <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.ExerciseTappedCommand}" CommandParameter="{Binding}" />
+                                    </Grid.GestureRecognizers>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="200" />
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox
+                                        Grid.Column="1"
+                                        HeightRequest="50"
+                                        IsChecked="{Binding IsChecked}"
+                                        Color="{AppThemeBinding Dark=#ff7b00,
+                                        Light=#48cae4}" />
+                                    <Label
+                                        Grid.Column="2"
+                                        Margin="40,5,0,0"
+                                        Text="{Binding Name}"
+                                        TextColor="{AppThemeBinding Dark=White,
+                                        Light=Black}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="165" />
+                                    <Image
+                                        Grid.Column="4"
+                                        Margin="80,0,0,0"
+                                        HeightRequest="60"
+                                        Source="{Binding Urls[0]}"
+                                        WidthRequest="200" />
+                                </Grid>
+                            </Border>
 
-        <Button
-            x:Name="new_"
-            Margin="0,20,0,0"
-            Command="{Binding NewTrainingSessionCommand}"
-            HorizontalOptions="Center"
-            IsVisible="{Binding IsCustomExerciseButtonVisible}"
-            Text="Nuevo entrenamiento"
-            WidthRequest="150" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+            <Button
+                x:Name="new_"
+                Margin="0,20,0,0"
+                Command="{Binding NewTrainingSessionCommand}"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ShowNewTrainingButton}"
+                Text="{Binding NewTrainingButtonText}"
+                WidthRequest="150">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 </toolkit:Popup>

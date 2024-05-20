@@ -2,9 +2,9 @@ using CommunityToolkit.Maui.Views;
 
 namespace mobileAppTest.Views.Popups;
 
-public partial class SaveWorkoutPopup : Popup
+public partial class ConfigurationPopup : Popup
 {
-	public SaveWorkoutPopup()
+	public ConfigurationPopup()
 	{
 		InitializeComponent();
 	}

@@ -55,7 +55,7 @@
 		<MauiFont Include="Resources\Fonts\*" />
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+		<MauiAsset Include="Platforms\Android\Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -69,13 +69,27 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiAsset Remove="Platforms\Android\Resources\Raw\AboutAssets.txt" />
+	  <MauiAsset Remove="Platforms\Android\Resources\Raw\rick.mp3" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Platforms\Android\google-services.json" />
+	  <None Remove="Platforms\iOS\Raw\AboutAssets.txt" />
+	  <None Remove="Platforms\iOS\Raw\rick.mp3" />
 	  <None Remove="Resources\Images\abdomen.png" />
+	  <None Remove="Resources\Images\abdomendark.png" />
+	  <None Remove="Resources\Images\abducoresdark.png" />
 	  <None Remove="Resources\Images\abductores.png" />
 	  <None Remove="Resources\Images\abs1.png" />
 	  <None Remove="Resources\Images\abs2.png" />
 	  <None Remove="Resources\Images\aductores.png" />
+	  <None Remove="Resources\Images\aductoresdark.png" />
 	  <None Remove="Resources\Images\antebrazo.png" />
+	  <None Remove="Resources\Images\antebrazodark.jpg" />
+	  <None Remove="Resources\Images\antebrazodark.png" />
+	  <None Remove="Resources\Images\backblack.png" />
+	  <None Remove="Resources\Images\backwhite.png" />
 	  <None Remove="Resources\Images\bancodeclinado.jpg" />
 	  <None Remove="Resources\Images\bancohorizontal.jpg" />
 	  <None Remove="Resources\Images\bancoinclinado.jpg" />
@@ -84,11 +98,15 @@
 	  <None Remove="Resources\Images\barras.jpg" />
 	  <None Remove="Resources\Images\barraz.jpg" />
 	  <None Remove="Resources\Images\biceps.png" />
+	  <None Remove="Resources\Images\bicepsdark.png" />
 	  <None Remove="Resources\Images\body1.png" />
+	  <None Remove="Resources\Images\body1dark.png" />
 	  <None Remove="Resources\Images\body2.png" />
+	  <None Remove="Resources\Images\body2dark.png" />
 	  <None Remove="Resources\Images\calfs1.png" />
 	  <None Remove="Resources\Images\calfs2.png" />
 	  <None Remove="Resources\Images\cuadriceps.png" />
+	  <None Remove="Resources\Images\cuadricepsdark.png" />
 	  <None Remove="Resources\Images\cuello.png" />
 	  <None Remove="Resources\Images\cuello1.png" />
 	  <None Remove="Resources\Images\cuello2.png" />
@@ -97,10 +115,14 @@
 	  <None Remove="Resources\Images\dominadas.jpg" />
 	  <None Remove="Resources\Images\dumbbells.jpg" />
 	  <None Remove="Resources\Images\espalda.png" />
+	  <None Remove="Resources\Images\espaldadark.png" />
 	  <None Remove="Resources\Images\facebooklogo.png" />
 	  <None Remove="Resources\Images\femoral.png" />
+	  <None Remove="Resources\Images\femoraldark.png" />
 	  <None Remove="Resources\Images\gemelos.png" />
+	  <None Remove="Resources\Images\gemelosdark.png" />
 	  <None Remove="Resources\Images\gluteos.png" />
+	  <None Remove="Resources\Images\gluteosdark.png" />
 	  <None Remove="Resources\Images\glutes1.png" />
 	  <None Remove="Resources\Images\glutes2.png" />
 	  <None Remove="Resources\Images\googlelogo.png" />
@@ -110,10 +132,13 @@
 	  <None Remove="Resources\Images\hamstrings1.png" />
 	  <None Remove="Resources\Images\hamstrings2.png" />
 	  <None Remove="Resources\Images\hombro.png" />
+	  <None Remove="Resources\Images\hombrodark.png" />
 	  <None Remove="Resources\Images\hombroder1.png" />
 	  <None Remove="Resources\Images\hombroder2.png" />
 	  <None Remove="Resources\Images\hombroizq1.png" />
 	  <None Remove="Resources\Images\hombroizq2.png" />
+	  <None Remove="Resources\Images\informadark.png" />
+	  <None Remove="Resources\Images\informalight.png" />
 	  <None Remove="Resources\Images\instalogo.png" />
 	  <None Remove="Resources\Images\landmine.jpg" />
 	  <None Remove="Resources\Images\leftabductor1.png" />
@@ -155,9 +180,26 @@
 	  <None Remove="Resources\Images\maquinascottplacas.jpg" />
 	  <None Remove="Resources\Images\maquinasentadillas.png" />
 	  <None Remove="Resources\Images\maquinatrapecio.jpg" />
+	  <None Remove="Resources\Images\Muscles\abdomen.png" />
+	  <None Remove="Resources\Images\Muscles\abductores.png" />
+	  <None Remove="Resources\Images\Muscles\aductores.png" />
+	  <None Remove="Resources\Images\Muscles\antebrazo.png" />
+	  <None Remove="Resources\Images\Muscles\biceps.png" />
+	  <None Remove="Resources\Images\Muscles\cuadriceps.png" />
+	  <None Remove="Resources\Images\Muscles\espalda.png" />
+	  <None Remove="Resources\Images\Muscles\femoral.png" />
+	  <None Remove="Resources\Images\Muscles\gemelos.png" />
+	  <None Remove="Resources\Images\Muscles\gluteos.png" />
+	  <None Remove="Resources\Images\Muscles\hombro.png" />
+	  <None Remove="Resources\Images\Muscles\pecho.png" />
+	  <None Remove="Resources\Images\Muscles\trapecio.png" />
+	  <None Remove="Resources\Images\Muscles\triceps.png" />
 	  <None Remove="Resources\Images\pecho.png" />
 	  <None Remove="Resources\Images\pecho1.png" />
 	  <None Remove="Resources\Images\pecho2.png" />
+	  <None Remove="Resources\Images\pechodark.png" />
+	  <None Remove="Resources\Images\reddot.gif" />
+	  <None Remove="Resources\Images\replace.png" />
 	  <None Remove="Resources\Images\rightabductor1.png" />
 	  <None Remove="Resources\Images\rightabductor2.png" />
 	  <None Remove="Resources\Images\rightadductor1.png" />
@@ -170,6 +212,8 @@
 	  <None Remove="Resources\Images\rightlat2.png" />
 	  <None Remove="Resources\Images\righttricep1.png" />
 	  <None Remove="Resources\Images\righttricep2.png" />
+	  <None Remove="Resources\Images\rotation.png" />
+	  <None Remove="Resources\Images\rotationdark.png" />
 	  <None Remove="Resources\Images\ruedaabd.jpg" />
 	  <None Remove="Resources\Images\seriesCompleted.gif" />
 	  <None Remove="Resources\Images\sinequipamiento.png" />
@@ -179,8 +223,12 @@
 	  <None Remove="Resources\Images\trap1.png" />
 	  <None Remove="Resources\Images\trap2.png" />
 	  <None Remove="Resources\Images\trapecio.png" />
+	  <None Remove="Resources\Images\trapeciodark.png" />
+	  <None Remove="Resources\Images\trash.png" />
 	  <None Remove="Resources\Images\triceps.png" />
+	  <None Remove="Resources\Images\tricepsdark.png" />
 	  <None Remove="Resources\Images\xlogo.png" />
+	  <None Remove="Platforms\Android\Resources\Raw\rick.mp3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -196,7 +244,8 @@
 		<PackageReference Include="Mopups" Version="1.3.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Plugin.CloudFirestore" Version="4.1.0" />
-		<PackageReference Include="Plugin.LocalNotification" Version="9.2.0" />
+		<PackageReference Include="Plugin.LocalNotification" Version="11.1.2" />
+		<PackageReference Include="Plugin.Maui.Audio" Version="2.1.0" />
 		<PackageReference Include="Plugin.Maui.Calendar" Version="1.1.1" />
 		<PackageReference Include="Syncfusion.Maui.Buttons" Version="24.1.43" />
 		<PackageReference Include="Syncfusion.Maui.Calendar" Version="24.1.43" />
@@ -217,6 +266,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\FinishedWorkoutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\ConfigurationPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\ForgotPasswordPopup.xaml">
@@ -246,9 +298,6 @@
 	  <MauiXaml Update="Views\Popups\ProfilePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Popups\SaveWorkoutPopup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\RegisterPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -262,8 +311,17 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+	  <PackageReference Include="Xamarin.AndroidX.Collection">
+	    <Version>1.4.0.2</Version>
+	  </PackageReference>
+	  <PackageReference Include="Xamarin.AndroidX.Collection.Jvm">
+	    <Version>1.4.0.1</Version>
+	  </PackageReference>
+	  <PackageReference Include="Xamarin.AndroidX.Collection.Ktx">
+	    <Version>1.4.0.1</Version>
+	  </PackageReference>
 	  <PackageReference Include="Xamarin.GooglePlayServices.Base">
-	    <Version>117.5.0</Version>
+	    <Version>118.2.0.6</Version>
 	  </PackageReference>
 	</ItemGroup>
 
@@ -309,36 +367,54 @@
 	  <MauiImage Include="Resources\Images\Equipment\ruedaabd.jpg" />
 	  <MauiImage Include="Resources\Images\Equipment\sinequipamiento.png" />
 	  <MauiImage Include="Resources\Images\Equipment\soga.jpg" />
+	  <MauiImage Include="Resources\Images\Logos\backblack.png" />
+	  <MauiImage Include="Resources\Images\Logos\backwhite.png" />
 	  <MauiImage Include="Resources\Images\Logos\defaultavatar.png" />
 	  <MauiImage Include="Resources\Images\Logos\hamburgericon.png" />
+	  <MauiImage Include="Resources\Images\Logos\informadark.png" />
+	  <MauiImage Include="Resources\Images\Logos\informalight.png" />
+	  <MauiImage Include="Resources\Images\Logos\reddot.gif" />
+	  <MauiImage Include="Resources\Images\Logos\replace.png" />
 	  <MauiImage Include="Resources\Images\Logos\rotation.png" />
+	  <MauiImage Include="Resources\Images\Logos\rotationdark.png" />
 	  <MauiImage Include="Resources\Images\Logos\seriescompleted.gif" />
 	  <MauiImage Include="Resources\Images\Logos\sms.png" />
 	  <MauiImage Include="Resources\Images\Logos\googlelogo.png" />
+	  <MauiImage Include="Resources\Images\Logos\trash.png" />
 	  <MauiImage Include="Resources\Images\Muscles\abdomen.png" />
+	  <MauiImage Include="Resources\Images\Muscles\abdomendark.png" />
+	  <MauiImage Include="Resources\Images\Muscles\abducoresdark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\abductores.png" />
 	  <MauiImage Include="Resources\Images\Muscles\abs1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\abs2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\aductores.png" />
+	  <MauiImage Include="Resources\Images\Muscles\aductoresdark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\antebrazo.png" />
+	  <MauiImage Include="Resources\Images\Muscles\antebrazodark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\biceps.png" />
+	  <MauiImage Include="Resources\Images\Muscles\bicepsdark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\body1.png" />
+	  <MauiImage Include="Resources\Images\Muscles\body1dark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\body2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\body2dark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\calfs1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\calfs2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\cuadriceps.png" />
-	  <MauiImage Include="Resources\Images\Muscles\cuello.png" />
-	  <MauiImage Include="Resources\Images\Muscles\cuello1.png" />
-	  <MauiImage Include="Resources\Images\Muscles\cuello2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\cuadricepsdark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\espalda.png" />
+	  <MauiImage Include="Resources\Images\Muscles\espaldadark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\femoral.png" />
+	  <MauiImage Include="Resources\Images\Muscles\femoraldark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\gemelos.png" />
+	  <MauiImage Include="Resources\Images\Muscles\gemelosdark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\gluteos.png" />
+	  <MauiImage Include="Resources\Images\Muscles\gluteosdark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\glutes1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\glutes2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hamstrings1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hamstrings2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hombro.png" />
+	  <MauiImage Include="Resources\Images\Muscles\hombrodark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hombroder1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hombroder2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\hombroizq1.png" />
@@ -360,6 +436,7 @@
 	  <MauiImage Include="Resources\Images\Muscles\pecho.png" />
 	  <MauiImage Include="Resources\Images\Muscles\pecho1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\pecho2.png" />
+	  <MauiImage Include="Resources\Images\Muscles\pechodark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\rightabductor1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\rightabductor2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\rightadductor1.png" />
@@ -377,12 +454,23 @@
 	  <MauiImage Include="Resources\Images\Muscles\trap1.png" />
 	  <MauiImage Include="Resources\Images\Muscles\trap2.png" />
 	  <MauiImage Include="Resources\Images\Muscles\trapecio.png" />
+	  <MauiImage Include="Resources\Images\Muscles\trapeciodark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\triceps.png" />
+	  <MauiImage Include="Resources\Images\Muscles\tricepsdark.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Resources\Images\Home\" />
 	  <Folder Include="Resources\Images\Icons\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Include="Platforms\iOS\Raw\AboutAssets.txt">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Platforms\iOS\Raw\rick.mp3">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>

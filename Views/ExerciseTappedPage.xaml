@@ -19,174 +19,213 @@
     x:DataType="viewmodels:ExerciseTappedViewModel"
     BindingContext="{viewmodels:ExerciseTappedViewModel}"
     Loaded="thisPage_Loaded">
+    <ContentPage.Background>
+
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=white}" />
+            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=White}" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <services:EquipmentToImageConverter x:Key="EquipmentToImageConverter" />
             <services:MuscleToImageConverter x:Key="MuscleToImageConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+
     <ScrollView>
         <VerticalStackLayout>
+            <HorizontalStackLayout>
+                <ImageButton
+                    Margin="10"
+                    Command="{Binding LoadMainPageCommand}"
+                    HeightRequest="50"
+                    IsVisible="{Binding IsBackButtonVisible}"
+                    Source="{AppThemeBinding Light=backblack.png,
+                    Dark=backwhite.png}"
+                    WidthRequest="50" />
+                <ImageButton
+                    Command="{Binding NavegarMainPageCommand}"
+                    HeightRequest="50"
+                    HorizontalOptions="Start"
+                    IsEnabled="{Binding IsFinishedButtonEnabled}"
+                    IsVisible="{Binding IsVisible}"
+                    Source="{AppThemeBinding Light=backblack.png,
+                    Dark=backwhite.png}"
+                    WidthRequest="50" />
+                <Image
+                    Margin="30,0,0,0"
+                    HeightRequest="60"
+                    IsAnimationPlaying="{Binding IsVisible}"
+                    IsVisible="{Binding IsVisible}"
+                    Source="reddot.gif"
+                    WidthRequest="100" />
+                <Label
+                    Margin="-30,0,0,0"
+                    FontAttributes="Bold"
+                    FontFamily="Calibri"
+                    FontSize="20"
+                    HeightRequest="25"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsVisible}"
+                    Text="{Binding ExerciseTime}"
+                    TextColor="Red" />
+            </HorizontalStackLayout>
 
-            <Button
-                Background="Red"
-                Command="{Binding NavegarMainPageCommand}"
-                HorizontalOptions="Center"
-                IsEnabled="{Binding IsFinishedButtonEnabled}"
-                IsVisible="{Binding IsVisible}"
-                Text="Finalizar"
-                WidthRequest="150" />
-            <Label
-                FontAttributes="Bold"
-                FontFamily="Calibri"
-                FontSize="20"
-                HeightRequest="50"
-                HorizontalOptions="Center"
-                IsVisible="{Binding IsVisible}"
-                Text="{Binding ExerciseTime}"
-                TextColor="Red"
-                VerticalOptions="Center" />
+
 
             <toolkit:MediaElement
                 x:Name="myMediaElement"
                 HeightRequest="300"
-                ShouldAutoPlay="True"
+                IsVisible="{Binding IsVideoVisible}"
+                ShouldAutoPlay="False"
                 ShouldLoopPlayback="{Binding IsVideoPlaying}"
                 ShouldMute="False"
-                ShouldShowPlaybackControls="False"
-                Source="{Binding MyExercise.Urls[2]}"
+                ShouldShowPlaybackControls="True"
+                Source="{Binding MyExercise.Urls[1]}"
                 WidthRequest="400" />
-            <!--<WebView
-            HeightRequest="300"
-            Source="{Binding MyExercise.Urls[1]}"
-            WidthRequest="400" />-->
-            <VerticalStackLayout>
-                <Label
-                    Margin="0,10,0,0"
-                    HorizontalOptions="Center"
-                    Text="{Binding MyExercise.Name}"
-                    VerticalOptions="Center" />
-                <Border
-                    BackgroundColor="Orange"
-                    HorizontalOptions="End"
-                    IsVisible="{Binding IsVisible}"
-                    StrokeShape="RoundRectangle 20,20,20,20"
-                    StrokeThickness="2"
-                    WidthRequest="120">
-                    <syncfusion:SfExpander
-                        x:Name="durationExpander"
-                        Margin="10,10,0,0"
-                        IsExpanded="{Binding DurationExpander}"
-                        WidthRequest="100">
-                        <syncfusion:SfExpander.Header>
-                            <Grid>
-                                <Label HeightRequest="40" Text="{Binding DurationHeader}" />
-                            </Grid>
-                        </syncfusion:SfExpander.Header>
-                        <syncfusion:SfExpander.Content>
-                            <buttons:SfRadioGroup>
-                                <Label Text="Segundos a descansar" />
+            <Label
+                Margin="0,10,0,0"
+                FontAttributes="Italic"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="{Binding MyExercise.Name}"
+                VerticalOptions="Center" />
+            <Button
+                Command="{Binding TestDarkModeCommand}"
+                Text="switch"
+                WidthRequest="100" />
+            <HorizontalStackLayout
+                Margin="0,50,0,0"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsVisible}"
+                Spacing="150">
 
-                                <buttons:SfRadioButton Text="15">
-                                    <buttons:SfRadioButton.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding SelectDurationBrakCommand}"
-                                            CommandParameter="15"
-                                            NumberOfTapsRequired="1" />
-                                    </buttons:SfRadioButton.GestureRecognizers>
-                                </buttons:SfRadioButton>
-
-                                <buttons:SfRadioButton Text="30">
-                                    <buttons:SfRadioButton.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding SelectDurationBrakCommand}"
-                                            CommandParameter="30"
-                                            NumberOfTapsRequired="1" />
-                                    </buttons:SfRadioButton.GestureRecognizers>
-                                </buttons:SfRadioButton>
-
-                                <buttons:SfRadioButton Text="45">
-                                    <buttons:SfRadioButton.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding SelectDurationBrakCommand}"
-                                            CommandParameter="45"
-                                            NumberOfTapsRequired="1" />
-                                    </buttons:SfRadioButton.GestureRecognizers>
-                                </buttons:SfRadioButton>
-
-                                <buttons:SfRadioButton Text="60">
-                                    <buttons:SfRadioButton.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding SelectDurationBrakCommand}"
-                                            CommandParameter="60"
-                                            NumberOfTapsRequired="1" />
-                                    </buttons:SfRadioButton.GestureRecognizers>
-                                </buttons:SfRadioButton>
-
-                                <buttons:SfRadioButton Text="90">
-                                    <buttons:SfRadioButton.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding SelectDurationBrakCommand}"
-                                            CommandParameter="90"
-                                            NumberOfTapsRequired="1" />
-                                    </buttons:SfRadioButton.GestureRecognizers>
-                                </buttons:SfRadioButton>
-
-                                <buttons:SfRadioButton Text="120">
-                                    <buttons:SfRadioButton.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding SelectDurationBrakCommand}"
-                                            CommandParameter="120"
-                                            NumberOfTapsRequired="1" />
-                                    </buttons:SfRadioButton.GestureRecognizers>
-                                </buttons:SfRadioButton>
-
-                                <buttons:SfRadioButton Text="150">
-                                    <buttons:SfRadioButton.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding SelectDurationBrakCommand}"
-                                            CommandParameter="150"
-                                            NumberOfTapsRequired="1" />
-                                    </buttons:SfRadioButton.GestureRecognizers>
-                                </buttons:SfRadioButton>
-
-                            </buttons:SfRadioGroup>
-                        </syncfusion:SfExpander.Content>
-                    </syncfusion:SfExpander>
-                </Border>
-            </VerticalStackLayout>
-
-            <VerticalStackLayout IsVisible="{Binding IsVisible}">
-                <HorizontalStackLayout Margin="0,15,0,0">
-                    <BoxView
-                        Margin="0,0,10,0"
-                        HeightRequest="1"
-                        WidthRequest="120"
-                        Color="Black" />
-
+                <VerticalStackLayout>
                     <Label
-                        Margin="0,0,5,0"
                         FontAttributes="Italic"
                         FontSize="15"
+                        HorizontalOptions="Center"
                         Text="Series:" />
 
                     <Label
+                        Margin="0,10,0,0"
                         FontAttributes="Bold"
-                        FontSize="15"
+                        FontSize="25"
                         HorizontalOptions="Center"
                         Text="{Binding SeriesCounter}"
-                        TextColor="DarkBlue"
                         VerticalOptions="Center" />
+                </VerticalStackLayout>
 
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Italic"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="Descanso:" />
+                    <Border
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding IsVisible}"
+                        StrokeShape="RoundRectangle 20,20,20,20"
+                        StrokeThickness="2"
+                        WidthRequest="120">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <syncfusion:SfExpander
+                            x:Name="durationExpander"
+                            Margin="10,10,0,0"
+                            IsExpanded="{Binding DurationExpander}"
+                            WidthRequest="100">
+                            <syncfusion:SfExpander.Header>
+                                <Grid>
+                                    <Label
+                                        HeightRequest="40"
+                                        Text="{Binding DurationHeader}"
+                                        TextColor="{AppThemeBinding Dark=Black,
+                                        Light=White}" />
+                                </Grid>
+                            </syncfusion:SfExpander.Header>
+                            <syncfusion:SfExpander.Content>
+                                <buttons:SfRadioGroup>
+                                    <Label Text="Segundos a descansar" />
 
+                                    <buttons:SfRadioButton Text="15">
+                                        <buttons:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectDurationBrakCommand}"
+                                                CommandParameter="15"
+                                                NumberOfTapsRequired="1" />
+                                        </buttons:SfRadioButton.GestureRecognizers>
+                                    </buttons:SfRadioButton>
 
-                    <BoxView
-                        Margin="10,0,0,0"
-                        HeightRequest="1"
-                        WidthRequest="200"
-                        Color="Black" />
+                                    <buttons:SfRadioButton Text="30">
+                                        <buttons:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectDurationBrakCommand}"
+                                                CommandParameter="30"
+                                                NumberOfTapsRequired="1" />
+                                        </buttons:SfRadioButton.GestureRecognizers>
+                                    </buttons:SfRadioButton>
 
-                </HorizontalStackLayout>
+                                    <buttons:SfRadioButton Text="45">
+                                        <buttons:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectDurationBrakCommand}"
+                                                CommandParameter="45"
+                                                NumberOfTapsRequired="1" />
+                                        </buttons:SfRadioButton.GestureRecognizers>
+                                    </buttons:SfRadioButton>
+
+                                    <buttons:SfRadioButton Text="60">
+                                        <buttons:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectDurationBrakCommand}"
+                                                CommandParameter="60"
+                                                NumberOfTapsRequired="1" />
+                                        </buttons:SfRadioButton.GestureRecognizers>
+                                    </buttons:SfRadioButton>
+
+                                    <buttons:SfRadioButton Text="90">
+                                        <buttons:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectDurationBrakCommand}"
+                                                CommandParameter="90"
+                                                NumberOfTapsRequired="1" />
+                                        </buttons:SfRadioButton.GestureRecognizers>
+                                    </buttons:SfRadioButton>
+
+                                    <buttons:SfRadioButton Text="120">
+                                        <buttons:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectDurationBrakCommand}"
+                                                CommandParameter="120"
+                                                NumberOfTapsRequired="1" />
+                                        </buttons:SfRadioButton.GestureRecognizers>
+                                    </buttons:SfRadioButton>
+
+                                    <buttons:SfRadioButton Text="150">
+                                        <buttons:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SelectDurationBrakCommand}"
+                                                CommandParameter="150"
+                                                NumberOfTapsRequired="1" />
+                                        </buttons:SfRadioButton.GestureRecognizers>
+                                    </buttons:SfRadioButton>
+
+                                </buttons:SfRadioGroup>
+                            </syncfusion:SfExpander.Content>
+                        </syncfusion:SfExpander>
+                    </Border>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout IsVisible="{Binding IsVisible}">
+
 
                 <CollectionView
                     x:Name="seriesCollectionView"
@@ -194,86 +233,89 @@
                     ItemsSource="{Binding ExerciseEntries}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:ExerciseModelView">
-                            <SwipeView>
-                                <!--<SwipeView.GestureRecognizers>
-                                <SwipeGestureRecognizer
-                                Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                CommandParameter="{Binding .}"
-                                Direction="Right" />
-                                </SwipeView.GestureRecognizers>-->
+                            <VerticalStackLayout>
 
-                                <SwipeView.LeftItems>
-                                    <SwipeItems>
-                                        <SwipeItem
-                                            BackgroundColor="Red"
-                                            Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                            CommandParameter="{Binding .}"
-                                            Text="Eliminar" />
-                                    </SwipeItems>
-                                </SwipeView.LeftItems>
-                                <HorizontalStackLayout
-                                    Margin="0,15,0,0"
-                                    BackgroundColor="White"
-                                    HeightRequest="100"
-                                    HorizontalOptions="Center">
 
-                                    <inputLayout:SfTextInputLayout
-                                        Margin="0,0,0,0"
-                                        ContainerType="Outlined"
-                                        FocusedStrokeThickness="4"
+                                <SwipeView>
+                                    <!--<SwipeView.GestureRecognizers>
+                                    <SwipeGestureRecognizer
+                                    Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Direction="Right" />
+                                    </SwipeView.GestureRecognizers>-->
+
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems>
+                                            <SwipeItem
+                                                BackgroundColor="{AppThemeBinding Dark=#ef233c,
+                                                Light=#e01e37}"
+                                                Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                CommandParameter="{Binding .}"
+                                                IconImageSource="trash.png"
+                                                Text="Eliminar" />
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
+                                    <HorizontalStackLayout
+                                        Margin="0,15,0,0"
                                         HeightRequest="100"
-                                        Hint="Repeticiones"
-                                        OutlineCornerRadius="8"
-                                        UnfocusedStrokeThickness="2"
-                                        WidthRequest="145">
+                                        HorizontalOptions="Center">
 
-                                        <inputs:SfNumericEntry
-                                            AllowNull="False"
-                                            CustomFormat="0"
-                                            Maximum="100"
-                                            Minimum="1"
-                                            UpDownPlacementMode="Inline"
-                                            Value="{Binding Reps[0]}" />
-                                    </inputLayout:SfTextInputLayout>
+                                        <inputLayout:SfTextInputLayout
+                                            ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                            Light=#caf0f8}"
+                                            ContainerType="Outlined"
+                                            FocusedStrokeThickness="4"
+                                            HeightRequest="100"
+                                            Hint="Repeticiones"
+                                            OutlineCornerRadius="8"
+                                            UnfocusedStrokeThickness="2"
+                                            WidthRequest="185">
 
+                                            <inputs:SfNumericEntry
+                                                AllowNull="False"
+                                                CustomFormat="0"
+                                                Maximum="100"
+                                                Minimum="1"
+                                                UpDownPlacementMode="Inline"
+                                                Value="{Binding Reps[0]}" />
+                                        </inputLayout:SfTextInputLayout>
 
-                                    <inputLayout:SfTextInputLayout
-                                        Margin="5,0,0,0"
-                                        ContainerType="Outlined"
-                                        ErrorText="ss"
-                                        FocusedStrokeThickness="4"
-                                        HasError="False"
-                                        HeightRequest="100"
-                                        Hint="Peso"
-                                        OutlineCornerRadius="8"
-                                        UnfocusedStrokeThickness="2"
-                                        WidthRequest="165">
+                                        <inputLayout:SfTextInputLayout
+                                            Margin="5,0,0,0"
+                                            ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                            Light=#caf0f8}"
+                                            ContainerType="Outlined"
+                                            ErrorText="ss"
+                                            FocusedStrokeThickness="4"
+                                            HasError="False"
+                                            HeightRequest="100"
+                                            Hint="Kg"
+                                            OutlineCornerRadius="8"
+                                            UnfocusedStrokeThickness="2"
+                                            WidthRequest="185">
 
-                                        <editors:SfNumericEntry
-                                            AllowNull="False"
-                                            CustomFormat="0.0"
-                                            Maximum="500"
-                                            Minimum="0"
-                                            UpDownPlacementMode="Inline"
-                                            Value="{Binding Weight[0]}" />
+                                            <editors:SfNumericEntry
+                                                AllowNull="False"
+                                                CustomFormat="0.0"
+                                                Maximum="500"
+                                                Minimum="0"
+                                                UpDownPlacementMode="Inline"
+                                                Value="{Binding Weight[0]}" />
 
+                                        </inputLayout:SfTextInputLayout>
 
-                                    </inputLayout:SfTextInputLayout>
+                                    </HorizontalStackLayout>
 
-                                    <Image
-                                        HeightRequest="60"
-                                        IsAnimationPlaying="{Binding Path=BindingContext.IsGifVisible, Source={x:Reference thisPage}}"
-                                        Source="{Binding Path=BindingContext.SeriesGif, Source={x:Reference thisPage}}"
-                                        WidthRequest="70" />
-                                </HorizontalStackLayout>
-
-
-                            </SwipeView>
-
+                                </SwipeView>
+                                <Image
+                                    HeightRequest="60"
+                                    IsAnimationPlaying="{Binding Path=BindingContext.IsGifVisible, Source={x:Reference thisPage}}"
+                                    Source="{Binding Path=BindingContext.SeriesGif, Source={x:Reference thisPage}}"
+                                    WidthRequest="70" />
+                            </VerticalStackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-
 
 
                 <HorizontalStackLayout Spacing="200">
@@ -282,13 +324,27 @@
                         Command="{Binding AddSeriesRowCommand}"
                         IsEnabled="{Binding IsSerieEnabled}"
                         Text="Serie +"
-                        WidthRequest="75" />
+                        WidthRequest="75">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
                     <Button
                         Margin="10"
                         Command="{Binding RemoveLastSeriesCommand}"
                         IsEnabled="{Binding IsSerieEnabled}"
                         Text="Serie -"
-                        WidthRequest="75" />
+                        WidthRequest="75">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
                 </HorizontalStackLayout>
 
             </VerticalStackLayout>
@@ -299,7 +355,14 @@
                 IsVisible="{Binding IsVisible}"
                 Text="Confirmar Serie"
                 VerticalOptions="End"
-                WidthRequest="200" />
+                WidthRequest="200">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
 
             <tabview:SfTabView
                 x:Name="tabView"
@@ -308,90 +371,115 @@
                 HorizontalOptions="CenterAndExpand"
                 WidthRequest="350">
                 <tabview:SfTabView.Items>
-                    <tabview:SfTabItem Header="Instrucciones">
+                    <tabview:SfTabItem Header="Instrucciones" TextColor="{AppThemeBinding Dark=white, Light=black}">
                         <tabview:SfTabItem.Content>
-                            <CollectionView Margin="0,10,0,0" ItemsSource="{Binding MyExercise.Instructions}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label
-                                            Margin="0,0,0,10"
-                                            HorizontalOptions="Center"
-                                            Text="{Binding}"
-                                            VerticalOptions="Center" />
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </tabview:SfTabItem.Content>
-                    </tabview:SfTabItem>
-
-                    <tabview:SfTabItem Header="Músculos">
-                        <tabview:SfTabItem.Content>
-                            <HorizontalStackLayout>
-                                <Label
-                                    Margin="0,10,0,0"
-                                    HorizontalOptions="Start"
-                                    Text="{Binding MyExercise.PrimaryMuscles}" />
-                                <Image
-                                    HeightRequest="50"
-                                    Source="{Binding MyExercise.PrimaryMuscles, Converter={StaticResource MuscleToImageConverter}}"
-                                    VerticalOptions="Start"
-                                    WidthRequest="60" />
-                                <HorizontalStackLayout Margin="100,0,0,0" />
-                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding MyExercise.SecondaryMuscles}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label
-                                                    Margin="0,10,0,0"
-                                                    HorizontalOptions="Start"
-                                                    Text="{Binding}" />
-                                                <Image
-                                                    HeightRequest="50"
-                                                    Source="{Binding Converter={StaticResource MuscleToImageConverter}}"
-                                                    WidthRequest="60" />
-                                            </StackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </VerticalStackLayout>
-                            </HorizontalStackLayout>
-
-                        </tabview:SfTabItem.Content>
-                    </tabview:SfTabItem>
-
-                    <tabview:SfTabItem Header="Equipamiento">
-                        <tabview:SfTabItem.Content>
-                            <HorizontalStackLayout>
-
-                                <CollectionView Margin="0,10,0,0" ItemsSource="{Binding MyExercise.Equipment}">
+                            <Border>
+                                <CollectionView Margin="10" ItemsSource="{Binding MyExercise.Instructions}">
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
-                                            <HorizontalStackLayout BindingContext="{Binding Source={x:Reference thisPage}}">
+                                            <Label
+                                                Margin="0,0,0,10"
+                                                HorizontalOptions="Center"
+                                                Text="{Binding}"
+                                                VerticalOptions="Center" />
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Border>
+                        </tabview:SfTabItem.Content>
+                    </tabview:SfTabItem>
+
+                    <tabview:SfTabItem Header="Músculos" TextColor="{AppThemeBinding Dark=white, Light=black}">
+                        <tabview:SfTabItem.Content>
+                            <ScrollView>
+                                <Border>
+                                    <VerticalStackLayout Margin="10,20,0,0">
+                                        <Label
+                                            Margin="20,0,0,0"
+                                            HorizontalOptions="Start"
+                                            Text="Principales" />
+                                        <Label
+                                            Margin="0,-18,50,0"
+                                            HorizontalOptions="End"
+                                            Text="Secundarios" />
+
+                                        <HorizontalStackLayout Margin="10,20,0,0">
+                                            <Label
+                                                Margin="0,20,0,0"
+                                                HorizontalOptions="Start"
+                                                Text="{Binding MyExercise.PrimaryMuscles}" />
+                                            <Image
+                                                Margin="20,10,0,0"
+                                                HeightRequest="50"
+                                                Source="{Binding MyExercise.PrimaryMuscles, Converter={StaticResource MuscleToImageConverter}}"
+                                                VerticalOptions="Start"
+                                                WidthRequest="60" />
+                                            <HorizontalStackLayout Margin="50,10,0,10" />
+                                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding MyExercise.SecondaryMuscles}">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <VerticalStackLayout>
+                                                            <HorizontalStackLayout>
+                                                                <Label
+                                                                    Margin="0,10,0,0"
+                                                                    HorizontalOptions="Start"
+                                                                    Text="{Binding}" />
+                                                                <BoxView HeightRequest="70" />
+                                                                <Image
+                                                                    Margin="20,0,0,0"
+                                                                    HeightRequest="80"
+                                                                    Source="{Binding Converter={StaticResource MuscleToImageConverter}}"
+                                                                    WidthRequest="80" />
+                                                            </HorizontalStackLayout>
+                                                        </VerticalStackLayout>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </VerticalStackLayout>
+
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </ScrollView>
+
+                        </tabview:SfTabItem.Content>
+                    </tabview:SfTabItem>
+
+                    <tabview:SfTabItem Header="Equipamiento" TextColor="{AppThemeBinding Dark=white, Light=black}">
+                        <tabview:SfTabItem.Content>
+                            <Border>
+                                <CollectionView Margin="10" ItemsSource="{Binding MyExercise.Equipment}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid BindingContext="{Binding Source={x:Reference thisPage}}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
                                                 <Label
                                                     x:Name="equipmentName"
+                                                    Grid.Column="1"
                                                     Margin="0,0,0,10"
                                                     HorizontalOptions="Center"
                                                     Text="{Binding}"
                                                     VerticalOptions="Center" />
-                                                <Image
-                                                    HeightRequest="50"
-                                                    Source="{Binding Converter={StaticResource EquipmentToImageConverter}}"
-                                                    WidthRequest="60" />
 
-                                            </HorizontalStackLayout>
+                                                <Image
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,0"
+                                                    HeightRequest="100"
+                                                    Source="{Binding Converter={StaticResource EquipmentToImageConverter}}"
+                                                    WidthRequest="120" />
+                                            </Grid>
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
-                            </HorizontalStackLayout>
+                            </Border>
                         </tabview:SfTabItem.Content>
                     </tabview:SfTabItem>
                 </tabview:SfTabView.Items>
             </tabview:SfTabView>
-            <Button
-                Margin="10"
-                Command="{Binding LoadMainPageCommand}"
-                IsVisible="{Binding IsBackButtonVisible}"
-                Text="Volver"
-                WidthRequest="100" />
+
         </VerticalStackLayout>
 
     </ScrollView>

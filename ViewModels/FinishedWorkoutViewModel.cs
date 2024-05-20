@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace mobileAppTest.ViewModels
 {
@@ -31,10 +33,9 @@ namespace mobileAppTest.ViewModels
         private string _fecha;
 
         [ObservableProperty]
-        private SaveWorkoutPopup _saveWorkoutPopup;
-
-        [ObservableProperty]
         private string _workoutTitle;
+
+
 
         public FinishedWorkoutViewModel()
         {
@@ -44,8 +45,12 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         private async Task SaveWorkout()
         {
-            // Crear una referencia al documento del usuario
-            var userDocument = CrossCloudFirestore.Current
+            if (WorkoutTitle=="" || WorkoutTitle == null || WorkoutTitle.Any(Char.IsWhiteSpace))
+            {
+                return;
+            }
+                // Crear una referencia al documento del usuario
+                var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
                 .Document("123456@gmail.com"); // Cambiar por el email del usuario
@@ -66,11 +71,10 @@ namespace mobileAppTest.ViewModels
             }
 
             // Limpiar el título del entrenamiento
-            SaveWorkoutToUserDocument();
+            await SaveWorkoutToUserDocument();
             WorkoutTitle = "";
 
             // Cerrar el popup de guardado de entrenamiento
-            CloseSaveWorkoutPopup();
         }
         private async Task SaveWorkoutToUserDocument()
         {
@@ -110,23 +114,14 @@ namespace mobileAppTest.ViewModels
             });
 
             ExerciseFinishedList.Clear();
-            UniquePrimaryMuscles.Clear();
-        }
-
-
-        [RelayCommand]
-        public async Task OpenSaveWorkoutPopup()
-        {
-
-            SaveWorkoutPopup = new SaveWorkoutPopup();
-            await App.Current.MainPage.ShowPopupAsync(SaveWorkoutPopup);
-        }
-
-        [RelayCommand]
-        public async Task CloseSaveWorkoutPopup()
-        {
-            SaveWorkoutPopup.Close();
-
+            if(null == UniquePrimaryMuscles)
+            {
+                return;
+            }
+            else
+            {
+                UniquePrimaryMuscles.Clear();
+            }
         }
 
 

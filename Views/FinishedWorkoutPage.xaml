@@ -5,12 +5,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:card="clr-namespace:Syncfusion.Maui.Cards;assembly=Syncfusion.Maui.Cards"
     xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    xmlns:services="clr-namespace:mobileAppTest.Services"
     xmlns:tabview="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:Name="thisPage"
     x:DataType="viewmodels:FinishedWorkoutViewModel"
     BindingContext="{viewmodels:FinishedWorkoutViewModel}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <services:MuscleToImageConverter x:Key="MuscleToImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <VerticalStackLayout>
 
@@ -179,14 +187,57 @@
 
 
         <HorizontalStackLayout>
+
             <Button
                 Margin="20"
-                Command="{Binding OpenSaveWorkoutPopupCommand}"
-                Text="Guardar Entrenamiento" />
+                Clicked="ClickToShowPopup_Clicked"
+                HorizontalOptions="Start"
+                Text="Guardar Entrenamiento"
+                VerticalOptions="Start" />
+
+            <popup:SfPopup
+                x:Name="SavePopup"
+                AnimationDuration="300"
+                AnimationMode="SlideOnBottom"
+                AppearanceMode="TwoButton"
+                HeaderHeight="80"
+                HeaderTitle="Dale un título a tu entrenamiento"
+                HeightRequest="260"
+                OverlayMode="Blur"
+                ShowCloseButton="True"
+                ShowFooter="True">
+                <popup:SfPopup.PopupStyle>
+                    <popup:PopupStyle
+                        FooterBackground="White"
+                        FooterFontFamily="Times New Roman"
+                        HasShadow="True"
+                        HeaderFontSize="18" />
+                </popup:SfPopup.PopupStyle>
+                <popup:SfPopup.ContentTemplate>
+                    <DataTemplate>
+                        <Entry Placeholder="Escribe un título......" Text="{Binding WorkoutTitle}" />
+                    </DataTemplate>
+                </popup:SfPopup.ContentTemplate>
+                <popup:SfPopup.FooterTemplate>
+                    <DataTemplate>
+                        <Button
+                            BackgroundColor="White"
+                            Clicked="ClickToClosePopup_Clicked"
+                            Command="{Binding SaveWorkoutCommand}"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Guardar"
+                            TextColor="Green" />
+
+                    </DataTemplate>
+                </popup:SfPopup.FooterTemplate>
+
+            </popup:SfPopup>
             <Button
                 Margin="20"
                 Command="{Binding LoadMainPageCommand}"
-                Text="Terminar" />
+                HorizontalOptions="Start"
+                Text="Terminar"
+                VerticalOptions="Start" />
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
