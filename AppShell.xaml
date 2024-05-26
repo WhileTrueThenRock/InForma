@@ -29,6 +29,9 @@
         <Tab Title="Finished">
             <ShellContent ContentTemplate="{DataTemplate views:FinishedWorkoutPage}" Route="FinishedWorkoutPage" />
         </Tab>
+        <Tab Title="Saved">
+            <ShellContent ContentTemplate="{DataTemplate views:SavedWorkoutsPage}" Route="SavedWorkoutsPage" />
+        </Tab>
     </TabBar>
 
 

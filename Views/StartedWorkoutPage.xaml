@@ -84,7 +84,7 @@
                                 <Label
                                     Grid.Column="2"
                                     FontSize="15"
-                                    Text="{Binding Exercise.Name}"
+                                    Text="{Binding Name}"
                                     TextColor="{AppThemeBinding Dark=White,
                                     Light=Black}"
                                     VerticalOptions="Center" />

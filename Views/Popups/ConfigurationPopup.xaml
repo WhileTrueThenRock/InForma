@@ -7,6 +7,7 @@
     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:DataType="viewmodels:MainViewModel"
@@ -70,6 +71,35 @@
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
                                 </buttons:SfSwitch>
+                            </HorizontalStackLayout>
+                            <Label Margin="40,5,0,0" Text="Sonido notificación" />
+                            <HorizontalStackLayout>
+
+                                <syncfusion:SfRadioGroup Margin="60,5,0,0">
+                                    <syncfusion:SfRadioButton
+                                        CheckedColor="{AppThemeBinding Dark=#ff7b00,
+                                        Light=#48cae4}"
+                                        IsChecked="{Binding YeahBuddy}"
+                                        Text="Yeah Buddy">
+                                        <syncfusion:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Play_SoundCommand}"
+                                                CommandParameter="yeahbuddy"
+                                                NumberOfTapsRequired="1" />
+                                        </syncfusion:SfRadioButton.GestureRecognizers>
+                                    </syncfusion:SfRadioButton>
+                                    <syncfusion:SfRadioButton
+                                        IsChecked="{Binding Whatsapp}"
+                                        Text="Whatsapp"
+                                        UncheckedColor="LightGray">
+                                        <syncfusion:SfRadioButton.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Play_SoundCommand}"
+                                                CommandParameter="whatsapp"
+                                                NumberOfTapsRequired="1" />
+                                        </syncfusion:SfRadioButton.GestureRecognizers>
+                                    </syncfusion:SfRadioButton>
+                                </syncfusion:SfRadioGroup>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Margin="0,20,0,0">
                                 <Label Margin="40,5,0,0" Text="Video para ejercicios" />

@@ -69,12 +69,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Platforms\Android\Resources\raw\noti1.mp3" />
+	  <AndroidResource Remove="Platforms\Android\Resources\raw\yeahbuddy.mp3" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiAsset Remove="Platforms\Android\Resources\Raw\AboutAssets.txt" />
 	  <MauiAsset Remove="Platforms\Android\Resources\Raw\rick.mp3" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove="Platforms\Android\google-services.json" />
+	  <None Remove="Platforms\Android\Resources\raw\noti1.mp3" />
+	  <None Remove="Platforms\Android\Resources\raw\rick.mp3" />
+	  <None Remove="Platforms\Android\Resources\raw\yeahbuddy.mp3" />
 	  <None Remove="Platforms\iOS\Raw\AboutAssets.txt" />
 	  <None Remove="Platforms\iOS\Raw\rick.mp3" />
 	  <None Remove="Resources\Images\abdomen.png" />
@@ -119,6 +127,7 @@
 	  <None Remove="Resources\Images\facebooklogo.png" />
 	  <None Remove="Resources\Images\femoral.png" />
 	  <None Remove="Resources\Images\femoraldark.png" />
+	  <None Remove="Resources\Images\fireworks.gif" />
 	  <None Remove="Resources\Images\gemelos.png" />
 	  <None Remove="Resources\Images\gemelosdark.png" />
 	  <None Remove="Resources\Images\gluteos.png" />
@@ -180,6 +189,7 @@
 	  <None Remove="Resources\Images\maquinascottplacas.jpg" />
 	  <None Remove="Resources\Images\maquinasentadillas.png" />
 	  <None Remove="Resources\Images\maquinatrapecio.jpg" />
+	  <None Remove="Resources\Images\minus.png" />
 	  <None Remove="Resources\Images\Muscles\abdomen.png" />
 	  <None Remove="Resources\Images\Muscles\abductores.png" />
 	  <None Remove="Resources\Images\Muscles\aductores.png" />
@@ -198,6 +208,7 @@
 	  <None Remove="Resources\Images\pecho1.png" />
 	  <None Remove="Resources\Images\pecho2.png" />
 	  <None Remove="Resources\Images\pechodark.png" />
+	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\reddot.gif" />
 	  <None Remove="Resources\Images\replace.png" />
 	  <None Remove="Resources\Images\rightabductor1.png" />
@@ -228,7 +239,6 @@
 	  <None Remove="Resources\Images\triceps.png" />
 	  <None Remove="Resources\Images\tricepsdark.png" />
 	  <None Remove="Resources\Images\xlogo.png" />
-	  <None Remove="Platforms\Android\Resources\Raw\rick.mp3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -250,7 +260,7 @@
 		<PackageReference Include="Syncfusion.Maui.Buttons" Version="24.1.43" />
 		<PackageReference Include="Syncfusion.Maui.Calendar" Version="24.1.43" />
 		<PackageReference Include="Syncfusion.Maui.Cards" Version="24.2.3" />
-		<PackageReference Include="Syncfusion.Maui.Core" Version="24.2.4" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="25.2.5" />
 		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="24.1.43" />
 		<PackageReference Include="Syncfusion.Maui.Expander" Version="24.1.46" />
 		<PackageReference Include="Syncfusion.Maui.Gauges" Version="24.2.4" />
@@ -258,6 +268,7 @@
 		<PackageReference Include="Syncfusion.Maui.NavigationDrawer" Version="24.1.47" />
 		<PackageReference Include="Syncfusion.Maui.Picker" Version="24.1.45" />
 		<PackageReference Include="Syncfusion.Maui.Popup" Version="24.1.45" />
+		<PackageReference Include="Syncfusion.Maui.RadialMenu" Version="25.2.5" />
 		<PackageReference Include="Syncfusion.Maui.TabView" Version="24.1.43" />
 	</ItemGroup>
 
@@ -299,6 +310,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\RegisterPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SavedWorkoutsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\StartedWorkoutPage.xaml">

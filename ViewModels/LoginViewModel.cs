@@ -167,7 +167,10 @@ namespace mobileAppTest.ViewModels
             bool credentialsStored = await SecureStorage.GetAsync("credentialsStored") == "true";
             if (credentialsStored)
             {
-                await Shell.Current.GoToAsync("//MainPage");
+                await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
+                {
+                    ["Email"] = Email
+                });
 
                 string username = await SecureStorage.GetAsync("username");
                 string password = await SecureStorage.GetAsync("password");

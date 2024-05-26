@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using mobileAppTest.Models;
@@ -7,6 +9,7 @@ using Plugin.CloudFirestore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,22 +38,95 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string _workoutTitle;
 
+        [ObservableProperty]
+        private string _headerTitle;
+
+        [ObservableProperty]
+        private Color _passwordTextColor;
+
+        [ObservableProperty]
+        private bool _isSaveButtonVisible;
+
+        [ObservableProperty]
+        private bool _fireworksVisible;
+
 
 
         public FinishedWorkoutViewModel()
         {
             ExerciseFinishedLists = new ObservableCollection<ExerciseModelView>();
+            PasswordTextColor = Colors.Black;
+            IsSaveButtonVisible = true;
+            HeaderTitle = "Dale un título a tu entrenamiento";
         }
+
+
+        [RelayCommand]
+        public async Task TestDarkMode()
+        {
+
+
+            if (Application.Current.UserAppTheme == AppTheme.Dark)
+            {
+                Application.Current.UserAppTheme = AppTheme.Light;
+
+            }
+            else
+            {
+                Application.Current.UserAppTheme = AppTheme.Dark;
+
+            }
+
+        }
+
+        [RelayCommand]
+        private async void DeleteSwipedRow(ExerciseModelView rowToDelete)
+        {
+            ExerciseFinishedList.Remove(rowToDelete);
+            if(ExerciseFinishedList.Count == 0 )
+            {
+                IsSaveButtonVisible = false;
+            }
+          
+            var snackbarOptions = new SnackbarOptions
+            {
+                CornerRadius = 10,
+                BackgroundColor = Colors.LightGray
+            };
+            var snackbar = Snackbar.Make($"{rowToDelete.Exercise.Name} borrado",
+                () =>
+                {
+                    ExerciseFinishedList.Add(rowToDelete);
+                    if (ExerciseFinishedList.Count > 0)
+                    {
+                        IsSaveButtonVisible = true;
+                    }
+                }, "Rehacer", TimeSpan.FromSeconds(5), snackbarOptions);
+
+            await snackbar.Show();
+
+         
+        }
+
 
         [RelayCommand]
         private async Task SaveWorkout()
         {
-            if (WorkoutTitle=="" || WorkoutTitle == null || WorkoutTitle.Any(Char.IsWhiteSpace))
+            if (string.IsNullOrEmpty(WorkoutTitle) || WorkoutTitle.Trim().Length == 0 || WorkoutTitle.Trim().Length > 30)
             {
+                HeaderTitle = "Título incorrecto o demasiado largo";
+                PasswordTextColor = Colors.Red;
                 return;
             }
-                // Crear una referencia al documento del usuario
-                var userDocument = CrossCloudFirestore.Current
+
+            HeaderTitle = "Dale un título a tu entrenamiento";
+
+
+            PasswordTextColor = Colors.Black;
+
+
+            // Crear una referencia al documento del usuario
+            var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
                 .Document("123456@gmail.com"); // Cambiar por el email del usuario
@@ -115,6 +191,22 @@ namespace mobileAppTest.ViewModels
 
             ExerciseFinishedList.Clear();
             if(null == UniquePrimaryMuscles)
+            {
+                return;
+            }
+            else
+            {
+                UniquePrimaryMuscles.Clear();
+            }
+        }
+
+        [RelayCommand]
+        public async Task LoadSavedWorkouts()
+        {
+            await Shell.Current.GoToAsync("//SavedWorkoutsPage");
+
+            ExerciseFinishedList.Clear();
+            if (null == UniquePrimaryMuscles)
             {
                 return;
             }

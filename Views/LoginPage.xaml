@@ -7,6 +7,7 @@
     xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.NavigationDrawer;assembly=Syncfusion.Maui.NavigationDrawer"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:Name="thisPage"
     x:DataType="viewmodels:LoginViewModel"
@@ -26,7 +27,9 @@
             Source="{AppThemeBinding Light=informalight.png,
             Dark=informadark.png}" />
 
+
         <VerticalStackLayout Margin="0,30,0,0" WidthRequest="300">
+
 
             <!--  email text color  -->
             <inputLayout:SfTextInputLayout
@@ -36,7 +39,7 @@
                 ErrorText="{Binding EmailErrorText}"
                 FocusedStrokeThickness="4"
                 HasError="{Binding HasEmailError}"
-                HeightRequest="80"
+                HeightRequest="85"
                 Hint="Email"
                 OutlineCornerRadius="8"
                 UnfocusedStrokeThickness="2">
@@ -56,7 +59,7 @@
                 ErrorText="{Binding PassErrorText}"
                 FocusedStrokeThickness="4"
                 HasError="{Binding HasPassError}"
-                HeightRequest="80"
+                HeightRequest="85"
                 Hint="Contraseña"
                 OutlineCornerRadius="8"
                 UnfocusedStrokeThickness="2">
@@ -113,7 +116,10 @@
                 </VisualStateManager.VisualStateGroups>
             </buttons:SfSwitch>
 
-            <Label Margin="10,9,0,0" Text="Mantenerme logueado" />
+            <Label
+                Margin="10,9,0,0"
+                FontFamily="Gabriola"
+                Text="Mantenerme logueado" />
         </HorizontalStackLayout>
 
 
@@ -130,7 +136,7 @@
         </Label>
         <Button
             Margin="0,25,0,0"
-            Command="{Binding OpenProfilePopupCommand}"
+            Command="{Binding LoginTappedAsyncCommand}"
             CommandParameter="MainPage"
             Text="LOGIN"
             WidthRequest="250">

@@ -22,8 +22,9 @@ namespace mobileAppTest
                     {
                         android.AddChannel(new NotificationChannelRequest
                         {
-                            Sound = "rick"
+                            Sound = "yeahbuddy" // Sin la extensi�n .mp3
                         });
+
                     });
                 })
                 .UseMauiCommunityToolkitMediaElement()

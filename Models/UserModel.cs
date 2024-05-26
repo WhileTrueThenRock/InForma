@@ -21,7 +21,8 @@ namespace mobileAppTest.Models
         public double Reps { get; set; }
         public double Weight { get; set; }
         public int Break { get; set; }
-        public bool NotificationInside { get; set; }
+        public bool Yeahbuddy { get; set; }
+        public bool Whatsapp { get; set; }
         public bool NotificationOutside { get; set; }
         public bool VideoPlaying { get; set; }
         public bool ResetTimeLabel { get; set; }

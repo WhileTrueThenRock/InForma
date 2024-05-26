@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="mobileAppTest.Views.SavedWorkoutsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:accordion="clr-namespace:Syncfusion.Maui.Accordion;assembly=Syncfusion.Maui.Expander"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.RadialMenu;assembly=Syncfusion.Maui.RadialMenu"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:Name="thisPage"
+    x:DataType="viewmodels:SavedWorkoutsViewModel"
+    BindingContext="{viewmodels:SavedWorkoutsViewModel}"
+    Loaded="ThisPage_Loaded">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=white}" />
+            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=White}" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <ImageButton
+                Margin="5"
+                Command="{Binding NavegarMainPageCommand}"
+                HeightRequest="50"
+                HorizontalOptions="Start"
+                Source="{AppThemeBinding Light=backblack.png,
+                Dark=backwhite.png}"
+                WidthRequest="50" />
+
+            <Label
+                FontAttributes="Bold"
+                FontFamily="Times New Roman"
+                FontSize="25"
+                HorizontalOptions="Center"
+                Text="Mis Entrenamientos" />
+            <Button
+                Command="{Binding TestDarkModeCommand}"
+                Text="switch"
+                WidthRequest="100" />
+
+            <CollectionView
+                x:Name="myExerciseCollection"
+                Margin="15"
+                ItemsSource="{Binding ExerciseGrouplist}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:DateGroup">
+                        <Border
+                            Margin="0,20,0,0"
+                            Background="{AppThemeBinding Dark=Transparent,
+                            Light=Transparent}"
+                            StrokeThickness="1"
+                            VerticalOptions="Center">
+
+                            <Border.Shadow>
+                                <Shadow
+                                    Brush="{AppThemeBinding Dark=White,
+                                    Light=Black}"
+                                    Opacity=".8"
+                                    Radius="15"
+                                    Offset="5,5" />
+                            </Border.Shadow>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="25" />
+                            </Border.StrokeShape>
+
+                            <VerticalStackLayout>
+
+                                <!--  IsChecked="{Binding Path=BindingContext.CheckBox, Source={x:Reference thisPage}}"  -->
+
+                                <Label
+                                    Margin="10"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding FechaEntrenamiento}" />
+
+                                <CollectionView
+                                    x:Name="myExerciseCollection2"
+                                    Margin="0,0,0,0"
+                                    ItemsSource="{Binding Exercises}">
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout Orientation="Vertical" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:ExerciseModelView">
+                                            <Border
+                                                Margin="5,15,5,0"
+                                                Background="{AppThemeBinding Dark=Transparent,
+                                                Light=Transparent}"
+                                                StrokeThickness="1"
+                                                VerticalOptions="Center">
+
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="25" />
+                                                </Border.StrokeShape>
+                                                <Grid>
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding Source={x:Reference myExerciseCollection2}, Path=BindingContext.ExerciseTappedCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            NumberOfTapsRequired="1" />
+                                                    </Grid.GestureRecognizers>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image
+                                                        Grid.Column="1"
+                                                        Margin="15,10,10,10"
+                                                        HeightRequest="100"
+                                                        Source="{Binding Urls[0]}"
+                                                        WidthRequest="150" />
+                                                    <Label
+                                                        Grid.Column="2"
+                                                        FontSize="15"
+                                                        Text="{Binding Name}"
+                                                        TextColor="{AppThemeBinding Dark=White,
+                                                        Light=Black}"
+                                                        VerticalOptions="Center" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                                <syncfusion:SfRadialMenu
+                                    BackgroundColor="{Binding Path=BindingContext.RadialColor, Source={x:Reference thisPage}}"
+                                    CenterButtonFontSize="15"
+                                    CenterButtonText="Editar"
+                                    IsOpen="{Binding Path=BindingContext.RadialOpen, Source={x:Reference thisPage}}"
+                                    RimColor="Beige"
+                                    SeparatorColor="Red">
+                                    <syncfusion:SfRadialMenu.Items>
+                                        <syncfusion:SfRadialMenuItem
+                                            Command="{Binding Path=BindingContext.DeleteWorkoutCommand, Source={x:Reference thisPage}}"
+                                            CommandParameter="{Binding}"
+                                            FontSize="15"
+                                            ItemWidth="160"
+                                            Text="Borrar" />
+                                        <syncfusion:SfRadialMenuItem
+                                            Command="{Binding Path=BindingContext.OpenInfoExercisePopupCommand, Source={x:Reference thisPage}}"
+                                            CommandParameter="{Binding}"
+                                            FontSize="15"
+                                            ItemWidth="160"
+                                            Text="Detalles" />
+                                        <syncfusion:SfRadialMenuItem
+                                            Margin="0,0,50,0"
+                                            BackgroundColor="LightPink"
+                                            Command="{Binding Path=BindingContext.RepeatWorkoutCommand, Source={x:Reference thisPage}}"
+                                            CommandParameter="{Binding}"
+                                            FontSize="15"
+                                            Image="backblack.png"
+                                            ItemHeight="50"
+                                            ItemWidth="160"
+                                            Text="Repetir entrenamiento" />
+                                    </syncfusion:SfRadialMenu.Items>
+                                </syncfusion:SfRadialMenu>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

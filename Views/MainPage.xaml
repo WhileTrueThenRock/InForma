@@ -21,6 +21,13 @@
     BindingContext="{viewmodels:MainViewModel}"
     Loaded="ThisPage_Loaded"
     NavigationPage.HasNavigationBar="False">
+    <ContentPage.Background>
+
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <shimmer:SfShimmer
         AnimationDuration="500"
@@ -229,6 +236,27 @@
                                     Source="backblack.png"
                                     WidthRequest="30" />
                                 <Button
+                                    Command="{Binding LoadSavedWorkoutsCommand}"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Start"
+                                    Text="Mis Entrenamientos"
+                                    VerticalOptions="Start"
+                                    WidthRequest="160">
+                                    <Button.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                        </LinearGradientBrush>
+                                    </Button.Background>
+                                </Button>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Margin="10,20,10,0">
+                                <Image
+                                    HeightRequest="30"
+                                    Source="backblack.png"
+                                    WidthRequest="30" />
+                                <Button
                                     Command="{Binding OpenEquipmentPopupCommand}"
                                     HeightRequest="40"
                                     HorizontalOptions="Start"
@@ -321,6 +349,12 @@
 
             <navigationdrawer:SfNavigationDrawer.ContentView>
                 <tabView:SfTabView x:Name="tabView" TabBarPlacement="Bottom">
+                    <tabView:SfTabView.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+                        </LinearGradientBrush>
+                    </tabView:SfTabView.Background>
                     <tabView:SfTabView.Items>
                         <!--  TAB NUMBER ONE  -->
                         <tabView:SfTabItem Header="Calendar" TextColor="{AppThemeBinding Dark=white, Light=black}">
@@ -436,12 +470,11 @@
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
 
-                                                                    <CheckBox
+                                                                    <buttons:SfCheckBox
                                                                         Grid.Column="1"
                                                                         HeightRequest="50"
                                                                         IsChecked="{Binding IsChecked}"
-                                                                        Color="{AppThemeBinding Dark=#ff7b00,
-                                                                        Light=#48cae4}" />
+                                                                        IsEnabled="False" />
                                                                     <Label
                                                                         Grid.Column="2"
                                                                         Margin="5"
@@ -474,247 +507,232 @@
                             <tabView:SfTabItem.Content>
 
                                 <ScrollView>
-                                    <VerticalStackLayout Margin="10">
-                                        <Label Text="Filtra por:" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="5" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
+                                    <VerticalStackLayout Margin="10,25,0,0">
 
-                                            <Label
-                                                Grid.Column="1"
-                                                Margin="20"
-                                                Text="Tiempo" />
-                                            <Label
-                                                Grid.Column="2"
-                                                Margin="50,20,0,0"
-                                                Text="Músculos" />
-                                            <Label
-                                                Grid.Column="3"
-                                                Margin="60,10,0,0"
-                                                Text="O crea tu propio entreno"
-                                                WidthRequest="98" />
-                                        </Grid>
-
-                                        <ScrollView Orientation="Horizontal">
-                                            <HorizontalStackLayout>
-
-                                                <VerticalStackLayout>
-                                                    <Border
-                                                        BackgroundColor="{AppThemeBinding Dark=#ff7b00,
-                                                        Light=#48cae4}"
-                                                        StrokeShape="RoundRectangle 0,20,20,0"
-                                                        StrokeThickness="2">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
-                                                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
-                                                            </LinearGradientBrush>
-                                                        </Border.Background>
-                                                        <syncfusion:SfExpander
-                                                            x:Name="durationExpander"
-                                                            Margin="10,10,0,0"
-                                                            IsExpanded="{Binding DurationExpander}"
-                                                            WidthRequest="100">
-                                                            <syncfusion:SfExpander.Header>
-                                                                <Grid>
-                                                                    <Label
-                                                                        HeightRequest="40"
-                                                                        Text="{Binding DurationHeader}"
-                                                                        TextColor="{AppThemeBinding Dark=Black,
-                                                                        Light=White}" />
-                                                                </Grid>
-                                                            </syncfusion:SfExpander.Header>
-                                                            <syncfusion:SfExpander.Content>
-                                                                <Grid>
-                                                                    <buttons:SfRadioGroup>
-
-                                                                        <buttons:SfRadioButton
-                                                                            IsChecked="True"
-                                                                            Text="15 min"
-                                                                            TextColor="{AppThemeBinding Dark=Black,
-                                                                            Light=White}">
-
-                                                                            <buttons:SfRadioButton.GestureRecognizers>
-                                                                                <TapGestureRecognizer
-                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
-                                                                                    CommandParameter="15"
-                                                                                    NumberOfTapsRequired="1" />
-                                                                            </buttons:SfRadioButton.GestureRecognizers>
-                                                                        </buttons:SfRadioButton>
-
-                                                                        <buttons:SfRadioButton Text="30 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
-                                                                            <buttons:SfRadioButton.GestureRecognizers>
-                                                                                <TapGestureRecognizer
-                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
-                                                                                    CommandParameter="30"
-                                                                                    NumberOfTapsRequired="1" />
-                                                                            </buttons:SfRadioButton.GestureRecognizers>
-                                                                        </buttons:SfRadioButton>
-
-                                                                        <buttons:SfRadioButton Text="45 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
-                                                                            <buttons:SfRadioButton.GestureRecognizers>
-                                                                                <TapGestureRecognizer
-                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
-                                                                                    CommandParameter="45"
-                                                                                    NumberOfTapsRequired="1" />
-                                                                            </buttons:SfRadioButton.GestureRecognizers>
-                                                                        </buttons:SfRadioButton>
-
-                                                                        <buttons:SfRadioButton Text="1 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
-                                                                            <buttons:SfRadioButton.GestureRecognizers>
-                                                                                <TapGestureRecognizer
-                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
-                                                                                    CommandParameter="60"
-                                                                                    NumberOfTapsRequired="1" />
-                                                                            </buttons:SfRadioButton.GestureRecognizers>
-                                                                        </buttons:SfRadioButton>
-
-                                                                        <buttons:SfRadioButton Text="1:30 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
-                                                                            <buttons:SfRadioButton.GestureRecognizers>
-                                                                                <TapGestureRecognizer
-                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
-                                                                                    CommandParameter="90"
-                                                                                    NumberOfTapsRequired="1" />
-                                                                            </buttons:SfRadioButton.GestureRecognizers>
-                                                                        </buttons:SfRadioButton>
-
-                                                                        <buttons:SfRadioButton Text="2 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
-                                                                            <buttons:SfRadioButton.GestureRecognizers>
-                                                                                <TapGestureRecognizer
-                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
-                                                                                    CommandParameter="120"
-                                                                                    NumberOfTapsRequired="1" />
-                                                                            </buttons:SfRadioButton.GestureRecognizers>
-                                                                        </buttons:SfRadioButton>
-
-                                                                        <buttons:SfRadioButton Text="2:30 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
-                                                                            <buttons:SfRadioButton.GestureRecognizers>
-                                                                                <TapGestureRecognizer
-                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
-                                                                                    CommandParameter="150"
-                                                                                    NumberOfTapsRequired="1" />
-                                                                            </buttons:SfRadioButton.GestureRecognizers>
-                                                                        </buttons:SfRadioButton>
-
-                                                                        <buttons:SfRadioButton Text="3 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
-                                                                            <buttons:SfRadioButton.GestureRecognizers>
-                                                                                <TapGestureRecognizer
-                                                                                    Command="{Binding SelectDurationWorkoutCommand}"
-                                                                                    CommandParameter="180"
-                                                                                    NumberOfTapsRequired="1" />
-                                                                            </buttons:SfRadioButton.GestureRecognizers>
-                                                                        </buttons:SfRadioButton>
-                                                                    </buttons:SfRadioGroup>
-                                                                </Grid>
-                                                            </syncfusion:SfExpander.Content>
-                                                        </syncfusion:SfExpander>
-                                                    </Border>
-                                                </VerticalStackLayout>
-                                                <!--<HorizontalStackLayout Margin="130,-40,0,0">-->
-                                                <Button
-                                                    Margin="10,10,10,0"
-                                                    Command="{Binding OpenMuscleSelectionPopupCommand}"
-                                                    HeightRequest="40"
-                                                    HorizontalOptions="Start"
-                                                    Text="Músculos"
-                                                    VerticalOptions="Start"
-                                                    WidthRequest="110">
-                                                    <Button.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
-                                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
-                                                        </LinearGradientBrush>
-                                                    </Button.Background>
-                                                </Button>
-
-
-                                                <Button
-                                                    Margin="20,10,10,0"
-                                                    Command="{Binding OpenCustomExercisePopupCommand}"
-                                                    HeightRequest="40"
-                                                    Text="Custom"
-                                                    VerticalOptions="Start"
-                                                    WidthRequest="100">
-                                                    <Button.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
-                                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
-                                                        </LinearGradientBrush>
-                                                    </Button.Background>
-                                                </Button>
-                                            </HorizontalStackLayout>
-                                        </ScrollView>
                                         <HorizontalStackLayout>
+
+                                            <VerticalStackLayout>
+                                                <Border
+                                                    Margin="0,7,0,0"
+                                                    BackgroundColor="{AppThemeBinding Dark=#ff7b00,
+                                                    Light=#48cae4}"
+                                                    StrokeShape="RoundRectangle 10,10,10,10"
+                                                    StrokeThickness="2">
+                                                    <Border.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                        </LinearGradientBrush>
+                                                    </Border.Background>
+                                                    <syncfusion:SfExpander
+                                                        x:Name="durationExpander"
+                                                        Margin="10,10,0,0"
+                                                        IsExpanded="{Binding DurationExpander}"
+                                                        WidthRequest="100">
+                                                        <syncfusion:SfExpander.Header>
+                                                            <Grid>
+                                                                <Label
+                                                                    HeightRequest="40"
+                                                                    Text="{Binding DurationHeader}"
+                                                                    TextColor="{AppThemeBinding Dark=Black,
+                                                                    Light=White}" />
+                                                            </Grid>
+                                                        </syncfusion:SfExpander.Header>
+                                                        <syncfusion:SfExpander.Content>
+                                                            <Grid>
+                                                                <buttons:SfRadioGroup>
+
+                                                                    <buttons:SfRadioButton
+                                                                        IsChecked="True"
+                                                                        Text="15 min"
+                                                                        TextColor="{AppThemeBinding Dark=Black,
+                                                                        Light=White}">
+
+                                                                        <buttons:SfRadioButton.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                CommandParameter="15"
+                                                                                NumberOfTapsRequired="1" />
+                                                                        </buttons:SfRadioButton.GestureRecognizers>
+                                                                    </buttons:SfRadioButton>
+
+                                                                    <buttons:SfRadioButton Text="30 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
+                                                                        <buttons:SfRadioButton.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                CommandParameter="30"
+                                                                                NumberOfTapsRequired="1" />
+                                                                        </buttons:SfRadioButton.GestureRecognizers>
+                                                                    </buttons:SfRadioButton>
+
+                                                                    <buttons:SfRadioButton Text="45 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
+                                                                        <buttons:SfRadioButton.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                CommandParameter="45"
+                                                                                NumberOfTapsRequired="1" />
+                                                                        </buttons:SfRadioButton.GestureRecognizers>
+                                                                    </buttons:SfRadioButton>
+
+                                                                    <buttons:SfRadioButton Text="1 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
+                                                                        <buttons:SfRadioButton.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                CommandParameter="60"
+                                                                                NumberOfTapsRequired="1" />
+                                                                        </buttons:SfRadioButton.GestureRecognizers>
+                                                                    </buttons:SfRadioButton>
+
+                                                                    <buttons:SfRadioButton Text="1:30 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
+                                                                        <buttons:SfRadioButton.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                CommandParameter="90"
+                                                                                NumberOfTapsRequired="1" />
+                                                                        </buttons:SfRadioButton.GestureRecognizers>
+                                                                    </buttons:SfRadioButton>
+
+                                                                    <buttons:SfRadioButton Text="2 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
+                                                                        <buttons:SfRadioButton.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                CommandParameter="120"
+                                                                                NumberOfTapsRequired="1" />
+                                                                        </buttons:SfRadioButton.GestureRecognizers>
+                                                                    </buttons:SfRadioButton>
+
+                                                                    <buttons:SfRadioButton Text="2:30 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
+                                                                        <buttons:SfRadioButton.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                CommandParameter="150"
+                                                                                NumberOfTapsRequired="1" />
+                                                                        </buttons:SfRadioButton.GestureRecognizers>
+                                                                    </buttons:SfRadioButton>
+
+                                                                    <buttons:SfRadioButton Text="3 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
+                                                                        <buttons:SfRadioButton.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                CommandParameter="180"
+                                                                                NumberOfTapsRequired="1" />
+                                                                        </buttons:SfRadioButton.GestureRecognizers>
+                                                                    </buttons:SfRadioButton>
+                                                                </buttons:SfRadioGroup>
+                                                            </Grid>
+                                                        </syncfusion:SfExpander.Content>
+                                                    </syncfusion:SfExpander>
+                                                </Border>
+                                            </VerticalStackLayout>
                                             <Button
-                                                Command="{Binding TestDarkModeCommand}"
-                                                Text="switch"
-                                                WidthRequest="100" />
+                                                Margin="10,10,10,0"
+                                                Command="{Binding OpenMuscleSelectionPopupCommand}"
+                                                HeightRequest="49"
+                                                HorizontalOptions="Start"
+                                                Text="Músculos"
+                                                VerticalOptions="Start"
+                                                WidthRequest="115">
+                                                <Button.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                    </LinearGradientBrush>
+                                                </Button.Background>
+                                            </Button>
+
+                                            <Button
+                                                Margin="4,10,10,0"
+                                                Command="{Binding OpenCustomExercisePopupCommand}"
+                                                HeightRequest="49"
+                                                Text="Buscar"
+                                                VerticalOptions="Start"
+                                                WidthRequest="115">
+                                                <Button.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                                    </LinearGradientBrush>
+                                                </Button.Background>
+                                            </Button>
                                         </HorizontalStackLayout>
-                                        <ScrollView>
-                                            <Border>
-                                                <CollectionView
-                                                    x:Name="myCollectionView"
-                                                    HeightRequest="400"
-                                                    ItemsSource="{Binding ExerciseList}">
-                                                    <CollectionView.ItemTemplate>
-                                                        <DataTemplate x:DataType="models:ExerciseModelView">
-                                                            <Border>
 
-                                                                <SwipeView>
-                                                                    <SwipeView.LeftItems>
-                                                                        <SwipeItems>
-                                                                            <SwipeItem
-                                                                                BackgroundColor="{AppThemeBinding Dark=#ef233c,
-                                                                                Light=#e01e37}"
-                                                                                Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                                                CommandParameter="{Binding .}"
-                                                                                IconImageSource="trash.png"
-                                                                                Text="Eliminar" />
-                                                                            <SwipeItem
-                                                                                BackgroundColor="{AppThemeBinding Dark=#ff7b00,
-                                                                                Light=#023e8a}"
-                                                                                Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
-                                                                                CommandParameter="{Binding .}"
-                                                                                IconImageSource="replace.png"
-                                                                                Text="Reemplazar" />
-                                                                        </SwipeItems>
-                                                                    </SwipeView.LeftItems>
-                                                                    <Grid>
-                                                                        <Grid.GestureRecognizers>
-                                                                            <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
-                                                                        </Grid.GestureRecognizers>
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="Auto" />
-                                                                            <ColumnDefinition Width="Auto" />
-                                                                            <ColumnDefinition Width="*" />
-                                                                        </Grid.ColumnDefinitions>
-                                                                        <Image
-                                                                            Grid.Column="1"
-                                                                            Margin="5"
-                                                                            HeightRequest="100"
-                                                                            Source="{Binding Urls[0]}"
-                                                                            WidthRequest="150" />
-                                                                        <Label
-                                                                            Grid.Column="2"
-                                                                            FontSize="15"
-                                                                            Text="{Binding Exercise.Name}"
-                                                                            TextColor="{AppThemeBinding Dark=White,
-                                                                            Light=Black}"
-                                                                            VerticalOptions="Center" />
+                                        <ScrollView Margin="0,20,0,0">
+                                            <CollectionView
+                                                x:Name="myCollectionView"
+                                                HeightRequest="400"
+                                                ItemsSource="{Binding ExerciseList}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:ExerciseModelView">
 
-                                                                    </Grid>
+                                                        <Border
+                                                            Margin="0,10,10,0"
+                                                            Background="{AppThemeBinding Dark=Transparent,
+                                                            Light=Transparent}"
+                                                            HeightRequest="120"
+                                                            StrokeThickness="1">
 
-                                                                </SwipeView>
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </CollectionView.ItemTemplate>
-                                                </CollectionView>
-                                            </Border>
+                                                            <Border.Shadow>
+                                                                <Shadow
+                                                                    Brush="{AppThemeBinding Dark=White,
+                                                                    Light=Black}"
+                                                                    Opacity="0.3"
+                                                                    Radius="40"
+                                                                    Offset="20,20" />
+                                                            </Border.Shadow>
+                                                            <Border.StrokeShape>
+                                                                <RoundRectangle CornerRadius="30" />
+                                                            </Border.StrokeShape>
+
+                                                            <SwipeView>
+                                                                <SwipeView.LeftItems>
+                                                                    <SwipeItems>
+                                                                        <SwipeItem
+                                                                            BackgroundColor="{AppThemeBinding Dark=#ef233c,
+                                                                            Light=#e01e37}"
+                                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            IconImageSource="trash.png"
+                                                                            Text="Eliminar" />
+                                                                        <SwipeItem
+                                                                            BackgroundColor="{AppThemeBinding Dark=#ff7b00,
+                                                                            Light=#023e8a}"
+                                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            IconImageSource="replace.png"
+                                                                            Text="Reemplazar" />
+                                                                    </SwipeItems>
+                                                                </SwipeView.LeftItems>
+
+                                                                <Grid>
+                                                                    <Grid.GestureRecognizers>
+                                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCollectionView}, Path=BindingContext.LoadTappedExerciseCommand}" CommandParameter="{Binding Exercise}" />
+                                                                    </Grid.GestureRecognizers>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="*" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Image
+                                                                        Grid.Column="1"
+                                                                        Margin="15,10,10,10"
+                                                                        HeightRequest="100"
+                                                                        Source="{Binding Urls[0]}"
+                                                                        WidthRequest="150" />
+                                                                    <Label
+                                                                        Grid.Column="2"
+                                                                        FontSize="15"
+                                                                        Text="{Binding Exercise.Name}"
+                                                                        TextColor="{AppThemeBinding Dark=White,
+                                                                        Light=Black}"
+                                                                        VerticalOptions="Center" />
+                                                                </Grid>
+                                                            </SwipeView>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
                                         </ScrollView>
+
 
                                         <Button
                                             Margin="0,20,0,0"
@@ -732,147 +750,18 @@
                                                 </LinearGradientBrush>
                                             </Button.Background>
                                         </Button>
+
+                                        <Button
+                                            Command="{Binding TestDarkModeCommand}"
+                                            Text="switch"
+                                            WidthRequest="100" />
                                     </VerticalStackLayout>
                                 </ScrollView>
                             </tabView:SfTabItem.Content>
                         </tabView:SfTabItem>
 
                         <!--  TAB NUMBER THREE  -->
-                        <tabView:SfTabItem Header="Entrenamientos" TextColor="{AppThemeBinding Dark=white, Light=black}">
-                            <tabView:SfTabItem.Content>
-                                <VerticalStackLayout>
 
-                                    <CollectionView
-                                        x:Name="myExerciseCollection"
-                                        Margin="0,20,0,0"
-                                        HeightRequest="500"
-                                        ItemsSource="{Binding ExerciseGrouplist}">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:DateGroup">
-                                                <VerticalStackLayout>
-                                                    <accordion:SfAccordion
-                                                        Margin="0,20,0,0"
-                                                        AnimationDuration="250"
-                                                        AnimationEasing="SinInOut"
-                                                        ExpandMode="SingleOrNone"
-                                                        IsVisible="{Binding BindingContext.IsAccordionVisible, Source={x:Reference mainpage}, Mode=OneWayToSource}">
-
-                                                        <accordion:SfAccordion.Items>
-                                                            <accordion:AccordionItem>
-                                                                <accordion:AccordionItem.Header>
-                                                                    <Grid>
-                                                                        <Label Text="Train:" VerticalOptions="Center" />
-                                                                        <Label
-                                                                            Margin="40,0,0,0"
-                                                                            Text="{Binding FechaEntrenamiento}"
-                                                                            VerticalOptions="Center" />
-                                                                        <CheckBox Margin="300,0,0,0" IsChecked="True" />
-                                                                    </Grid>
-                                                                </accordion:AccordionItem.Header>
-                                                                <accordion:AccordionItem.Content>
-                                                                    <Grid>
-                                                                        <VerticalStackLayout HeightRequest="600">
-
-
-                                                                            <Border>
-                                                                                <CollectionView
-                                                                                    x:Name="myExerciseCollection2"
-                                                                                    Margin="0,20,0,0"
-                                                                                    HeightRequest="500"
-                                                                                    ItemsSource="{Binding Exercises}">
-                                                                                    <CollectionView.ItemTemplate>
-                                                                                        <DataTemplate x:DataType="models:ExerciseModelView">
-                                                                                            <SwipeView>
-
-
-                                                                                                <SwipeView.LeftItems>
-                                                                                                    <SwipeItems>
-                                                                                                        <SwipeItem
-                                                                                                            BackgroundColor="Red"
-                                                                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.DeleteCustomTrainingExerciseCommand}"
-                                                                                                            CommandParameter="{Binding .}"
-                                                                                                            Text="Eliminar" />
-                                                                                                        <SwipeItem
-                                                                                                            BackgroundColor="LightGreen"
-                                                                                                            Command="{Binding Source={x:Reference mainpage}, Path=BindingContext.ReplaceSwipedRowCommand}"
-                                                                                                            CommandParameter="{Binding .}"
-                                                                                                            Text="Reemplazar" />
-                                                                                                    </SwipeItems>
-                                                                                                </SwipeView.LeftItems>
-                                                                                                <Grid>
-                                                                                                    <Grid.GestureRecognizers>
-                                                                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myExerciseCollection2}, Path=BindingContext.CustomExerciseTappedCommand}" CommandParameter="{Binding}" />
-                                                                                                    </Grid.GestureRecognizers>
-                                                                                                    <Grid.ColumnDefinitions>
-                                                                                                        <ColumnDefinition Width="Auto" />
-                                                                                                        <ColumnDefinition Width="*" />
-                                                                                                        <ColumnDefinition Width="Auto" />
-                                                                                                        <ColumnDefinition Width="Auto" />
-                                                                                                    </Grid.ColumnDefinitions>
-                                                                                                    <Image
-                                                                                                        Grid.Row="1"
-                                                                                                        Margin="0,20,0,0"
-                                                                                                        HeightRequest="50"
-                                                                                                        Source="{Binding Urls[0]}"
-                                                                                                        WidthRequest="50" />
-                                                                                                    <Label
-                                                                                                        Grid.Column="1"
-                                                                                                        Text="{Binding Name}"
-                                                                                                        VerticalOptions="Center" />
-                                                                                                    <Label
-                                                                                                        Grid.Column="2"
-                                                                                                        Text="{Binding FechaEntrenamiento}"
-                                                                                                        VerticalOptions="Center" />
-                                                                                                    <CheckBox
-                                                                                                        Grid.Column="3"
-                                                                                                        HeightRequest="100"
-                                                                                                        IsChecked="{Binding IsChecked}" />
-                                                                                                </Grid>
-                                                                                            </SwipeView>
-                                                                                        </DataTemplate>
-                                                                                    </CollectionView.ItemTemplate>
-                                                                                </CollectionView>
-
-                                                                            </Border>
-                                                                        </VerticalStackLayout>
-                                                                    </Grid>
-                                                                </accordion:AccordionItem.Content>
-                                                            </accordion:AccordionItem>
-                                                        </accordion:SfAccordion.Items>
-                                                    </accordion:SfAccordion>
-
-
-                                                </VerticalStackLayout>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-
-
-                                    <ScrollView>
-                                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
-                                            <Label
-                                                FontAttributes="Bold"
-                                                FontFamily="Times New Roman"
-                                                FontSize="25"
-                                                HorizontalOptions="Center"
-                                                Text="Mis Entrenamientos" />
-                                            <Button
-                                                Background="Red"
-                                                Command="{Binding DeleteSelectedExerciseCommand}"
-                                                IsVisible="{Binding IsDeleteCustomExerciseButtonVisible}"
-                                                Text="Borrar"
-                                                WidthRequest="100" />
-                                            <Button
-                                                Background="Red"
-                                                Command="{Binding DeleteSessionCommand}"
-                                                IsVisible="{Binding IsDeleteCustomExerciseButtonVisible}"
-                                                Text="Borrar Todo"
-                                                WidthRequest="150" />
-                                        </HorizontalStackLayout>
-                                    </ScrollView>
-                                </VerticalStackLayout>
-                            </tabView:SfTabItem.Content>
-                        </tabView:SfTabItem>
                     </tabView:SfTabView.Items>
                 </tabView:SfTabView>
             </navigationdrawer:SfNavigationDrawer.ContentView>

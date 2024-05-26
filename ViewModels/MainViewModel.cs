@@ -16,12 +16,12 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
 using System.Collections.ObjectModel;
-using Syncfusion.Maui.Accordion;
 using CommunityToolkit.Maui.Alerts;
 using System.Diagnostics;
 using Firebase.Auth;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using Plugin.Maui.Audio;
 
 /*
  * 
@@ -39,6 +39,7 @@ notification
 namespace mobileAppTest.ViewModels
 {
     [QueryProperty("ExerciseFinishedLists", "ExerciseFinishedLists")]
+    [QueryProperty("Email", "Email")]
     internal partial class MainViewModel : ObservableObject, INotifyPropertyChanged
     {
         public string webApiKey = "AIzaSyAJ2z8_aTTkgCz-dYXhLt-bt4nEcXqjPxY";
@@ -90,7 +91,10 @@ namespace mobileAppTest.ViewModels
         private bool _notificationOutside;
 
         [ObservableProperty]
-        private bool _notificationInside;
+        private bool _yeahBuddy;
+
+        [ObservableProperty]
+        private bool _whatsapp;
 
         [ObservableProperty]
         private bool _videoPlaying;
@@ -476,23 +480,11 @@ namespace mobileAppTest.ViewModels
             }
         }
 
-        //[ObservableProperty]
-        //private bool _isAccordionVisible;
-        private bool _isAccordionVisible;
-        public bool IsAccordionVisible
-        {
-            get { return _isAccordionVisible; }
-            set
-            {
-                _isAccordionVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-
         [ObservableProperty]
         private bool _isShimmerPlaying;
 
+        [ObservableProperty]
+        private IAudioManager _audioManager = new AudioManager();
 
         public MainViewModel()
         {
@@ -504,7 +496,6 @@ namespace mobileAppTest.ViewModels
             //RealTimeUpdateFilter();//xd
             GetExercisesEvents();
             LoadUserEquipments();
-            LoadCustomWorkouts();
             //ShowExercisesWithAvailableEquipment();
             //DurationHeader = "15 min";
             // IsDurationChecked = true;
@@ -559,12 +550,10 @@ namespace mobileAppTest.ViewModels
             IsHamstringsVisible = false;
             IsCalfsVisible = false;
 
-            IsAccordionVisible = false;
             PasswordText = "Restablecer contraseña";
             PasswordTextColor = Colors.White;
             IsResetPassEnabled = true;
             NotificationOutside = true;
-            NotificationInside = true;
             EmailSent = false;
             MiContador = 0;
             MiCustomContador = 0;
@@ -596,13 +585,37 @@ namespace mobileAppTest.ViewModels
                 Weight = Weight,
                 Break = Break,
                 NotificationOutside = NotificationOutside,
-                NotificationInside = NotificationInside,
+                Yeahbuddy = YeahBuddy,
+                Whatsapp = Whatsapp,
                 VideoPlaying = VideoPlaying,
             });
 
             CloseConfigurationPopup();
 
     }
+
+        [RelayCommand]
+        public async Task Play_Sound(string sound)
+        {
+            if (sound=="whatsapp")
+            {
+              var player = AudioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("noti1.mp3"));
+              player.Play();
+                await Task.Delay(4000);
+                player.Dispose();
+
+            }
+            else
+            {
+                var player = AudioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("yeahbuddy.mp3"));
+                player.Play();
+                await Task.Delay(4000);
+                player.Dispose();
+            }
+          
+
+        }
+
 
         [RelayCommand]
         public async Task TestDarkMode()
@@ -629,10 +642,10 @@ namespace mobileAppTest.ViewModels
         {
             IsShimmerPlaying = true;
 
+
             try
             {
                 // Realiza todas las operaciones asincrónicas
-                //await GetUserCredentials();
                 await GetExercisesEvents();
                 await FilterBySelectedMuscle();
                 await SelectDurationWorkoutRandom("15");
@@ -651,65 +664,7 @@ namespace mobileAppTest.ViewModels
 
 
 
-        public async Task LoadCustomWorkouts()
-        {
-            var userDocument = CrossCloudFirestore.Current
-                .Instance
-                .Collection("Users")
-                .Document("123456@gmail.com"); // Cambiar por el email del usuario
-
-            var userSnapshot = await userDocument.GetDocumentAsync();
-
-            if (userSnapshot.Exists)
-            {
-                var userData = userSnapshot.ToObject<Dictionary<string, object>>();
-                if (userData.ContainsKey("Colecciones"))
-                {
-                    var colecciones = userData["Colecciones"] as List<object>;
-
-                    // Diccionario para almacenar los ejercicios agrupados por título de entrenamiento
-                    Dictionary<string, List<ExerciseModelView>> exercisesByWorkoutTitle = new Dictionary<string, List<ExerciseModelView>>();
-
-                    foreach (string workoutTitle in colecciones)
-                    {
-                        var workoutDoc = CrossCloudFirestore.Current
-                            .Instance
-                            .Collection("Users")
-                            .Document("123456@gmail.com")
-                            .Collection("Sesiones")
-                            .Document("Saved_Workouts")
-                            .Collection(workoutTitle);
-
-                        var workoutQuerySnapshot = await workoutDoc.GetDocumentsAsync();
-                        foreach (var exerciseDocument in workoutQuerySnapshot.Documents)
-                        {
-                            var exercise = exerciseDocument.ToObject<ExerciseModelView>();
-
-                            // Agregar el ejercicio a la lista correspondiente en el diccionario
-                            if (!exercisesByWorkoutTitle.ContainsKey(workoutTitle))
-                            {
-                                exercisesByWorkoutTitle[workoutTitle] = new List<ExerciseModelView>();
-                            }
-                            exercisesByWorkoutTitle[workoutTitle].Add(exercise);
-                        }
-                    }
-
-
-                    // Crear una lista de DateGroup para cada título de entrenamiento
-                    var dateGroups = exercisesByWorkoutTitle.Select(kvp => new DateGroup
-                    {
-                        FechaEntrenamiento = kvp.Key,
-                        Exercises = kvp.Value,
-                    }).ToList();
-
-                    // Asignar los grupos a ExerciseSessionlist
-                    ExerciseGrouplist = new ObservableCollection<DateGroup>(dateGroups);
-
-                    IsAccordionVisible = true;
-                }
-            }
-
-        }
+     
 
 
         [RelayCommand]
@@ -1460,7 +1415,7 @@ namespace mobileAppTest.ViewModels
         {
 
             // Filtra la lista para obtener solo los ejercicios seleccionados
-            var SelectedExercises = ExerciseList
+            var SelectedExercises = _selectedExercises
                 .Where(exercise => exercise.IsChecked)
                 .ToList();
 
@@ -1470,7 +1425,10 @@ namespace mobileAppTest.ViewModels
                 ExerciseCount = 0;
                 foreach (var selectedExercise in SelectedExercises)
                 {
-                    ExerciseList.Add(selectedExercise);
+                    if (!ExerciseList.Contains(selectedExercise))
+                    {
+                        ExerciseList.Add(selectedExercise);
+                    }
                     ExerciseCount++;
                 }
                 CustomExercisePopup.Close();
@@ -1479,21 +1437,15 @@ namespace mobileAppTest.ViewModels
             {
                 // cambiar de color
             }
+            _selectedExercises.Clear();
             SearchExerciseContador = 0;
             ShowNewTrainingButton = false;
             NewTrainingButtonText = "";
             IsStartTrainingVisible = true;
 
-            //await SelectedDurationWorkout();
-            if (ExerciseCount == 1)
-            {
-                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+            StartTrainingText = ExerciseCount == 1 ? "Entrenar 1 ejercicio" : $"Entrenar {ExerciseCount} ejercicios";
 
-            }
-            else
-            {
-                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
-            }
+
 
         }
 
@@ -1532,6 +1484,7 @@ namespace mobileAppTest.ViewModels
             }
             IsDeleteExerciseButtonVisible = false;
             IsDetailsExerciseButtonVisible = false;
+            StartShimmerAndWait();
         }
 
 
@@ -1594,6 +1547,7 @@ namespace mobileAppTest.ViewModels
             {
                 Console.WriteLine($"Error al obtener ejercicios: {ex.Message}");
             }
+
 
         }
 
@@ -1747,6 +1701,7 @@ namespace mobileAppTest.ViewModels
             }
         }
 
+        private List<ExerciseModelView> _selectedExercises = new List<ExerciseModelView>();
 
         //Para seleccionar una fila de CollectionView
         [RelayCommand]
@@ -1755,28 +1710,22 @@ namespace mobileAppTest.ViewModels
             exercise.IsChecked = !exercise.IsChecked;
             if (exercise.IsChecked)
             {
-                SearchExerciseContador++;
-                ShowNewTrainingButton = true;
-                NewTrainingButtonText = "Añadir ejercicio";
-                if(SearchExerciseContador > 1)
+                if (!_selectedExercises.Contains(exercise))
                 {
-                    NewTrainingButtonText = "Añadir " + SearchExerciseContador + " ejercicios";
-
+                    _selectedExercises.Add(exercise);
+                    SearchExerciseContador++;
+                    ShowNewTrainingButton = true;
+                    NewTrainingButtonText = SearchExerciseContador > 1 ? $"Añadir {SearchExerciseContador} ejercicios" : "Añadir ejercicio";
                 }
             }
             else if (!exercise.IsChecked)
             {
                 SearchExerciseContador--;
+                _selectedExercises.Remove(exercise);
 
-                if (SearchExerciseContador > 1)
-                {
-                    NewTrainingButtonText = "Añadir " + SearchExerciseContador + " ejercicios";
 
-                }
-                else
-                {
-                    NewTrainingButtonText = "Añadir ejercicio";
-                }
+                NewTrainingButtonText = SearchExerciseContador > 1 ? $"Añadir {SearchExerciseContador} ejercicios" : "Añadir ejercicio";
+
 
             }
             if (SearchExerciseContador == 0)
@@ -1961,7 +1910,7 @@ namespace mobileAppTest.ViewModels
             var avatar = await CrossCloudFirestore.Current
                             .Instance
                             .Collection("Users")
-                            .Document("123456@gmail.com") //LoginViewModel.Email_name
+                            .Document(Email) //LoginViewModel.Email_name
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
            
@@ -1973,7 +1922,8 @@ namespace mobileAppTest.ViewModels
             Weight = User.Weight;
             Break = User.Break;
             NotificationOutside = User.NotificationOutside;
-            NotificationInside = User.NotificationInside;
+            YeahBuddy = User.Yeahbuddy;
+            Whatsapp = User.Whatsapp;
             VideoPlaying = User.VideoPlaying;
             
         }
@@ -1993,10 +1943,14 @@ namespace mobileAppTest.ViewModels
             else
             {
                 var searchTerms = searchQuery.Split(' ',StringSplitOptions.RemoveEmptyEntries);
+                var filteredExercises = ExerciseList.Where(exercise =>
+                     searchTerms.All(term => exercise.Name?.ToLower().Contains(term) == true)).ToList();
+                foreach (var exercise in filteredExercises)
+                {
+                    exercise.IsChecked = _selectedExercises.Contains(exercise);
+                }
 
-                ExerciseList = new ObservableCollection<ExerciseModelView>(
-                ExerciseList.Where(exercise => searchTerms.All(term => exercise.Name?.ToLower().Contains(term) == true)));
-                // Verifica si el nombre del ejercicio (si no es nulo) en minúsculas contiene la cadena de búsqueda, devolviendo true si la condición se cumple.
+                ExerciseList = new ObservableCollection<ExerciseModelView>(filteredExercises);
             }
         }
 
@@ -2334,6 +2288,16 @@ namespace mobileAppTest.ViewModels
             await Shell.Current.GoToAsync("//StartedWorkoutPage", new Dictionary<string, object>()
             {
                 ["ExerciseList"] = exerciseList
+            });
+
+        }
+
+        [RelayCommand]
+        public async Task LoadSavedWorkouts()
+        {
+            await Shell.Current.GoToAsync("//SavedWorkoutsPage", new Dictionary<string, object>()
+            {
+                ["Email"] = Email
             });
 
         }

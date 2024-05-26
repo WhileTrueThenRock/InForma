@@ -181,8 +181,9 @@ namespace mobileAppTest.ViewModels
                     user.Reps = 10;
                     user.Weight = 12.5;
                     user.Break = 60;
-                    user.NotificationInside = true;
                     user.NotificationOutside = true;
+                    user.Yeahbuddy = false;
+                    user.Whatsapp= true;
                     user.VideoPlaying = true;
                     user.ResetTimeLabel = true;
 

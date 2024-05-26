@@ -21,6 +21,27 @@ namespace mobileAppTest.Mappers
             return exerciseModelView;
         }
 
+        public static ExerciseModel ExerciseModelViewToExerciseModel(ExerciseModelView exerciseModelView)
+        {
+            return new ExerciseModel
+            {
+                Id = exerciseModelView.Id,
+                Name = exerciseModelView.Name,
+                Equipment = exerciseModelView.Equipment,
+                Duration = exerciseModelView.Duration,
+                Urls = exerciseModelView.Urls,
+                FechaEntrenamiento = exerciseModelView.FechaEntrenamiento,
+                PrimaryMuscles = exerciseModelView.PrimaryMuscles,
+                SecondaryMuscles = exerciseModelView.SecondaryMuscles,
+                Instructions = exerciseModelView.Instructions,
+                Reps = exerciseModelView.Reps,
+                Weight = exerciseModelView.Weight
+            };
+        }
+
+
+
+
         public static EquipmentModelView EquipmentModelToEquipmentModelView(EquipmentModel equipment)
         {
             EquipmentModelView equipmentModelView = new EquipmentModelView();

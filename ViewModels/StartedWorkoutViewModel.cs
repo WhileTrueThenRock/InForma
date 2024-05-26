@@ -19,6 +19,7 @@ namespace mobileAppTest.ViewModels
     [QueryProperty("ExerciseFinishedList", "ExerciseFinishedList")]
     [QueryProperty("Fecha", "Fecha")]
     [QueryProperty("UniquePrimaryMuscles", "UniquePrimaryMuscles")]
+    [QueryProperty("SelectedExercises", "SelectedExercises")]
     // [QueryProperty("EquipmentList", "EquipmentList")]
     internal partial class StartedWorkoutViewModel : ObservableObject
     {
@@ -30,6 +31,9 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         public ObservableCollection<ExerciseModelView> _uniquePrimaryMuscles;
+
+        [ObservableProperty]
+        private ObservableCollection<ExerciseModelView> _selectedExercises;
 
         [ObservableProperty]
         private string _fecha;
@@ -63,6 +67,7 @@ namespace mobileAppTest.ViewModels
         {
             ExerciseFinishedList = new ObservableCollection<ExerciseModelView>();
             UniquePrimaryMuscles = new ObservableCollection<ExerciseModelView>();
+            SelectedExercises = new ObservableCollection<ExerciseModelView>();
             IsVisible = false;
         }
 
@@ -180,10 +185,11 @@ namespace mobileAppTest.ViewModels
          
         }
 
-
         [RelayCommand]
         public async Task LoadTappedExercise(ExerciseModel selectedExercise)
         {
+        
+
             IsVisible = true;
             await Shell.Current.GoToAsync("//ExerciseTappedPage", new Dictionary<string, object>()
             {
@@ -194,6 +200,9 @@ namespace mobileAppTest.ViewModels
 
             });
         }
+
+
+     
 
     }
 }
