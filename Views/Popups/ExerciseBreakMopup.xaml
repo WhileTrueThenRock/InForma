@@ -10,6 +10,7 @@
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
     x:DataType="viewmodels:ExerciseTappedViewModel"
     CloseWhenBackgroundIsClicked="False">
+
     <mopups:PopupPage.Animation>
         <mopupsanim:ScaleAnimation
             DurationIn="1000"

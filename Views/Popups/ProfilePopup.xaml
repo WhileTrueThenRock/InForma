@@ -24,13 +24,13 @@
 
             <VerticalStackLayout Margin="0,80,0,0" WidthRequest="300">
                 <inputLayout:SfTextInputLayout
-                    ContainerBackground="{AppThemeBinding Dark=lightgray,
+                    ContainerBackground="{AppThemeBinding Dark=#ff7b00,
                     Light=#caf0f8}"
                     ContainerType="Outlined"
                     ErrorText="{Binding NameErrorText}"
                     FocusedStrokeThickness="4"
                     HasError="{Binding HasNameError}"
-                    HeightRequest="80"
+                    HeightRequest="85"
                     HelperText="No puede tener más de 15 caracteres"
                     Hint="Nombre / Alias"
                     OutlineCornerRadius="8"
@@ -42,13 +42,13 @@
                 </inputLayout:SfTextInputLayout>
 
                 <inputLayout:SfTextInputLayout
-                    ContainerBackground="{AppThemeBinding Dark=lightgray,
+                    ContainerBackground="{AppThemeBinding Dark=#ff7b00,
                     Light=#caf0f8}"
                     ContainerType="Outlined"
                     ErrorText="{Binding EmailErrorText}"
                     FocusedStrokeThickness="4"
                     HasError="{Binding HasEmailError}"
-                    HeightRequest="80"
+                    HeightRequest="85"
                     Hint="Email"
                     OutlineCornerRadius="8"
                     UnfocusedStrokeThickness="2">

@@ -40,13 +40,15 @@ namespace mobileAppTest.ViewModels
 {
     [QueryProperty("ExerciseFinishedLists", "ExerciseFinishedLists")]
     [QueryProperty("Email", "Email")]
-    internal partial class MainViewModel : ObservableObject, INotifyPropertyChanged
+    public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
     {
         public string webApiKey = "AIzaSyAJ2z8_aTTkgCz-dYXhLt-bt4nEcXqjPxY";
 
         #region Popups
         [ObservableProperty]
         private CustomExercises _customExercisePopup;
+
+        private SearchExerciseMopup searchExerciseMopup { get; set; }
 
         [ObservableProperty]
         private EquipmentPopup _equipmentPopup;
@@ -89,12 +91,6 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private bool _notificationOutside;
-
-        [ObservableProperty]
-        private bool _yeahBuddy;
-
-        [ObservableProperty]
-        private bool _whatsapp;
 
         [ObservableProperty]
         private bool _videoPlaying;
@@ -522,7 +518,8 @@ namespace mobileAppTest.ViewModels
             SelectedEquipment = new ObservableCollection<EquipmentModelView>();
             SelectedMuscles = new ObservableCollection<string>();
             MuscleExerciselist = new ObservableCollection<ExerciseModelView>();
-
+            searchExerciseMopup = new SearchExerciseMopup(this);
+            
             IsFiltrarMusclesButtonVisible = true;
             IsFrontBodyVisible = true;
             IsBackBodyVisible = false;
@@ -585,36 +582,12 @@ namespace mobileAppTest.ViewModels
                 Weight = Weight,
                 Break = Break,
                 NotificationOutside = NotificationOutside,
-                Yeahbuddy = YeahBuddy,
-                Whatsapp = Whatsapp,
                 VideoPlaying = VideoPlaying,
             });
 
             CloseConfigurationPopup();
 
     }
-
-        [RelayCommand]
-        public async Task Play_Sound(string sound)
-        {
-            if (sound=="whatsapp")
-            {
-              var player = AudioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("noti1.mp3"));
-              player.Play();
-                await Task.Delay(4000);
-                player.Dispose();
-
-            }
-            else
-            {
-                var player = AudioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("yeahbuddy.mp3"));
-                player.Play();
-                await Task.Delay(4000);
-                player.Dispose();
-            }
-          
-
-        }
 
 
         [RelayCommand]
@@ -646,6 +619,7 @@ namespace mobileAppTest.ViewModels
             try
             {
                 // Realiza todas las operaciones asincrónicas
+                await GetUserCredentials();
                 await GetExercisesEvents();
                 await FilterBySelectedMuscle();
                 await SelectDurationWorkoutRandom("15");
@@ -1431,7 +1405,7 @@ namespace mobileAppTest.ViewModels
                     }
                     ExerciseCount++;
                 }
-                CustomExercisePopup.Close();
+                await MopupService.Instance.PopAllAsync();
             }
             else
             {
@@ -1910,7 +1884,7 @@ namespace mobileAppTest.ViewModels
             var avatar = await CrossCloudFirestore.Current
                             .Instance
                             .Collection("Users")
-                            .Document(Email) //LoginViewModel.Email_name
+                            .Document("123456@gmail.com") //LoginViewModel.Email_name
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
            
@@ -1922,8 +1896,6 @@ namespace mobileAppTest.ViewModels
             Weight = User.Weight;
             Break = User.Break;
             NotificationOutside = User.NotificationOutside;
-            YeahBuddy = User.Yeahbuddy;
-            Whatsapp = User.Whatsapp;
             VideoPlaying = User.VideoPlaying;
             
         }
@@ -2083,6 +2055,26 @@ namespace mobileAppTest.ViewModels
         }
 
         [RelayCommand]
+        public async Task OpenSearchExerciseMopupAsync(string mode)
+        {
+            await ShowExercisesWithAvailableEquipment();
+
+            await MopupService.Instance.PushAsync(new SearchExerciseMopup(this));
+
+        }
+
+        [RelayCommand]
+        public async Task CloseSearchExerciseMopup()
+        {
+            SearchText = "";
+            await SelectDurationWorkoutRandom("15");
+            await MopupService.Instance.PopAllAsync();
+        }
+
+
+
+
+        [RelayCommand]
         public async Task OpenEquipmentPopup()
         {
 
@@ -2174,10 +2166,10 @@ namespace mobileAppTest.ViewModels
 
         private bool ValidateName()
         {
-            if (Name == null || Name.Any(Char.IsWhiteSpace))
+            if (string.IsNullOrEmpty(Name) || Name.Trim().Length == 0)
             {
                 HasNameError = true;
-                NameErrorText = "Se te olvidó el nombre wey!";
+                NameErrorText = "Introduce un nombre";
                 return false;
             }
 

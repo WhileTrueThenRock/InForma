@@ -24,10 +24,9 @@
         <ScrollView HeightRequest="700" WidthRequest="400">
             <VerticalStackLayout>
 
-
                 <VerticalStackLayout Margin="0,20,0,0" WidthRequest="320">
 
-                    <Border Margin="0,50,0,0">
+                    <Border Margin="0,50,0,0" Background="DarkGray">
                         <VerticalStackLayout>
 
                             <HorizontalStackLayout Margin="0,20,0,0">
@@ -72,35 +71,7 @@
                                     </VisualStateManager.VisualStateGroups>
                                 </buttons:SfSwitch>
                             </HorizontalStackLayout>
-                            <Label Margin="40,5,0,0" Text="Sonido notificación" />
-                            <HorizontalStackLayout>
 
-                                <syncfusion:SfRadioGroup Margin="60,5,0,0">
-                                    <syncfusion:SfRadioButton
-                                        CheckedColor="{AppThemeBinding Dark=#ff7b00,
-                                        Light=#48cae4}"
-                                        IsChecked="{Binding YeahBuddy}"
-                                        Text="Yeah Buddy">
-                                        <syncfusion:SfRadioButton.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Play_SoundCommand}"
-                                                CommandParameter="yeahbuddy"
-                                                NumberOfTapsRequired="1" />
-                                        </syncfusion:SfRadioButton.GestureRecognizers>
-                                    </syncfusion:SfRadioButton>
-                                    <syncfusion:SfRadioButton
-                                        IsChecked="{Binding Whatsapp}"
-                                        Text="Whatsapp"
-                                        UncheckedColor="LightGray">
-                                        <syncfusion:SfRadioButton.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Play_SoundCommand}"
-                                                CommandParameter="whatsapp"
-                                                NumberOfTapsRequired="1" />
-                                        </syncfusion:SfRadioButton.GestureRecognizers>
-                                    </syncfusion:SfRadioButton>
-                                </syncfusion:SfRadioGroup>
-                            </HorizontalStackLayout>
                             <HorizontalStackLayout Margin="0,20,0,0">
                                 <Label Margin="40,5,0,0" Text="Video para ejercicios" />
                                 <buttons:SfSwitch
@@ -145,8 +116,8 @@
                             </HorizontalStackLayout>
 
                             <inputLayout:SfTextInputLayout
-                                Margin="5,20,0,0"
-                                ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                Margin="5,20,10,0"
+                                ContainerBackground="{AppThemeBinding Dark=#ff7b00,
                                 Light=#caf0f8}"
                                 ContainerType="Outlined"
                                 FocusedStrokeThickness="4"
@@ -166,8 +137,8 @@
                             </inputLayout:SfTextInputLayout>
 
                             <inputLayout:SfTextInputLayout
-                                Margin="0,0,0,0"
-                                ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                Margin="0,10,0,0"
+                                ContainerBackground="{AppThemeBinding Dark=#ff7b00,
                                 Light=#caf0f8}"
                                 ContainerType="Outlined"
                                 ErrorText="ss"
@@ -191,8 +162,8 @@
 
 
                             <inputLayout:SfTextInputLayout
-                                Margin="0,0,0,0"
-                                ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                Margin="0,10,0,0"
+                                ContainerBackground="{AppThemeBinding Dark=#ff7b00,
                                 Light=#caf0f8}"
                                 ContainerType="Outlined"
                                 ErrorText="ss"

@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using mobileAppTest.Mappers;
 using mobileAppTest.Models;
 using mobileAppTest.Views.Popups;
+using Mopups.Services;
 using Plugin.CloudFirestore;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,10 @@ namespace mobileAppTest.ViewModels
 {
     [QueryProperty("Email", "Email")]
 
-    internal partial class SavedWorkoutsViewModel : ObservableObject, INotifyPropertyChanged
+    public partial class SavedWorkoutsViewModel : ObservableObject, INotifyPropertyChanged
     {
         [ObservableProperty]
-        private DateGroup _currentDateGroup; 
+        private DateGroup _currentDateGroup;
 
         [ObservableProperty]
         private UserModel _user;
@@ -35,16 +36,10 @@ namespace mobileAppTest.ViewModels
         private ObservableCollection<DateGroup> _exerciseGrouplist;
 
         [ObservableProperty]
-        private ObservableCollection<ExerciseModelView> _exerciseSessionlist;
-
-        [ObservableProperty]
         private ObservableCollection<ExerciseModelView> _exerciseList;
 
         [ObservableProperty]
         private ObservableCollection<ExerciseModelView> _infoEventsList;
-
-        [ObservableProperty]
-        private List<ExerciseModelView> _exercisesToDelete;
 
         [ObservableProperty]
         private int _miCustomContador;
@@ -59,7 +54,7 @@ namespace mobileAppTest.ViewModels
         private bool _radialOpen;
 
         [ObservableProperty]
-        private Color _radialColor;
+        private bool _isShimmerPlaying;
 
 
 
@@ -67,22 +62,33 @@ namespace mobileAppTest.ViewModels
         {
             User = new UserModel();
             ExerciseGrouplist = new ObservableCollection<DateGroup>();
-            ExerciseSessionlist = new ObservableCollection<ExerciseModelView>();
             ExerciseList = new ObservableCollection<ExerciseModelView>();
-            AllExercises = new ObservableCollection<ExerciseModelView>();
             InfoEventsList = new ObservableCollection<ExerciseModelView>();
-            ExercisesToDelete = new List<ExerciseModelView>();
             MiCustomContador = 0;
 
         }
 
 
 
-        [RelayCommand]
-        private async Task test()
+
+
+        public async Task StartShimmerAndWait()
         {
-            //Agregar series y guardar los cambios solo en favoritos o en los 2 ? 
-            //los otros 3 módulos funcionan bien
+            IsShimmerPlaying = true;
+
+
+            try
+            {
+                // Realiza todas las operaciones asincrónicas
+                //await GetUserCredentials();
+                await LoadCustomWorkouts();
+
+            }
+            finally
+            {
+                // Independientemente de si las operaciones son exitosas o no, detén el shimmer
+                IsShimmerPlaying = false;
+            }
         }
 
 
@@ -100,42 +106,6 @@ namespace mobileAppTest.ViewModels
             // Weight = User.Weight;
 
         }
-
-        [RelayCommand]
-        public void AddSeriesRow(ExerciseModelView exercise)
-        {
-            if (exercise.Reps != null && exercise.Weight != null)
-            {
-                List<double> updatedRepsList = exercise.Reps.ToList();
-                List<double> updatedWeightList = exercise.Weight.ToList();
-
-                updatedRepsList.Add(10); // Valor predeterminado o entrada del usuario
-                updatedWeightList.Add(12.5); // Valor predeterminado o entrada del usuario
-
-                exercise.Reps = updatedRepsList.ToArray();
-                exercise.Weight = updatedWeightList.ToArray();
-            }
-        }
-
-        [RelayCommand]
-        public void RemoveSeriesRow(ExerciseModelView exercise)
-        {
-            if (exercise.Reps != null && exercise.Weight != null && exercise.Reps.Length > 0 && exercise.Weight.Length > 0)
-            {
-                List<double> updatedRepsList = exercise.Reps.ToList();
-                List<double> updatedWeightList = exercise.Weight.ToList();
-
-                updatedRepsList.RemoveAt(updatedRepsList.Count - 1);
-                updatedWeightList.RemoveAt(updatedWeightList.Count - 1);
-
-                exercise.Reps = updatedRepsList.ToArray();
-                exercise.Weight = updatedWeightList.ToArray();
-            }
-        }
-
-
-
-
 
 
         [RelayCommand]
@@ -156,8 +126,7 @@ namespace mobileAppTest.ViewModels
 
         }
 
-        [ObservableProperty]
-        private ObservableCollection<ExerciseModelView> _allExercises;
+
 
         public async Task LoadCustomWorkouts()
         {
@@ -204,7 +173,6 @@ namespace mobileAppTest.ViewModels
                                 exercisesByWorkoutTitle[workoutTitle] = new List<ExerciseModelView>();
                             }
                             exercisesByWorkoutTitle[workoutTitle].Add(exerciseView);
-                            AllExercises.Add(exerciseView);
 
                         }
                     }
@@ -241,17 +209,6 @@ namespace mobileAppTest.ViewModels
             });
 
             RadialOpen = false;
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                RadialColor = Colors.Black;
-
-
-            }
-            else
-            {
-                RadialColor = Colors.White;
-
-            }
         }
 
 
@@ -291,20 +248,8 @@ namespace mobileAppTest.ViewModels
 
             await DeleteNameWorkoutFromUserCollection(dateGroup);
             RadialOpen = false;
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                RadialColor = Colors.Black;
-
-
-            }
-            else
-            {
-                RadialColor = Colors.White;
-
-            }
-
-
         }
+
 
         [RelayCommand]
         private async Task DeleteNameWorkoutFromUserCollection(DateGroup dateGroup)
@@ -324,35 +269,11 @@ namespace mobileAppTest.ViewModels
 
 
         [RelayCommand]
-        public async void DeleteCustomTrainingExercise(ExerciseModelView exercise)
-        {
-            ExercisesToDelete.Add(exercise);
-
-            var query = CrossCloudFirestore.Current
-                 .Instance
-                 .Collection("Users")
-                 .Document("123456@gmail.com")
-                 .Collection("Sesiones")
-                 .WhereEqualsTo("Id", exercise.Id); // Replace with the actual property and condition
-
-            var querySnapshot = await query.GetDocumentsAsync();
-
-            // Iterate through the result documents and delete them
-            foreach (var document in querySnapshot.Documents)
-            {
-                await document.Reference.DeleteAsync();
-            }
-
-            // Remove the exercise from the local list
-            ExerciseSessionlist.Remove(exercise);
-
-        }
-
-      
-
-        [RelayCommand]
         public async Task OpenInfoExercisePopup(DateGroup dateGroup)
         {
+            RadialOpen = false;
+
+
             InfoEventsList.Clear();
             if (dateGroup == null || string.IsNullOrEmpty(dateGroup.FechaEntrenamiento))
                 return;
@@ -365,18 +286,6 @@ namespace mobileAppTest.ViewModels
             InfoExercisePopup = new InfoExercisePopup();
             await App.Current.MainPage.ShowPopupAsync(InfoExercisePopup);
 
-            RadialOpen = false;
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                RadialColor = Colors.Black;
-
-
-            }
-            else
-            {
-                RadialColor = Colors.White;
-
-            }
         }
 
 
@@ -385,20 +294,7 @@ namespace mobileAppTest.ViewModels
         {
             InfoExercisePopup.Close();
             RadialOpen = false;
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                RadialColor = Colors.Black;
-
-
-            }
-            else
-            {
-                RadialColor = Colors.White;
-
-            }
-
         }
-
 
 
         [RelayCommand]
@@ -406,6 +302,7 @@ namespace mobileAppTest.ViewModels
         {
            await Shell.Current.GoToAsync("//MainPage");
         }
+
 
     }
 }

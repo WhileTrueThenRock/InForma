@@ -136,7 +136,7 @@
         </Label>
         <Button
             Margin="0,25,0,0"
-            Command="{Binding LoginTappedAsyncCommand}"
+            Command="{Binding OpenProfilePopupCommand}"
             CommandParameter="MainPage"
             Text="LOGIN"
             WidthRequest="250">

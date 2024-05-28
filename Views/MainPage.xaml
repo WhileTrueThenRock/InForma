@@ -28,145 +28,17 @@
             <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
         </LinearGradientBrush>
     </ContentPage.Background>
-
     <shimmer:SfShimmer
         AnimationDuration="500"
+        BackgroundColor="{AppThemeBinding Dark=Black,
+        Light=White}"
+        Fill="{AppThemeBinding Dark=#1E1E1E,
+        Light=#F5F5F5}"
         IsActive="{Binding IsShimmerPlaying}"
-        Type="CirclePersona">
-        <shimmer:SfShimmer.CustomView>
-            <VerticalStackLayout>
-                <HorizontalStackLayout>
-                    <BoxView
-                        Margin="20,15,10,0"
-                        BackgroundColor="Gray"
-                        CornerRadius="30"
-                        HeightRequest="50"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        WidthRequest="100" />
+        Type="Feed"
+        WaveColor="{AppThemeBinding Dark=#ff7b00,
+        Light=#48cae4}">
 
-                    <BoxView
-                        Margin="10,20,10,0"
-                        BackgroundColor="Gray"
-                        CornerRadius="20"
-                        HeightRequest="40"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        WidthRequest="100" />
-
-                    <BoxView
-                        Margin="10,20,15,0"
-                        BackgroundColor="Gray"
-                        CornerRadius="20"
-                        HeightRequest="40"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        WidthRequest="100" />
-                </HorizontalStackLayout>
-
-                <BoxView
-                    Margin="10,5,15,15"
-                    BackgroundColor="Gray"
-                    CornerRadius="20"
-                    HeightRequest="25"
-                    HorizontalOptions="Start"
-                    WidthRequest="130" />
-
-                <BoxView
-                    Margin="20,10,20,30"
-                    BackgroundColor="Gray"
-                    CornerRadius="30"
-                    HeightRequest="50"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    WidthRequest="350" />
-
-                <BoxView
-                    Margin="20,10,20,30"
-                    BackgroundColor="Gray"
-                    CornerRadius="30"
-                    HeightRequest="50"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    WidthRequest="350" />
-
-                <BoxView
-                    Margin="20,7,20,30"
-                    BackgroundColor="Gray"
-                    CornerRadius="30"
-                    HeightRequest="50"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    WidthRequest="350" />
-
-                <BoxView
-                    Margin="20,10,20,30"
-                    BackgroundColor="Gray"
-                    CornerRadius="30"
-                    HeightRequest="50"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    WidthRequest="350" />
-
-                <BoxView
-                    Margin="20,7,20,30"
-                    BackgroundColor="Gray"
-                    CornerRadius="30"
-                    HeightRequest="50"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    WidthRequest="350" />
-
-                <BoxView
-                    Margin="20,0,20,0"
-                    BackgroundColor="Gray"
-                    CornerRadius="30"
-                    HeightRequest="50"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    WidthRequest="350" />
-
-                <BoxView
-                    Margin="20,10,20,30"
-                    BackgroundColor="Gray"
-                    CornerRadius="30"
-                    HeightRequest="40"
-                    VerticalOptions="Start"
-                    WidthRequest="70" />
-
-                <HorizontalStackLayout Margin="0,15,0,0">
-                    <BoxView
-                        Margin="20,0,10,0"
-                        BackgroundColor="Gray"
-                        CornerRadius="30"
-                        HeightRequest="50"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        WidthRequest="100" />
-
-
-                    <BoxView
-                        Margin="20,0,10,0"
-                        BackgroundColor="Gray"
-                        CornerRadius="30"
-                        HeightRequest="50"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        WidthRequest="100" />
-
-                    <BoxView
-                        Margin="20,0,10,0"
-                        BackgroundColor="Gray"
-                        CornerRadius="30"
-                        HeightRequest="50"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        WidthRequest="100" />
-                </HorizontalStackLayout>
-
-
-            </VerticalStackLayout>
-        </shimmer:SfShimmer.CustomView>
 
         <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer">
             <navigationdrawer:SfNavigationDrawer.DrawerSettings>
@@ -208,11 +80,21 @@
                         </Grid>
                     </navigationdrawer:DrawerSettings.DrawerHeaderView>
                     <navigationdrawer:DrawerSettings.DrawerContentView>
-                        <VerticalStackLayout BackgroundColor="{Binding DrawerColor}">
+                        <VerticalStackLayout Margin="10,0,0,0" BackgroundColor="{Binding DrawerColor}">
+                            <ImageButton
+                                Margin="0,20,30,0"
+                                Command="{Binding TestDarkModeCommand}"
+                                HeightRequest="35"
+                                HorizontalOptions="End"
+                                Source="{AppThemeBinding Light=moon1.png,
+                                Dark=sun.png}"
+                                WidthRequest="35" />
                             <HorizontalStackLayout Margin="10,50,10,0">
                                 <Image
+                                    Margin="0,0,5,0"
                                     HeightRequest="30"
-                                    Source="backblack.png"
+                                    Source="{AppThemeBinding Light=userw.png,
+                                    Dark=userb.png}"
                                     WidthRequest="30" />
                                 <Button
                                     Command="{Binding OpenProfilePopupCommand}"
@@ -232,16 +114,18 @@
 
                             <HorizontalStackLayout Margin="10,20,10,0">
                                 <Image
+                                    Margin="0,0,5,0"
                                     HeightRequest="30"
-                                    Source="backblack.png"
+                                    Source="{AppThemeBinding Light=reportw.png,
+                                    Dark=reportb.png}"
                                     WidthRequest="30" />
                                 <Button
                                     Command="{Binding LoadSavedWorkoutsCommand}"
                                     HeightRequest="40"
                                     HorizontalOptions="Start"
-                                    Text="Mis Entrenamientos"
+                                    Text="Mis Entrenos"
                                     VerticalOptions="Start"
-                                    WidthRequest="160">
+                                    WidthRequest="150">
                                     <Button.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                             <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
@@ -253,8 +137,10 @@
 
                             <HorizontalStackLayout Margin="10,20,10,0">
                                 <Image
+                                    Margin="0,0,5,0"
                                     HeightRequest="30"
-                                    Source="backblack.png"
+                                    Source="{AppThemeBinding Light=equipw.png,
+                                    Dark=equipb.png}"
                                     WidthRequest="30" />
                                 <Button
                                     Command="{Binding OpenEquipmentPopupCommand}"
@@ -274,8 +160,10 @@
 
                             <HorizontalStackLayout Margin="10,20,10,0">
                                 <Image
+                                    Margin="0,0,5,0"
                                     HeightRequest="30"
-                                    Source="backblack.png"
+                                    Source="{AppThemeBinding Light=settingsw.png,
+                                    Dark=settingsb.png}"
                                     WidthRequest="30" />
                                 <Button
                                     Command="{Binding OpenConfigurationPopupCommand}"
@@ -294,8 +182,10 @@
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Margin="10,20,10,0">
                                 <Image
+                                    Margin="0,0,5,0"
                                     HeightRequest="30"
-                                    Source="backblack.png"
+                                    Source="{AppThemeBinding Light=logoutw.png,
+                                    Dark=logoutb.png}"
                                     WidthRequest="30" />
 
                                 <Button
@@ -448,54 +338,53 @@
                                                     </Button.Background>
                                                 </Button>
                                             </HorizontalStackLayout>
-                                            <Border Margin="5">
-                                                <CollectionView
-                                                    x:Name="myCalendarCollection"
-                                                    HeightRequest="300"
-                                                    ItemsSource="{Binding EventsList}"
-                                                    SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
-                                                    SelectionMode="Single">
-                                                    <CollectionView.ItemTemplate>
-                                                        <DataTemplate x:DataType="models:ExerciseModelView">
-                                                            <Border>
+                                            <CollectionView
+                                                x:Name="myCalendarCollection"
+                                                Margin="5"
+                                                HeightRequest="300"
+                                                ItemsSource="{Binding EventsList}"
+                                                SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
+                                                SelectionMode="Single">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:ExerciseModelView">
+                                                        <Border>
 
-                                                                <Grid>
-                                                                    <Grid.GestureRecognizers>
-                                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference myCalendarCollection}, Path=BindingContext.CalendarExerciseTappedCommand}" CommandParameter="{Binding}" />
-                                                                    </Grid.GestureRecognizers>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="5" />
-                                                                        <ColumnDefinition Width="Auto" />
-                                                                        <ColumnDefinition Width="Auto" />
-                                                                        <ColumnDefinition Width="Auto" />
-                                                                    </Grid.ColumnDefinitions>
+                                                            <Grid>
+                                                                <Grid.GestureRecognizers>
+                                                                    <TapGestureRecognizer Command="{Binding Source={x:Reference myCalendarCollection}, Path=BindingContext.CalendarExerciseTappedCommand}" CommandParameter="{Binding}" />
+                                                                </Grid.GestureRecognizers>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="5" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
 
-                                                                    <buttons:SfCheckBox
-                                                                        Grid.Column="1"
-                                                                        HeightRequest="50"
-                                                                        IsChecked="{Binding IsChecked}"
-                                                                        IsEnabled="False" />
-                                                                    <Label
-                                                                        Grid.Column="2"
-                                                                        Margin="5"
-                                                                        Text="{Binding Name}"
-                                                                        TextColor="{AppThemeBinding Dark=White,
-                                                                        Light=Black}"
-                                                                        VerticalOptions="Center"
-                                                                        WidthRequest="175" />
-                                                                    <Image
-                                                                        Grid.Column="4"
-                                                                        HeightRequest="60"
-                                                                        Source="{Binding Urls[0]}"
-                                                                        WidthRequest="200" />
+                                                                <buttons:SfCheckBox
+                                                                    Grid.Column="1"
+                                                                    HeightRequest="50"
+                                                                    IsChecked="{Binding IsChecked}"
+                                                                    IsEnabled="False" />
+                                                                <Label
+                                                                    Grid.Column="2"
+                                                                    Margin="5"
+                                                                    Text="{Binding Name}"
+                                                                    TextColor="{AppThemeBinding Dark=White,
+                                                                    Light=Black}"
+                                                                    VerticalOptions="Center"
+                                                                    WidthRequest="175" />
+                                                                <Image
+                                                                    Grid.Column="4"
+                                                                    HeightRequest="60"
+                                                                    Source="{Binding Urls[0]}"
+                                                                    WidthRequest="200" />
 
-                                                                </Grid>
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </CollectionView.ItemTemplate>
-                                                </CollectionView>
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
 
-                                            </Border>
 
                                         </VerticalStackLayout>
                                     </VerticalStackLayout>
@@ -642,7 +531,7 @@
 
                                             <Button
                                                 Margin="4,10,10,0"
-                                                Command="{Binding OpenCustomExercisePopupCommand}"
+                                                Command="{Binding OpenSearchExerciseMopupCommand}"
                                                 HeightRequest="49"
                                                 Text="Buscar"
                                                 VerticalOptions="Start"

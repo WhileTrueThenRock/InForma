@@ -14,8 +14,7 @@ public partial class SavedWorkoutsPage : ContentPage
     private async void ThisPage_Loaded(object sender, EventArgs e)
     {
         SavedWorkoutsViewModel? viewModel = BindingContext as SavedWorkoutsViewModel;
-        viewModel?.GetUserCredentials();
-        viewModel?.LoadCustomWorkouts();
+        viewModel?.StartShimmerAndWait();
     }
 
     

@@ -128,7 +128,7 @@ namespace mobileAppTest.ViewModels
         private  IAudioManager _audioManager = new AudioManager();
 
         [ObservableProperty]
-        private bool _ok;
+        private bool _gifPlaying;
 
         public ExerciseTappedViewModel()
         {
@@ -143,7 +143,6 @@ namespace mobileAppTest.ViewModels
             //AddSeriesRow();
             IsVideoPlaying = true; //code behind start video
             IsVisible = false;
-            Ok = true;
         }
 
 
@@ -200,6 +199,7 @@ namespace mobileAppTest.ViewModels
             IsRegisterSerieEnabled = true;
             IsFinishedButtonEnabled = false;
             IsSerieEnabled = false;
+            GifPlaying = true; 
         }
 
 
@@ -226,10 +226,9 @@ namespace mobileAppTest.ViewModels
             TimeLabel = time.ToString("ss");
             var sec = SegundosDescanso - 5;
 
-            if (time.Second >= sec && Ok)
+            if (time.Second >= sec)
             {
                 Send_Notification();
-                Ok = false;
             }
 
             if (time.Second >= SegundosDescanso || time.Second == 0)
@@ -241,25 +240,7 @@ namespace mobileAppTest.ViewModels
         }
 
 
-        [RelayCommand]
-        public async Task Play_Sound()
-        {
-            if (User.Whatsapp)
-            {
-                var player = AudioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("noti1.mp3"));
-                player.Play();
-                await Task.Delay(4000);
-                player.Dispose();
-
-            }
-            else
-            {
-                var player = AudioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("yeahbuddy.mp3"));
-                player.Play();
-                await Task.Delay(4000);
-                player.Dispose();
-            }
-        }
+     
 
             [RelayCommand]
         public async void Send_Notification()
@@ -267,15 +248,6 @@ namespace mobileAppTest.ViewModels
             if (!User.NotificationOutside)
             {
                 return;
-            }
-            string notification = "";
-            if (User.Whatsapp)
-            {
-                notification = "noti1.mp3";
-            }
-           else if (User.Yeahbuddy)
-            {
-                notification = "yeahbuddy.mp3";
             }
 
             //var player = AudioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("rick.mp3"));
@@ -287,7 +259,6 @@ namespace mobileAppTest.ViewModels
                 Title = "Testing",
                 Subtitle = "subtitle :D",
                 Description = "You need to go back to training fella",
-                Sound = DeviceInfo.Platform == DevicePlatform.Android ? "yeahbuddy" : "yeahbuddy.mp3",
                 //Sound = null,
                 BadgeNumber = 1,
                 Schedule = new NotificationRequestSchedule
@@ -462,7 +433,6 @@ namespace mobileAppTest.ViewModels
         {
             TimeLabel = "0";
             _isRunning = false;
-            Ok = true;
 
         }
      

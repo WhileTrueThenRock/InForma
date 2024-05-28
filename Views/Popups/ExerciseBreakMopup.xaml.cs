@@ -5,9 +5,9 @@ namespace mobileAppTest.Views.Popups;
 
 public partial class ExerciseBreakMopup : PopupPage
 {
-	public ExerciseBreakMopup(ExerciseTappedViewModel vm)
-	{
-		InitializeComponent();
+    public ExerciseBreakMopup(ExerciseTappedViewModel vm)
+    {
+        InitializeComponent();
         BindingContext = vm;
 
     }

@@ -20,7 +20,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>mobileAppTest</ApplicationTitle>
+		<ApplicationTitle>In Forma</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.mobileapptest</ApplicationId>
@@ -43,10 +43,9 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
-		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="Transparent" />
+				<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splashicon.png" Color="#F5F5F5" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -85,6 +84,7 @@
 	  <None Remove="Platforms\Android\Resources\raw\yeahbuddy.mp3" />
 	  <None Remove="Platforms\iOS\Raw\AboutAssets.txt" />
 	  <None Remove="Platforms\iOS\Raw\rick.mp3" />
+	  <None Remove="Resources\AppIcon\myappicon.png" />
 	  <None Remove="Resources\Images\abdomen.png" />
 	  <None Remove="Resources\Images\abdomendark.png" />
 	  <None Remove="Resources\Images\abducoresdark.png" />
@@ -119,15 +119,19 @@
 	  <None Remove="Resources\Images\cuello1.png" />
 	  <None Remove="Resources\Images\cuello2.png" />
 	  <None Remove="Resources\Images\defaultAvatar.png" />
+	  <None Remove="Resources\Images\details.png" />
 	  <None Remove="Resources\Images\dips.jpg" />
 	  <None Remove="Resources\Images\dominadas.jpg" />
 	  <None Remove="Resources\Images\dumbbells.jpg" />
+	  <None Remove="Resources\Images\equipb.png" />
+	  <None Remove="Resources\Images\equipw.png" />
 	  <None Remove="Resources\Images\espalda.png" />
 	  <None Remove="Resources\Images\espaldadark.png" />
 	  <None Remove="Resources\Images\facebooklogo.png" />
 	  <None Remove="Resources\Images\femoral.png" />
 	  <None Remove="Resources\Images\femoraldark.png" />
 	  <None Remove="Resources\Images\fireworks.gif" />
+	  <None Remove="Resources\Images\fireworksplash.svg" />
 	  <None Remove="Resources\Images\gemelos.png" />
 	  <None Remove="Resources\Images\gemelosdark.png" />
 	  <None Remove="Resources\Images\gluteos.png" />
@@ -162,6 +166,8 @@
 	  <None Remove="Resources\Images\leftlat2.png" />
 	  <None Remove="Resources\Images\lefttricep1.png" />
 	  <None Remove="Resources\Images\lefttricep2.png" />
+	  <None Remove="Resources\Images\logoutb.png" />
+	  <None Remove="Resources\Images\logoutw.png" />
 	  <None Remove="Resources\Images\maquina.jpg" />
 	  <None Remove="Resources\Images\maquinaaductores.jpg" />
 	  <None Remove="Resources\Images\maquinaaperturas.jpg" />
@@ -190,6 +196,7 @@
 	  <None Remove="Resources\Images\maquinasentadillas.png" />
 	  <None Remove="Resources\Images\maquinatrapecio.jpg" />
 	  <None Remove="Resources\Images\minus.png" />
+	  <None Remove="Resources\Images\moon1.png" />
 	  <None Remove="Resources\Images\Muscles\abdomen.png" />
 	  <None Remove="Resources\Images\Muscles\abductores.png" />
 	  <None Remove="Resources\Images\Muscles\aductores.png" />
@@ -210,7 +217,10 @@
 	  <None Remove="Resources\Images\pechodark.png" />
 	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\reddot.gif" />
+	  <None Remove="Resources\Images\repeat.png" />
 	  <None Remove="Resources\Images\replace.png" />
+	  <None Remove="Resources\Images\reportb.png" />
+	  <None Remove="Resources\Images\reportw.png" />
 	  <None Remove="Resources\Images\rightabductor1.png" />
 	  <None Remove="Resources\Images\rightabductor2.png" />
 	  <None Remove="Resources\Images\rightadductor1.png" />
@@ -227,10 +237,14 @@
 	  <None Remove="Resources\Images\rotationdark.png" />
 	  <None Remove="Resources\Images\ruedaabd.jpg" />
 	  <None Remove="Resources\Images\seriesCompleted.gif" />
+	  <None Remove="Resources\Images\settingsb.png" />
+	  <None Remove="Resources\Images\settingsw.png" />
 	  <None Remove="Resources\Images\sinequipamiento.png" />
 	  <None Remove="Resources\Images\sms.png" />
 	  <None Remove="Resources\Images\sms2.png" />
 	  <None Remove="Resources\Images\soga.jpg" />
+	  <None Remove="Resources\Images\splashicon.svg" />
+	  <None Remove="Resources\Images\sun.png" />
 	  <None Remove="Resources\Images\trap1.png" />
 	  <None Remove="Resources\Images\trap2.png" />
 	  <None Remove="Resources\Images\trapecio.png" />
@@ -238,7 +252,10 @@
 	  <None Remove="Resources\Images\trash.png" />
 	  <None Remove="Resources\Images\triceps.png" />
 	  <None Remove="Resources\Images\tricepsdark.png" />
+	  <None Remove="Resources\Images\userb.png" />
+	  <None Remove="Resources\Images\userw.png" />
 	  <None Remove="Resources\Images\xlogo.png" />
+	  <None Remove="Resources\Splash\splashicon.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -282,6 +299,9 @@
 	  <MauiXaml Update="Views\Popups\ConfigurationPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\ExerciseBreakMopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\ForgotPasswordPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -294,9 +314,6 @@
 	  <MauiXaml Update="Views\Popups\EquipmentPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Popups\ExerciseBreakMopup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\InfoExercisePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -307,6 +324,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\ProfilePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\SearchExerciseMopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\RegisterPage.xaml">
@@ -381,6 +401,18 @@
 	  <MauiImage Include="Resources\Images\Equipment\ruedaabd.jpg" />
 	  <MauiImage Include="Resources\Images\Equipment\sinequipamiento.png" />
 	  <MauiImage Include="Resources\Images\Equipment\soga.jpg" />
+	  <MauiImage Include="Resources\Images\Icons\equipb.png" />
+	  <MauiImage Include="Resources\Images\Icons\equipw.png" />
+	  <MauiImage Include="Resources\Images\Icons\logoutb.png" />
+	  <MauiImage Include="Resources\Images\Icons\logoutw.png" />
+	  <MauiImage Include="Resources\Images\Icons\minus.png" />
+	  <MauiImage Include="Resources\Images\Icons\plus.png" />
+	  <MauiImage Include="Resources\Images\Icons\reportb.png" />
+	  <MauiImage Include="Resources\Images\Icons\reportw.png" />
+	  <MauiImage Include="Resources\Images\Icons\settingsb.png" />
+	  <MauiImage Include="Resources\Images\Icons\settingsw.png" />
+	  <MauiImage Include="Resources\Images\Icons\userb.png" />
+	  <MauiImage Include="Resources\Images\Icons\userw.png" />
 	  <MauiImage Include="Resources\Images\Logos\backblack.png" />
 	  <MauiImage Include="Resources\Images\Logos\backwhite.png" />
 	  <MauiImage Include="Resources\Images\Logos\defaultavatar.png" />
@@ -392,7 +424,6 @@
 	  <MauiImage Include="Resources\Images\Logos\rotation.png" />
 	  <MauiImage Include="Resources\Images\Logos\rotationdark.png" />
 	  <MauiImage Include="Resources\Images\Logos\seriescompleted.gif" />
-	  <MauiImage Include="Resources\Images\Logos\sms.png" />
 	  <MauiImage Include="Resources\Images\Logos\googlelogo.png" />
 	  <MauiImage Include="Resources\Images\Logos\trash.png" />
 	  <MauiImage Include="Resources\Images\Muscles\abdomen.png" />
@@ -471,11 +502,11 @@
 	  <MauiImage Include="Resources\Images\Muscles\trapeciodark.png" />
 	  <MauiImage Include="Resources\Images\Muscles\triceps.png" />
 	  <MauiImage Include="Resources\Images\Muscles\tricepsdark.png" />
+	  <MauiImage Include="Resources\Splash\splashicon.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Resources\Images\Home\" />
-	  <Folder Include="Resources\Images\Icons\" />
 	</ItemGroup>
 
 	<ItemGroup>

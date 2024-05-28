@@ -26,9 +26,9 @@ namespace mobileAppTest.Services
                     case "Banco Scott":
                         return "Images/Equipment/bancoscott.jpg";
                     case "Barras":
-                        return "Images/Equipment/landmine.jpg";
-                    case "Barra T":
                         return "Images/Equipment/barras.jpg";
+                    case "Barra T":
+                        return "Images/Equipment/landmine.jpg";
                     case "Barra Z":
                         return "Images/Equipment/barraz.jpg";
                     case "Rueda Abdominal":

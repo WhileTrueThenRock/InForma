@@ -61,14 +61,13 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string _exercisesLeftLabel;
 
-
-
         public StartedWorkoutViewModel()
         {
             ExerciseFinishedList = new ObservableCollection<ExerciseModelView>();
             UniquePrimaryMuscles = new ObservableCollection<ExerciseModelView>();
             SelectedExercises = new ObservableCollection<ExerciseModelView>();
             IsVisible = false;
+
         }
 
         [RelayCommand]
@@ -102,10 +101,6 @@ namespace mobileAppTest.ViewModels
                             .Document("123456@gmail.com")
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
-            if (User.ResetTimeLabel)
-            {
-                IsRunning = false;
-            }
 
         }
 
@@ -188,7 +183,7 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task LoadTappedExercise(ExerciseModel selectedExercise)
         {
-        
+
 
             IsVisible = true;
             await Shell.Current.GoToAsync("//ExerciseTappedPage", new Dictionary<string, object>()
