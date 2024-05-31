@@ -35,13 +35,13 @@
         <VerticalStackLayout>
 
             <Label
-                Margin="0,10,0,0"
+                FontSize="25"
                 HorizontalOptions="Center"
                 Text="Descanso"
                 VerticalOptions="Center" />
 
             <gauge:SfRadialGauge
-                Margin="0,50,0,0"
+                Margin="0,30,0,0"
                 HeightRequest="250"
                 VerticalOptions="End"
                 WidthRequest="250">

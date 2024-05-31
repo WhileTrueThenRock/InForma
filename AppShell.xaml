@@ -9,30 +9,20 @@
     Shell.FlyoutBehavior="Disabled">
 
 
+    <ShellContent ContentTemplate="{DataTemplate views:RegisterPage}" Route="RegisterPage" />
 
-    <TabBar>
-        <Tab Title="Register">
-            <ShellContent ContentTemplate="{DataTemplate views:RegisterPage}" Route="RegisterPage" />
-        </Tab>
-        <Tab Title="Login">
-            <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" Route="LoginPage" />
-        </Tab>
-        <Tab Title="Main">
-            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" />
-        </Tab>
-        <Tab Title="StartedWorkout">
-            <ShellContent ContentTemplate="{DataTemplate views:StartedWorkoutPage}" Route="StartedWorkoutPage" />
-        </Tab>
-        <Tab Title="ExerciseTapped">
-            <ShellContent ContentTemplate="{DataTemplate views:ExerciseTappedPage}" Route="ExerciseTappedPage" />
-        </Tab>
-        <Tab Title="Finished">
-            <ShellContent ContentTemplate="{DataTemplate views:FinishedWorkoutPage}" Route="FinishedWorkoutPage" />
-        </Tab>
-        <Tab Title="Saved">
-            <ShellContent ContentTemplate="{DataTemplate views:SavedWorkoutsPage}" Route="SavedWorkoutsPage" />
-        </Tab>
-    </TabBar>
+    <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" Route="LoginPage" />
+
+    <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" />
+
+    <ShellContent ContentTemplate="{DataTemplate views:StartedWorkoutPage}" Route="StartedWorkoutPage" />
+
+    <ShellContent ContentTemplate="{DataTemplate views:ExerciseTappedPage}" Route="ExerciseTappedPage" />
+
+    <ShellContent ContentTemplate="{DataTemplate views:FinishedWorkoutPage}" Route="FinishedWorkoutPage" />
+
+    <ShellContent ContentTemplate="{DataTemplate views:SavedWorkoutsPage}" Route="SavedWorkoutsPage" />
+
 
 
 </Shell>

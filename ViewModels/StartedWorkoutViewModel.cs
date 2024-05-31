@@ -18,6 +18,7 @@ namespace mobileAppTest.ViewModels
     [QueryProperty("ExerciseList", "ExerciseList")]
     [QueryProperty("ExerciseFinishedList", "ExerciseFinishedList")]
     [QueryProperty("Fecha", "Fecha")]
+    [QueryProperty("Email", "Email")]
     [QueryProperty("UniquePrimaryMuscles", "UniquePrimaryMuscles")]
     [QueryProperty("SelectedExercises", "SelectedExercises")]
     // [QueryProperty("EquipmentList", "EquipmentList")]
@@ -42,18 +43,13 @@ namespace mobileAppTest.ViewModels
         private UserModel _user;
 
         [ObservableProperty]
+        private string _email;
+
+        [ObservableProperty]
         private ObservableCollection<ExerciseModelView> _equipmentList;
 
         [ObservableProperty]
         private bool _isVisible;
-
-        private DateTime time;
-
-        [ObservableProperty]
-        private bool _isRunning;
-
-        [ObservableProperty]
-        private string _timeLabel;
 
         [ObservableProperty]
         private int _exercisesLeft;
@@ -98,7 +94,7 @@ namespace mobileAppTest.ViewModels
             var avatar = await CrossCloudFirestore.Current //Test video
                             .Instance
                             .Collection("Users")
-                            .Document("123456@gmail.com")
+                            .Document(Email)
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
 
@@ -106,73 +102,36 @@ namespace mobileAppTest.ViewModels
 
 
         [RelayCommand]
-        public void StartStopwatch()
-        {
-            IsVisible = true;
-            if (IsRunning == false)
-            {
-                time = new();
-                TimeLabel = "00:00:00";
-                IsRunning = true;
-
-                Task.Run(async () =>
-                {
-                    while (IsRunning)
-                    {
-                        // Esperar 1 segundo
-                        await Task.Delay(1000);
-
-                        // Actualizar el tiempo y la etiqueta de tiempo en el hilo de la interfaz de usuario
-                        UpdateUI();
-                    }
-                });
-            }
-        }
-
-        [RelayCommand]
-        public void StopStopwatch()
-        {
-            time = new();
-            TimeLabel = "00:00:00";
-            IsRunning = false;
-
-        }
-
-
-        private void UpdateUI()
-        {
-            time = time.Add(TimeSpan.FromSeconds(1));
-            TimeLabel = time.TimeOfDay.ToString();
-        }
-
-
-        [RelayCommand]
         public async Task NavegarMainPage()
         {
 
-            time = new();
-                    TimeLabel = "00:00:00";
-            IsRunning = false;
             if(null == ExerciseFinishedList)
             {
-                await Shell.Current.GoToAsync("//MainPage");
+                await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
+                {
+                    ["Email"] = Email
+
+                });
                 return;
             }
 
             if (ExerciseFinishedList.Count==0) 
             {
-                TimeLabel = "00:00:00";
-                await Shell.Current.GoToAsync("//MainPage");
+                await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
+                {
+                    ["Email"] = Email
+
+                });
             }
 
 
             if (ExerciseFinishedList.Count>0) //Si el usuario ha registrado al menos una serie que siga 
             {
-                TimeLabel = "00:00:00";
                 await Shell.Current.GoToAsync("//FinishedWorkoutPage", new Dictionary<string, object>()
                 {
                     ["ExerciseFinishedList"] = ExerciseFinishedList,
                     ["Fecha"] = Fecha,
+                    ["Email"] = Email,
                     ["UniquePrimaryMuscles"] = UniquePrimaryMuscles
 
                 });
@@ -191,13 +150,11 @@ namespace mobileAppTest.ViewModels
 
                 ["MyExercise"] = selectedExercise,
                 ["IsVisible"] = IsVisible,
+                ["Email"] = Email,
                 ["ExerciseList"] = ExerciseList
 
             });
         }
-
-
-     
 
     }
 }

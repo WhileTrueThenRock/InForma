@@ -14,7 +14,13 @@
     x:DataType="viewmodels:FinishedWorkoutViewModel"
     BindingContext="{viewmodels:FinishedWorkoutViewModel}">
 
+    <ContentPage.Background>
 
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=White}" />
+            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
 
     <ContentPage.Resources>
@@ -24,287 +30,283 @@
     </ContentPage.Resources>
 
 
-    <AbsoluteLayout>
 
-        <Image
-            AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize"
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            HeightRequest="550"
-            IsAnimationPlaying="{Binding FireworksVisible}"
-            Source="fireworks.gif"
-            WidthRequest="550"
-            ZIndex="1" />
-        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+    <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
 
-            <VerticalStackLayout>
+        <VerticalStackLayout>
 
 
 
-                <Border
-                    Margin="10,20,10,0"
-                    StrokeThickness="1"
-                    VerticalOptions="Center">
-                    <Border.Background>
+            <Border
+                Margin="10,20,10,0"
+                StrokeThickness="1"
+                VerticalOptions="Center">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Opacity=".8"
+                        Radius="15"
+                        Offset="5,5" />
+                </Border.Shadow>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25" />
+                </Border.StrokeShape>
+                <HorizontalStackLayout Margin="10">
+                    <Label
+                        Margin="10,0,10,0"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="Resumen del entreno"
+                        TextColor="Black" />
+                    <Label
+                        Margin="50,0,10,0"
+                        FontSize="20"
+                        HorizontalOptions="End"
+                        Text="{Binding Fecha}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <Label
+                Margin="15"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Músculos"
+                TextColor="{AppThemeBinding Dark=white,
+                Light=black}" />
+            <CollectionView ItemsSource="{Binding UniquePrimaryMuscles}">
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="models:ExerciseModelView">
+                        <HorizontalStackLayout
+                            Margin="0,10,0,0"
+                            HorizontalOptions="Center"
+                            Spacing="50">
+                            <Label
+                                Margin="0,20,0,0"
+                                FontSize="20"
+                                Text="{Binding PrimaryMuscles}"
+                                TextColor="{AppThemeBinding Dark=white,
+                                Light=black}" />
+                            <Image
+                                HeightRequest="50"
+                                HorizontalOptions="Start"
+                                Source="{Binding PrimaryMuscles, Converter={StaticResource MuscleToImageConverter}}"
+                                WidthRequest="100" />
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <CollectionView ItemsSource="{Binding ExerciseFinishedList}">
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="models:ExerciseModelView">
+                        <VerticalStackLayout>
+
+                            <Border
+                                Margin="15"
+                                StrokeThickness="1"
+                                VerticalOptions="Center">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Shadow>
+                                    <Shadow
+                                        Brush="{AppThemeBinding Dark=white,
+                                        Light=black}"
+                                        Opacity=".8"
+                                        Radius="15"
+                                        Offset="5,5" />
+                                </Border.Shadow>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="25" />
+                                </Border.StrokeShape>
+                                <SwipeView>
+
+
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems>
+                                            <SwipeItem
+                                                BackgroundColor="Red"
+                                                Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
+                                                CommandParameter="{Binding .}"
+                                                IconImageSource="trash.png"
+                                                Text="Eliminar" />
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
+                                    <VerticalStackLayout>
+                                        <Label
+                                            Margin="10"
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            HorizontalOptions="Center"
+                                            Text="{Binding Exercise.Name}"
+                                            TextColor="Black" />
+                                        <HorizontalStackLayout>
+                                            <Label
+                                                Margin="10,0,0,0"
+                                                FontAttributes="Bold"
+                                                FontSize="20"
+                                                Text="Tiempo:"
+                                                TextColor="Black" />
+                                            <Label
+                                                Margin="10,0,0,0"
+                                                FontAttributes="Bold"
+                                                FontSize="20"
+                                                Text="{Binding Exercise.Duration}"
+                                                TextColor="Black" />
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="65">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="20"
+                                                HorizontalOptions="Center"
+                                                Text="Reps"
+                                                TextColor="Black" />
+                                            <Label
+                                                Margin="0,0,10,0"
+                                                FontAttributes="Bold"
+                                                FontSize="20"
+                                                HorizontalOptions="Center"
+                                                Text="Kg"
+                                                TextColor="Black" />
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout
+                                            Margin="0,0,0,10"
+                                            HorizontalOptions="Center"
+                                            Spacing="45">
+                                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Reps}">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label
+                                                            FontSize="25"
+                                                            Text="{Binding}"
+                                                            TextColor="Black" />
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </VerticalStackLayout>
+
+                                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Weight}">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label
+                                                            Margin="20,0,0,0"
+                                                            FontSize="25"
+                                                            Text="{Binding}"
+                                                            TextColor="Black" />
+
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </VerticalStackLayout>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </SwipeView>
+                            </Border>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <HorizontalStackLayout Margin="0,50,0,0" HorizontalOptions="Center">
+
+                <Button
+                    Margin="20"
+                    Clicked="ClickToShowPopup_Clicked"
+                    HorizontalOptions="Start"
+                    IsVisible="{Binding IsSaveButtonVisible}"
+                    Text="Guardar Entrenamiento"
+                    VerticalOptions="Start">
+                    <Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#023e8a}" />
-                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#48cae4}" />
+                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
                         </LinearGradientBrush>
-                    </Border.Background>
-                    <Border.Shadow>
+                    </Button.Background>
+                    <Button.Shadow>
                         <Shadow
-                            Brush="Black"
+                            Brush="{AppThemeBinding Dark=white,
+                            Light=black}"
                             Opacity=".8"
                             Radius="15"
                             Offset="5,5" />
-                    </Border.Shadow>
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="25" />
-                    </Border.StrokeShape>
-                    <HorizontalStackLayout Margin="10">
-                        <Label
-                            Margin="10,0,10,0"
-                            FontSize="20"
-                            HorizontalOptions="Center"
-                            Text="Resumen del entreno"
-                            TextColor="{AppThemeBinding Dark=white,
-                            Light=black}" />
-                        <Label
-                            Margin="50,0,10,0"
-                            HorizontalOptions="End"
-                            Text="{Binding Fecha}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                </Border>
+                    </Button.Shadow>
+                </Button>
 
-                <Label
-                    Margin="15"
-                    FontSize="20"
-                    HorizontalOptions="Center"
-                    Text="Músculos"
-                    TextColor="{AppThemeBinding Dark=white,
-                    Light=black}" />
-                <CollectionView ItemsSource="{Binding UniquePrimaryMuscles}">
-                    <CollectionView.ItemTemplate>
-
-                        <DataTemplate x:DataType="models:ExerciseModelView">
-                            <HorizontalStackLayout
-                                Margin="0,10,0,0"
-                                HorizontalOptions="Center"
-                                Spacing="50">
-                                <Label
-                                    Margin="0,20,0,0"
-                                    Text="{Binding PrimaryMuscles}"
-                                    TextColor="{AppThemeBinding Dark=white,
-                                    Light=black}" />
-                                <Image
-                                    HeightRequest="50"
-                                    HorizontalOptions="Start"
-                                    Source="{Binding PrimaryMuscles, Converter={StaticResource MuscleToImageConverter}}"
-                                    WidthRequest="100" />
-                            </HorizontalStackLayout>
+                <popup:SfPopup
+                    x:Name="SavePopup"
+                    AnimationDuration="300"
+                    AnimationMode="SlideOnBottom"
+                    AppearanceMode="TwoButton"
+                    HeaderHeight="80"
+                    HeaderTitle="{Binding HeaderTitle}"
+                    HeightRequest="260"
+                    OverlayMode="Blur"
+                    ShowCloseButton="True"
+                    ShowFooter="True">
+                    <popup:SfPopup.PopupStyle>
+                        <popup:PopupStyle
+                            FooterBackground="White"
+                            FooterFontFamily="Times New Roman"
+                            HasShadow="True"
+                            HeaderFontSize="18" />
+                    </popup:SfPopup.PopupStyle>
+                    <popup:SfPopup.ContentTemplate>
+                        <DataTemplate>
+                            <Entry
+                                Placeholder="Escribe un título......"
+                                Text="{Binding WorkoutTitle}"
+                                TextColor="{Binding PasswordTextColor}" />
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </popup:SfPopup.ContentTemplate>
+                    <popup:SfPopup.FooterTemplate>
+                        <DataTemplate>
+                            <Button
+                                BackgroundColor="White"
+                                Clicked="ClickToClosePopup_Clicked"
+                                Command="{Binding SaveWorkoutCommand}"
+                                HorizontalOptions="FillAndExpand"
+                                Text="Guardar"
+                                TextColor="Green" />
+
+                        </DataTemplate>
+                    </popup:SfPopup.FooterTemplate>
+
+                </popup:SfPopup>
                 <Button
-                    Command="{Binding TestDarkModeCommand}"
-                    Text="switch"
-                    WidthRequest="100" />
+                    Margin="20"
+                    Command="{Binding LoadMainPageCommand}"
+                    HorizontalOptions="Start"
+                    Text="Terminar"
+                    VerticalOptions="Start">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <Button.Shadow>
+                        <Shadow
+                            Brush="{AppThemeBinding Dark=white,
+                            Light=black}"
+                            Opacity=".8"
+                            Radius="15"
+                            Offset="5,5" />
+                    </Button.Shadow>
+                </Button>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
 
-                <CollectionView ItemsSource="{Binding ExerciseFinishedList}">
-                    <CollectionView.ItemTemplate>
-
-                        <DataTemplate x:DataType="models:ExerciseModelView">
-                            <VerticalStackLayout>
-
-                                <Border
-                                    Margin="15"
-                                    StrokeThickness="1"
-                                    VerticalOptions="Center">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
-                                            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                    <Border.Shadow>
-                                        <Shadow
-                                            Brush="{AppThemeBinding Dark=white,
-                                            Light=black}"
-                                            Opacity=".8"
-                                            Radius="15"
-                                            Offset="5,5" />
-                                    </Border.Shadow>
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="25" />
-                                    </Border.StrokeShape>
-                                    <SwipeView>
-
-
-                                        <SwipeView.LeftItems>
-                                            <SwipeItems>
-                                                <SwipeItem
-                                                    BackgroundColor="Red"
-                                                    Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    IconImageSource="trash.png"
-                                                    Text="Eliminar" />
-                                            </SwipeItems>
-                                        </SwipeView.LeftItems>
-                                        <VerticalStackLayout>
-                                            <Label
-                                                Margin="10"
-                                                FontAttributes="Bold"
-                                                HorizontalOptions="Center"
-                                                Text="{Binding Exercise.Name}"
-                                                TextColor="Black" />
-                                            <HorizontalStackLayout>
-                                                <Label
-                                                    Margin="10,0,0,0"
-                                                    FontAttributes="Bold"
-                                                    Text="Tiempo:"
-                                                    TextColor="Black" />
-                                                <Label
-                                                    Margin="10,0,0,0"
-                                                    FontAttributes="Bold"
-                                                    Text="{Binding Exercise.Duration}"
-                                                    TextColor="Black" />
-                                            </HorizontalStackLayout>
-                                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="65">
-                                                <Label
-                                                    FontAttributes="Bold"
-                                                    HorizontalOptions="Center"
-                                                    Text="Reps"
-                                                    TextColor="Black" />
-                                                <Label
-                                                    Margin="0,0,10,0"
-                                                    FontAttributes="Bold"
-                                                    HorizontalOptions="Center"
-                                                    Text="Kg"
-                                                    TextColor="Black" />
-                                            </HorizontalStackLayout>
-                                            <HorizontalStackLayout
-                                                Margin="0,0,0,10"
-                                                HorizontalOptions="Center"
-                                                Spacing="45">
-                                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Reps}">
-                                                    <BindableLayout.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Label Text="{Binding}" TextColor="Black" />
-                                                        </DataTemplate>
-                                                    </BindableLayout.ItemTemplate>
-                                                </VerticalStackLayout>
-
-                                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Weight}">
-                                                    <BindableLayout.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Label
-                                                                Margin="20,0,0,0"
-                                                                Text="{Binding}"
-                                                                TextColor="Black" />
-
-                                                        </DataTemplate>
-                                                    </BindableLayout.ItemTemplate>
-                                                </VerticalStackLayout>
-                                            </HorizontalStackLayout>
-                                        </VerticalStackLayout>
-                                    </SwipeView>
-                                </Border>
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
-                <HorizontalStackLayout Margin="0,50,0,0" HorizontalOptions="Center">
-
-                    <Button
-                        Margin="20"
-                        Clicked="ClickToShowPopup_Clicked"
-                        HorizontalOptions="Start"
-                        IsVisible="{Binding IsSaveButtonVisible}"
-                        Text="Guardar Entrenamiento"
-                        VerticalOptions="Start">
-                        <Button.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#023e8a}" />
-                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#48cae4}" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                        <Button.Shadow>
-                            <Shadow
-                                Brush="{AppThemeBinding Dark=white,
-                                Light=black}"
-                                Opacity=".8"
-                                Radius="15"
-                                Offset="5,5" />
-                        </Button.Shadow>
-                    </Button>
-
-                    <popup:SfPopup
-                        x:Name="SavePopup"
-                        AnimationDuration="300"
-                        AnimationMode="SlideOnBottom"
-                        AppearanceMode="TwoButton"
-                        HeaderHeight="80"
-                        HeaderTitle="{Binding HeaderTitle}"
-                        HeightRequest="260"
-                        OverlayMode="Blur"
-                        ShowCloseButton="True"
-                        ShowFooter="True">
-                        <popup:SfPopup.PopupStyle>
-                            <popup:PopupStyle
-                                FooterBackground="White"
-                                FooterFontFamily="Times New Roman"
-                                HasShadow="True"
-                                HeaderFontSize="18" />
-                        </popup:SfPopup.PopupStyle>
-                        <popup:SfPopup.ContentTemplate>
-                            <DataTemplate>
-                                <Entry
-                                    Placeholder="Escribe un título......"
-                                    Text="{Binding WorkoutTitle}"
-                                    TextColor="{Binding PasswordTextColor}" />
-                            </DataTemplate>
-                        </popup:SfPopup.ContentTemplate>
-                        <popup:SfPopup.FooterTemplate>
-                            <DataTemplate>
-                                <Button
-                                    BackgroundColor="White"
-                                    Clicked="ClickToClosePopup_Clicked"
-                                    Command="{Binding SaveWorkoutCommand}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="Guardar"
-                                    TextColor="Green" />
-
-                            </DataTemplate>
-                        </popup:SfPopup.FooterTemplate>
-
-                    </popup:SfPopup>
-                    <Button
-                        Margin="20"
-                        Command="{Binding LoadMainPageCommand}"
-                        HorizontalOptions="Start"
-                        Text="Terminar"
-                        VerticalOptions="Start">
-                        <Button.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
-                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                        <Button.Shadow>
-                            <Shadow
-                                Brush="{AppThemeBinding Dark=white,
-                                Light=black}"
-                                Opacity=".8"
-                                Radius="15"
-                                Offset="5,5" />
-                        </Button.Shadow>
-                    </Button>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-
-        </ScrollView>
-    </AbsoluteLayout>
+    </ScrollView>
 
 </ContentPage>

@@ -26,7 +26,7 @@
     <shimmer:SfShimmer
         AnimationDuration="500"
         BackgroundColor="{AppThemeBinding Dark=Black,
-        Light=White}"
+        Light=WhiteSmoke}"
         Fill="{AppThemeBinding Dark=#1E1E1E,
         Light=#F5F5F5}"
         IsActive="{Binding IsShimmerPlaying}"
@@ -35,25 +35,23 @@
         Light=#48cae4}">
         <ScrollView>
             <VerticalStackLayout>
-                <ImageButton
-                    Margin="5"
-                    Command="{Binding NavegarMainPageCommand}"
-                    HeightRequest="50"
-                    HorizontalOptions="Start"
-                    Source="{AppThemeBinding Light=backblack.png,
-                    Dark=backwhite.png}"
-                    WidthRequest="50" />
+                <HorizontalStackLayout>
+                    <ImageButton
+                        Command="{Binding NavegarMainPageCommand}"
+                        HeightRequest="50"
+                        HorizontalOptions="Start"
+                        Source="{AppThemeBinding Light=backblack.png,
+                        Dark=backwhite.png}"
+                        WidthRequest="50" />
 
-                <Label
-                    FontAttributes="Bold"
-                    FontFamily="Times New Roman"
-                    FontSize="25"
-                    HorizontalOptions="Center"
-                    Text="Mis Entrenamientos" />
-                <Button
-                    Command="{Binding TestDarkModeCommand}"
-                    Text="switch"
-                    WidthRequest="100" />
+                    <Label
+                        Margin="90,10,0,0"
+                        FontAttributes="Bold"
+                        FontFamily="Gabriola"
+                        FontSize="27"
+                        Text="Mis Entrenamientos" />
+                </HorizontalStackLayout>
+
 
                 <CollectionView
                     x:Name="myExerciseCollection"
@@ -86,7 +84,7 @@
 
                                     <Label
                                         Margin="10"
-                                        FontAttributes="Bold"
+                                        FontSize="25"
                                         HorizontalOptions="Center"
                                         Text="{Binding FechaEntrenamiento}" />
 
@@ -130,7 +128,7 @@
                                                             WidthRequest="150" />
                                                         <Label
                                                             Grid.Column="2"
-                                                            FontSize="15"
+                                                            FontSize="20"
                                                             Text="{Binding Name}"
                                                             TextColor="{AppThemeBinding Dark=White,
                                                             Light=Black}"
@@ -148,8 +146,8 @@
                                         Light=#48cae4}"
                                         CenterButtonText="Editar"
                                         IsOpen="{Binding Path=BindingContext.RadialOpen, Source={x:Reference thisPage}}"
-                                        RimColor="{AppThemeBinding Dark=#ff7b00,
-                                        Light=#48cae4}"
+                                        RimColor="{AppThemeBinding Dark=#f4a261,
+                                        Light=#caf0f8}"
                                         SeparatorColor="Red">
                                         <syncfusion:SfRadialMenu.Shadow>
                                             <Shadow

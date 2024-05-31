@@ -20,17 +20,22 @@ namespace mobileAppTest.ViewModels
 {
     [QueryProperty("ExerciseFinishedList", "ExerciseFinishedList")]
     [QueryProperty("Fecha", "Fecha")]
+    [QueryProperty("Email", "Email")]
     [QueryProperty("UniquePrimaryMuscles", "UniquePrimaryMuscles")]
     internal partial class FinishedWorkoutViewModel : ObservableObject
     {
 
         [ObservableProperty]
         public ObservableCollection<ExerciseModelView> _exerciseFinishedList;
+
         [ObservableProperty]
         public ObservableCollection<ExerciseModelView> _exerciseFinishedLists;
 
         [ObservableProperty]
         public ObservableCollection<ExerciseModelView> _uniquePrimaryMuscles;
+
+        [ObservableProperty]
+        private string _email;
 
         [ObservableProperty]
         private string _fecha;
@@ -60,24 +65,6 @@ namespace mobileAppTest.ViewModels
             HeaderTitle = "Dale un título a tu entrenamiento";
         }
 
-
-        [RelayCommand]
-        public async Task TestDarkMode()
-        {
-
-
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                Application.Current.UserAppTheme = AppTheme.Light;
-
-            }
-            else
-            {
-                Application.Current.UserAppTheme = AppTheme.Dark;
-
-            }
-
-        }
 
         [RelayCommand]
         private async void DeleteSwipedRow(ExerciseModelView rowToDelete)
@@ -115,6 +102,7 @@ namespace mobileAppTest.ViewModels
             if (string.IsNullOrEmpty(WorkoutTitle) || WorkoutTitle.Trim().Length == 0 || WorkoutTitle.Trim().Length > 30)
             {
                 HeaderTitle = "Título incorrecto o demasiado largo";
+                await App.Current.MainPage.DisplayAlert("Error", "Título incorrecto o demasiado largo", "Aceptar");
                 PasswordTextColor = Colors.Red;
                 return;
             }
@@ -129,7 +117,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com"); // Cambiar por el email del usuario
+                .Document(Email); 
                 
 
             // Iterar sobre cada ejercicio terminado y guardarlos directamente bajo la colección con el nombre proporcionado por el usuario
@@ -149,6 +137,7 @@ namespace mobileAppTest.ViewModels
             // Limpiar el título del entrenamiento
             await SaveWorkoutToUserDocument();
             WorkoutTitle = "";
+            await App.Current.MainPage.DisplayAlert("Info", "Entrenamiento guardado correctamente", "Aceptar");
 
             // Cerrar el popup de guardado de entrenamiento
         }
@@ -158,7 +147,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com"); // Cambiar por el email del usuario
+                .Document(Email);
 
             // Crear un objeto que represente el workout a guardar
             var workout = new
@@ -185,6 +174,7 @@ namespace mobileAppTest.ViewModels
 
             await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
             {
+                ["Email"] = Email,
                 ["ExerciseFinishedLists"] = ExerciseFinishedLists
 
             });

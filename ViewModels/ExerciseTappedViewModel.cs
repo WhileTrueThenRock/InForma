@@ -14,6 +14,7 @@ namespace mobileAppTest.ViewModels
 {
     [QueryProperty("MyExercise", "MyExercise")]
     [QueryProperty("IsVisible", "IsVisible")]
+    [QueryProperty("Email", "Email")]
     [QueryProperty("IsBackButtonVisible", "IsBackButtonVisible")]
     [QueryProperty("ExerciseList", "ExerciseList")]
 
@@ -21,6 +22,9 @@ namespace mobileAppTest.ViewModels
     {
         [ObservableProperty]
         private UserModel _user;
+
+        [ObservableProperty]
+        private string _email;
 
         [ObservableProperty]
         public ExerciseModel _myExercise;
@@ -146,25 +150,6 @@ namespace mobileAppTest.ViewModels
         }
 
 
-        [RelayCommand]
-        public async Task TestDarkMode()
-        {
-
-
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                Application.Current.UserAppTheme = AppTheme.Light;
-
-            }
-            else
-            {
-                Application.Current.UserAppTheme = AppTheme.Dark;
-
-            }
-
-        }
-
-
 
         [RelayCommand]
         public async Task GetUserInfo()
@@ -173,7 +158,7 @@ namespace mobileAppTest.ViewModels
             var avatar = await CrossCloudFirestore.Current //Test video
                             .Instance
                             .Collection("Users")
-                            .Document("123456@gmail.com") 
+                            .Document(Email) 
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
             Reps[0]= User.Reps;
@@ -242,7 +227,7 @@ namespace mobileAppTest.ViewModels
 
      
 
-            [RelayCommand]
+        [RelayCommand]
         public async void Send_Notification()
         {
             if (!User.NotificationOutside)
@@ -319,7 +304,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com"); //Cambiar por Email
+                .Document(Email); 
 
             await userDocument
                          .Collection("Sesiones")
@@ -500,6 +485,8 @@ namespace mobileAppTest.ViewModels
                         await Shell.Current.GoToAsync("//StartedWorkoutPage", new Dictionary<string, object>()
                         {
                             ["ExerciseList"] = ExerciseList,
+                            ["Email"] = Email,
+                            ["UniquePrimaryMuscles"] = UniquePrimaryMuscles,
                             ["ExerciseFinishedList"] = ExerciseFinishedList,
                         });
                     }
@@ -508,8 +495,12 @@ namespace mobileAppTest.ViewModels
                         timeExercise = new();
                         ExerciseTime = "00:00:00";
                         _isExerciseRunning = false;
-                        await Shell.Current.GoToAsync("//MainPage");
-                    }
+                        await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
+                        {
+                            ["Email"] = Email
+
+                        });
+                }
             }
             else
             {
@@ -528,7 +519,7 @@ namespace mobileAppTest.ViewModels
                     foreach (var exerciseModelView in ExerciseList)
                     {
                         // Ensure Exercise is not null
-                        if (exerciseModelView.Exercise != null)
+                        if (exerciseModelView.Exercise != null && exerciseModelView.Exercise.Name == MyExercise.Name)
                         {
                             // Check if PrimaryMuscles is already added
                             var existingItem = UniquePrimaryMuscles.FirstOrDefault(item => item.Exercise?.PrimaryMuscles == exerciseModelView.Exercise.PrimaryMuscles);
@@ -567,6 +558,7 @@ namespace mobileAppTest.ViewModels
                         {
                             ["ExerciseFinishedList"] = ExerciseFinishedList,
                             ["Fecha"] = Fecha,
+                            ["Email"] = Email,
                             ["UniquePrimaryMuscles"] = UniquePrimaryMuscles
 
 
@@ -586,6 +578,7 @@ namespace mobileAppTest.ViewModels
                             ["ExerciseList"] = ExerciseList,
                             ["ExerciseFinishedList"] = ExerciseFinishedList,
                             ["Fecha"] = Fecha,
+                            ["Email"] = Email,
                             ["UniquePrimaryMuscles"] = UniquePrimaryMuscles
                         });
                     }
@@ -594,7 +587,11 @@ namespace mobileAppTest.ViewModels
                         timeExercise = new();
                         ExerciseTime = "00:00:00";
                         _isExerciseRunning = false;
-                        await Shell.Current.GoToAsync("//MainPage");
+                        await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
+                        {
+                            ["Email"] = Email
+
+                        });
                     }
                 }
             }
@@ -608,7 +605,11 @@ namespace mobileAppTest.ViewModels
             timeExercise = new ();
             ExerciseTime = "00:00:00";
             IsVideoPlaying = false;
-            await Shell.Current.GoToAsync("//MainPage");
+            await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
+            {
+                ["Email"] = Email
+
+            });
         }
      
 

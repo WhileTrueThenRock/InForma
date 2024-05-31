@@ -28,6 +28,8 @@
             <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=#F5F5F5}" />
         </LinearGradientBrush>
     </ContentPage.Background>
+
+
     <shimmer:SfShimmer
         AnimationDuration="500"
         BackgroundColor="{AppThemeBinding Dark=Black,
@@ -247,7 +249,12 @@
                     </tabView:SfTabView.Background>
                     <tabView:SfTabView.Items>
                         <!--  TAB NUMBER ONE  -->
-                        <tabView:SfTabItem Header="Calendar" TextColor="{AppThemeBinding Dark=white, Light=black}">
+                        <tabView:SfTabItem
+                            Header="Calendario"
+                            ImagePosition="Right"
+                            ImageSource="calendar2.png"
+                            TextColor="{AppThemeBinding Dark=white,
+                            Light=black}">
                             <tabView:SfTabItem.Content>
 
                                 <ScrollView>
@@ -276,7 +283,9 @@
                                             <cal:Calendar
                                                 ArrowsBackgroundColor="{AppThemeBinding Dark=#ff7b00,
                                                 Light=#48cae4}"
+                                                ArrowsFontSize="20"
                                                 Culture="{Binding Culture}"
+                                                DayViewFontSize="16"
                                                 DaysTitleColor="{AppThemeBinding Dark=White,
                                                 Light=Black}"
                                                 DaysTitleWeekendColor="{AppThemeBinding Dark=#FFFFFF,
@@ -308,10 +317,7 @@
                                                 WeekendDayColor="{AppThemeBinding Dark=White,
                                                 Light=Black}"
                                                 WidthRequest="350" />
-                                            <Button
-                                                Command="{Binding TestDarkModeCommand}"
-                                                Text="switch"
-                                                WidthRequest="100" />
+
                                             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                                                 <Button
                                                     Command="{Binding DeleteSelectedEventCommand}"
@@ -341,7 +347,7 @@
                                             <CollectionView
                                                 x:Name="myCalendarCollection"
                                                 Margin="5"
-                                                HeightRequest="300"
+                                                HeightRequest="280"
                                                 ItemsSource="{Binding EventsList}"
                                                 SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
                                                 SelectionMode="Single">
@@ -368,6 +374,7 @@
                                                                 <Label
                                                                     Grid.Column="2"
                                                                     Margin="5"
+                                                                    FontSize="20"
                                                                     Text="{Binding Name}"
                                                                     TextColor="{AppThemeBinding Dark=White,
                                                                     Light=Black}"
@@ -392,7 +399,12 @@
                             </tabView:SfTabItem.Content>
                         </tabView:SfTabItem>
                         <!--  TAB NUMBER TWO  -->
-                        <tabView:SfTabItem Header="Gym" TextColor="{AppThemeBinding Dark=white, Light=black}">
+                        <tabView:SfTabItem
+                            Header="Gym"
+                            ImagePosition="Right"
+                            ImageSource="exercise.png"
+                            TextColor="{AppThemeBinding Dark=white,
+                            Light=black}">
                             <tabView:SfTabItem.Content>
 
                                 <ScrollView>
@@ -421,6 +433,7 @@
                                                         <syncfusion:SfExpander.Header>
                                                             <Grid>
                                                                 <Label
+                                                                    FontSize="20"
                                                                     HeightRequest="40"
                                                                     Text="{Binding DurationHeader}"
                                                                     TextColor="{AppThemeBinding Dark=Black,
@@ -431,15 +444,11 @@
                                                             <Grid>
                                                                 <buttons:SfRadioGroup>
 
-                                                                    <buttons:SfRadioButton
-                                                                        IsChecked="True"
-                                                                        Text="15 min"
-                                                                        TextColor="{AppThemeBinding Dark=Black,
-                                                                        Light=White}">
+                                                                    <buttons:SfRadioButton Text="15 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
 
                                                                         <buttons:SfRadioButton.GestureRecognizers>
                                                                             <TapGestureRecognizer
-                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                Command="{Binding SelectDurationWorkoutRandomCommand}"
                                                                                 CommandParameter="15"
                                                                                 NumberOfTapsRequired="1" />
                                                                         </buttons:SfRadioButton.GestureRecognizers>
@@ -448,16 +457,20 @@
                                                                     <buttons:SfRadioButton Text="30 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                         <buttons:SfRadioButton.GestureRecognizers>
                                                                             <TapGestureRecognizer
-                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                Command="{Binding SelectDurationWorkoutRandomCommand}"
                                                                                 CommandParameter="30"
                                                                                 NumberOfTapsRequired="1" />
                                                                         </buttons:SfRadioButton.GestureRecognizers>
                                                                     </buttons:SfRadioButton>
 
-                                                                    <buttons:SfRadioButton Text="45 min" TextColor="{AppThemeBinding Dark=Black, Light=White}">
+                                                                    <buttons:SfRadioButton
+                                                                        IsChecked="True"
+                                                                        Text="45 min"
+                                                                        TextColor="{AppThemeBinding Dark=Black,
+                                                                        Light=White}">
                                                                         <buttons:SfRadioButton.GestureRecognizers>
                                                                             <TapGestureRecognizer
-                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                Command="{Binding SelectDurationWorkoutRandomCommand}"
                                                                                 CommandParameter="45"
                                                                                 NumberOfTapsRequired="1" />
                                                                         </buttons:SfRadioButton.GestureRecognizers>
@@ -466,7 +479,7 @@
                                                                     <buttons:SfRadioButton Text="1 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                         <buttons:SfRadioButton.GestureRecognizers>
                                                                             <TapGestureRecognizer
-                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                Command="{Binding SelectDurationWorkoutRandomCommand}"
                                                                                 CommandParameter="60"
                                                                                 NumberOfTapsRequired="1" />
                                                                         </buttons:SfRadioButton.GestureRecognizers>
@@ -475,7 +488,7 @@
                                                                     <buttons:SfRadioButton Text="1:30 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                         <buttons:SfRadioButton.GestureRecognizers>
                                                                             <TapGestureRecognizer
-                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                Command="{Binding SelectDurationWorkoutRandomCommand}"
                                                                                 CommandParameter="90"
                                                                                 NumberOfTapsRequired="1" />
                                                                         </buttons:SfRadioButton.GestureRecognizers>
@@ -484,7 +497,7 @@
                                                                     <buttons:SfRadioButton Text="2 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                         <buttons:SfRadioButton.GestureRecognizers>
                                                                             <TapGestureRecognizer
-                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                Command="{Binding SelectDurationWorkoutRandomCommand}"
                                                                                 CommandParameter="120"
                                                                                 NumberOfTapsRequired="1" />
                                                                         </buttons:SfRadioButton.GestureRecognizers>
@@ -493,7 +506,7 @@
                                                                     <buttons:SfRadioButton Text="2:30 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                         <buttons:SfRadioButton.GestureRecognizers>
                                                                             <TapGestureRecognizer
-                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                Command="{Binding SelectDurationWorkoutRandomCommand}"
                                                                                 CommandParameter="150"
                                                                                 NumberOfTapsRequired="1" />
                                                                         </buttons:SfRadioButton.GestureRecognizers>
@@ -502,7 +515,7 @@
                                                                     <buttons:SfRadioButton Text="3 hr" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                                                         <buttons:SfRadioButton.GestureRecognizers>
                                                                             <TapGestureRecognizer
-                                                                                Command="{Binding SelectDurationWorkoutCommand}"
+                                                                                Command="{Binding SelectDurationWorkoutRandomCommand}"
                                                                                 CommandParameter="180"
                                                                                 NumberOfTapsRequired="1" />
                                                                         </buttons:SfRadioButton.GestureRecognizers>
@@ -609,7 +622,7 @@
                                                                         WidthRequest="150" />
                                                                     <Label
                                                                         Grid.Column="2"
-                                                                        FontSize="15"
+                                                                        FontSize="20"
                                                                         Text="{Binding Exercise.Name}"
                                                                         TextColor="{AppThemeBinding Dark=White,
                                                                         Light=Black}"
@@ -639,11 +652,6 @@
                                                 </LinearGradientBrush>
                                             </Button.Background>
                                         </Button>
-
-                                        <Button
-                                            Command="{Binding TestDarkModeCommand}"
-                                            Text="switch"
-                                            WidthRequest="100" />
                                     </VerticalStackLayout>
                                 </ScrollView>
                             </tabView:SfTabItem.Content>

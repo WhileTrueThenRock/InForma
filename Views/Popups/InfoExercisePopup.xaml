@@ -53,6 +53,7 @@
                                     <VerticalStackLayout Spacing="20">
                                         <Label
                                             Margin="15"
+                                            FontSize="25"
                                             HorizontalOptions="Center"
                                             Text="{Binding Exercise.Name}"
                                             TextColor="Black" />
@@ -61,11 +62,13 @@
                                             <Label
                                                 Margin="10,0,0,0"
                                                 FontAttributes="Bold"
+                                                FontSize="20"
                                                 Text="Minutos:"
                                                 TextColor="Black" />
                                             <Label
                                                 Margin="10,0,0,0"
                                                 FontAttributes="Bold"
+                                                FontSize="20"
                                                 Text="{Binding Exercise.Duration}"
                                                 TextColor="Black" />
                                         </HorizontalStackLayout>
@@ -73,23 +76,27 @@
                                             <Label
                                                 Margin="10,0,0,0"
                                                 FontAttributes="Bold"
+                                                FontSize="20"
                                                 Text="Músculo:"
                                                 TextColor="Black" />
                                             <Label
                                                 Margin="10,0,0,0"
                                                 FontAttributes="Bold"
+                                                FontSize="20"
                                                 Text="{Binding Exercise.PrimaryMuscles}"
                                                 TextColor="Black" />
                                         </HorizontalStackLayout>
                                         <HorizontalStackLayout HorizontalOptions="Center" Spacing="65">
                                             <Label
                                                 FontAttributes="Bold"
+                                                FontSize="20"
                                                 HorizontalOptions="Center"
                                                 Text="Reps"
                                                 TextColor="Black" />
                                             <Label
                                                 Margin="0,0,10,0"
                                                 FontAttributes="Bold"
+                                                FontSize="20"
                                                 HorizontalOptions="Center"
                                                 Text="Kg"
                                                 TextColor="Black" />
@@ -101,7 +108,10 @@
                                             <VerticalStackLayout BindableLayout.ItemsSource="{Binding Reps}">
                                                 <BindableLayout.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Label Text="{Binding}" TextColor="Black" />
+                                                        <Label
+                                                            FontSize="25"
+                                                            Text="{Binding}"
+                                                            TextColor="Black" />
                                                     </DataTemplate>
                                                 </BindableLayout.ItemTemplate>
                                             </VerticalStackLayout>
@@ -111,6 +121,7 @@
                                                     <DataTemplate>
                                                         <Label
                                                             Margin="20,0,0,0"
+                                                            FontSize="25"
                                                             Text="{Binding}"
                                                             TextColor="Black" />
 

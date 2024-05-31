@@ -23,19 +23,7 @@ using System.Text.RegularExpressions;
 using System.ComponentModel;
 using Plugin.Maui.Audio;
 
-/*
- * 
-Firebase : Explore extensions :Delete User Data     
-notification
-<ContentPage ...>
-    <StackLayout Margin="20">
-        <Label Text="This text is green in light mode, and red in dark mode."
-               TextColor="{AppThemeBinding Light=Green, Dark=Red}" />
-        <Image Source="{AppThemeBinding Light=lightlogo.png, Dark=darklogo.png}" />
-    </StackLayout>
-</ContentPage>
-*
-*/
+
 namespace mobileAppTest.ViewModels
 {
     [QueryProperty("ExerciseFinishedLists", "ExerciseFinishedLists")]
@@ -45,8 +33,6 @@ namespace mobileAppTest.ViewModels
         public string webApiKey = "AIzaSyAJ2z8_aTTkgCz-dYXhLt-bt4nEcXqjPxY";
 
         #region Popups
-        [ObservableProperty]
-        private CustomExercises _customExercisePopup;
 
         private SearchExerciseMopup searchExerciseMopup { get; set; }
 
@@ -180,6 +166,9 @@ namespace mobileAppTest.ViewModels
 
         [ObservableProperty]
         private string _durationHeader;
+
+        [ObservableProperty]
+        private string _durationMinutes;
 
         [ObservableProperty]
         private bool _durationExpander;
@@ -479,9 +468,6 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private bool _isShimmerPlaying;
 
-        [ObservableProperty]
-        private IAudioManager _audioManager = new AudioManager();
-
         public MainViewModel()
         {
             InitComponents();
@@ -490,12 +476,9 @@ namespace mobileAppTest.ViewModels
             //ShowAllExercises();
             //GetSessionExercises();
             //RealTimeUpdateFilter();//xd
-            GetExercisesEvents();
-            LoadUserEquipments();
             //ShowExercisesWithAvailableEquipment();
-            //DurationHeader = "15 min";
             // IsDurationChecked = true;
-            SelectDurationWorkout("15");
+            //SelectDurationWorkout(DurationMinutes);
             //FilterBySelectedMuscle();
         }
 
@@ -546,7 +529,8 @@ namespace mobileAppTest.ViewModels
             IsGlutesVisible = false;
             IsHamstringsVisible = false;
             IsCalfsVisible = false;
-
+            DurationHeader = "45 min";
+            DurationMinutes = "45";
             PasswordText = "Restablecer contraseña";
             PasswordTextColor = Colors.White;
             IsResetPassEnabled = true;
@@ -618,11 +602,13 @@ namespace mobileAppTest.ViewModels
 
             try
             {
+                
                 // Realiza todas las operaciones asincrónicas
                 await GetUserCredentials();
                 await GetExercisesEvents();
+                await LoadUserEquipments();
                 await FilterBySelectedMuscle();
-                await SelectDurationWorkoutRandom("15");
+                await SelectDurationWorkoutRandom(DurationMinutes);
                 IsStartTrainingVisible = true;
                 MiContador = 0;
                 IsDeleteExerciseButtonVisible = false;
@@ -697,7 +683,7 @@ namespace mobileAppTest.ViewModels
             var query = CrossCloudFirestore.Current
                  .Instance
                  .Collection("Users")
-                 .Document("123456@gmail.com")
+                 .Document(Email)
                  .Collection("Sesiones")
                  .WhereEqualsTo("Id", exercise.Id); // Replace with the actual property and condition
 
@@ -1081,7 +1067,8 @@ namespace mobileAppTest.ViewModels
                 ExerciseList.Add(exercise);
                 ExerciseCount++;
             }
-            await SelectedDurationWorkout();
+            //await SelectedDurationWorkout();
+            await SelectDurationWorkoutRandom(DurationMinutes);
 
             if (MusclePopup != null)
             {
@@ -1104,10 +1091,11 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task SelectDurationWorkoutRandom(string minutos)
         {
-
+            DurationMinutes = minutos;
             if (minutos == "15")
             {
                 DurationHeader = "15 min";
+                
 
             }
             else if (minutos == "30")
@@ -1197,100 +1185,98 @@ namespace mobileAppTest.ViewModels
             }
         }
 
-        [RelayCommand]
+        //SelectDurationWorkout cambiado por random
+        //[RelayCommand]
+        //public async Task SelectDurationWorkout(string minutos)
+        //{
+        //    DurationMinutes = minutos;
+        //    if (minutos == "15")
+        //    {
+        //        DurationHeader = "15 min";
 
-        public async Task SelectDurationWorkout(string minutos)
-        {
+        //    }
+        //    else if (minutos == "30")
+        //    {
+        //        DurationHeader = "30 min";
 
-            if (minutos == "15")
-            {
-                DurationHeader = "15 min";
+        //    }
+        //    else if (minutos == "45")
+        //    {
+        //        DurationHeader = "45 min";
 
-            }
-            else if (minutos == "30")
-            {
-                DurationHeader = "30 min";
+        //    }
+        //    else if (minutos == "60")
+        //    {
+        //        DurationHeader = "1 hr";
 
-            }
-            else if (minutos == "45")
-            {
-                DurationHeader = "45 min";
+        //    }
+        //    else if (minutos == "90")
+        //    {
+        //        DurationHeader = "1:30 hr";
 
-            }
-            else if (minutos == "60")
-            {
-                DurationHeader = "1 hr";
+        //    }
+        //    else if (minutos == "120")
+        //    {
+        //        DurationHeader = "2 hr";
 
-            }
-            else if (minutos == "90")
-            {
-                DurationHeader = "1:30 hr";
+        //    }
+        //    else if (minutos == "150")
+        //    {
+        //        DurationHeader = "2:30 hr";
 
-            }
-            else if (minutos == "120")
-            {
-                DurationHeader = "2 hr";
+        //    }
+        //    else if (minutos == "180")
+        //    {
+        //        DurationHeader = "3 hr";
 
-            }
-            else if (minutos == "150")
-            {
-                DurationHeader = "2:30 hr";
+        //    }
 
-            }
-            else if (minutos == "180")
-            {
-                DurationHeader = "3 hr";
-
-            }
-
-            if (int.TryParse(minutos, out int selectedMinutes))
-            {
-                await ShowExercisesWithAvailableEquipment();
-
-
-                var filteredByMuscles = ExerciseList
-                   .Where(exercise => SelectedMuscles.Any(muscle => exercise.PrimaryMuscles.Contains(muscle)))
-                   .ToList();
-
-                var filteredByTimeAndMuscles = filteredByMuscles
-                    .Where(exercise => exercise.Duration != null && int.Parse(exercise.Duration) <= selectedMinutes)
-                    .ToList();
-
-                ExerciseList.Clear();
-                int totalMinutes = 0;
-                ExerciseCount = 0;
-                foreach (var exercise in filteredByTimeAndMuscles)
-                {
-                    int exerciseMinutes = int.Parse(exercise.Duration);
-                    totalMinutes += exerciseMinutes;
-
-                    if (totalMinutes <= selectedMinutes)
-                    {
-                        ExerciseList.Add(exercise);
-                        ExerciseCount++;
-                    }
-                }
-
-            }
-
-            if(ExerciseCount == 1)
-            {
-                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
-
-            }
-            else
-            {
-                StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
-            }
-            IsStartTrainingVisible = true;
-            DurationExpander = false;
-        }
+        //    if (int.TryParse(minutos, out int selectedMinutes))
+        //    {
+        //        await ShowExercisesWithAvailableEquipment();
 
 
-        // Método que carga los ejercicios segun el equipamiento de un usuario en el
-        //
-        //
-        // ExercisePopup
+        //        var filteredByMuscles = ExerciseList
+        //           .Where(exercise => SelectedMuscles.Any(muscle => exercise.PrimaryMuscles.Contains(muscle)))
+        //           .ToList();
+
+        //        var filteredByTimeAndMuscles = filteredByMuscles
+        //            .Where(exercise => exercise.Duration != null && int.Parse(exercise.Duration) <= selectedMinutes)
+        //            .ToList();
+
+        //        ExerciseList.Clear();
+        //        int totalMinutes = 0;
+        //        ExerciseCount = 0;
+        //        foreach (var exercise in filteredByTimeAndMuscles)
+        //        {
+        //            int exerciseMinutes = int.Parse(exercise.Duration);
+        //            totalMinutes += exerciseMinutes;
+
+        //            if (totalMinutes <= selectedMinutes)
+        //            {
+        //                ExerciseList.Add(exercise);
+        //                ExerciseCount++;
+        //            }
+        //        }
+
+        //    }
+
+        //    if(ExerciseCount == 1)
+        //    {
+        //        StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
+
+        //    }
+        //    else
+        //    {
+        //        StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
+        //    }
+        //    IsStartTrainingVisible = true;
+        //    DurationExpander = false;
+        //}
+
+
+        // Método que carga los ejercicios segun el equipamiento de un usuario en el ExercisePopup
+
 
 
         [RelayCommand]
@@ -1300,7 +1286,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com"); // Cambiar por el email del usuario actual
+                .Document(Email); 
 
             // Obtener la subcolección "equipments" del usuario
             var snapshot = await userDocument
@@ -1441,7 +1427,7 @@ namespace mobileAppTest.ViewModels
                 var query = CrossCloudFirestore.Current
                     .Instance
                     .Collection("Users")
-                    .Document("123456@gmail.com")
+                    .Document(Email)
                     .Collection("Sesiones")
                     .WhereEqualsTo("Id", eventToDelete.Id); // Reemplaza con la propiedad y la condición reales
 
@@ -1472,7 +1458,7 @@ namespace mobileAppTest.ViewModels
                 var snapshot = await CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com")
+                .Document(Email)
                 .Collection("Sesiones")
                 .GetAsync();
 
@@ -1533,7 +1519,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com"); //cambiar por email
+                .Document(Email); //cambiar por email
 
             // Obtener la subcolección "equipments" del usuario
             var snapshot = await userDocument
@@ -1575,7 +1561,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com");
+                .Document(Email);
 
             foreach (var equipment in SelectedEquipment)
             {
@@ -1593,62 +1579,47 @@ namespace mobileAppTest.ViewModels
             EquipmentSearchText = "";
 
             CloseEquipmentPopup();
-            await SelectedDurationWorkout();
+            await SelectDurationWorkoutRandom(DurationMinutes);
 
 
         }
 
-        public async Task SelectedDurationWorkout()
-        {
-            if (DurationHeader.Equals("15 min"))
-            {
-                await SelectDurationWorkout("15");
-            }
-            else if (DurationHeader.Equals("30 min"))
-            {
-                await SelectDurationWorkout("30");
-            }
-            else if (DurationHeader.Equals("45 min"))
-            {
-                await SelectDurationWorkout("45");
-            }
-            else if (DurationHeader.Equals("1 hr"))
-            {
-                await SelectDurationWorkout("60");
-            }
-            else if (DurationHeader.Equals("1:30 hr"))
-            {
-                await SelectDurationWorkout("90");
-            }
-            else if (DurationHeader.Equals("2 hr"))
-            {
-                await SelectDurationWorkout("120");
-            }
-            else if (DurationHeader.Equals("2:30 hr"))
-            {
-                await SelectDurationWorkout("150");
-            }
-            else if (DurationHeader.Equals("3 hr"))
-            {
-                await SelectDurationWorkout("180");
-            }
-        }
-
-
-
-
-        //Metodo para mostrar el nombre del usuario que ha hecho el Login
-        //public async void ShowName()
+        //public async Task SelectedDurationWorkout()
         //{
-
-        //    var nombreusuario = await CrossCloudFirestore.Current
-        //                 .Instance
-        //                 .Collection("Users")
-        //                 .Document("123456@gmail.com") //LoginViewModel.Email_name
-        //                 .GetAsync();
-        //    User = nombreusuario.ToObject<UserModel>();
-        //    UserName = User.Name;
+        //    if (DurationHeader.Equals("15 min"))
+        //    {
+        //        await SelectDurationWorkout("15");
+        //    }
+        //    else if (DurationHeader.Equals("30 min"))
+        //    {
+        //        await SelectDurationWorkout("30");
+        //    }
+        //    else if (DurationHeader.Equals("45 min"))
+        //    {
+        //        await SelectDurationWorkout("45");
+        //    }
+        //    else if (DurationHeader.Equals("1 hr"))
+        //    {
+        //        await SelectDurationWorkout("60");
+        //    }
+        //    else if (DurationHeader.Equals("1:30 hr"))
+        //    {
+        //        await SelectDurationWorkout("90");
+        //    }
+        //    else if (DurationHeader.Equals("2 hr"))
+        //    {
+        //        await SelectDurationWorkout("120");
+        //    }
+        //    else if (DurationHeader.Equals("2:30 hr"))
+        //    {
+        //        await SelectDurationWorkout("150");
+        //    }
+        //    else if (DurationHeader.Equals("3 hr"))
+        //    {
+        //        await SelectDurationWorkout("180");
+        //    }
         //}
+
 
 
         //Metodo que muestra todos los ejercicios en el CustomExercisePopup 
@@ -1763,7 +1734,7 @@ namespace mobileAppTest.ViewModels
                 var query = CrossCloudFirestore.Current
                     .Instance
                     .Collection("Users")
-                    .Document("123456@gmail.com")
+                    .Document(Email)
                     .Collection("Sesiones")
                     .WhereEqualsTo("Id", exerciseToDelete.Id); // Replace with the actual property and condition
 
@@ -1793,7 +1764,7 @@ namespace mobileAppTest.ViewModels
                 var snapshot = await CrossCloudFirestore.Current
                            .Instance
                            .Collection("Users")
-                           .Document("123456@gmail.com")
+                           .Document(Email)
                            .Collection("Sesiones")
                            .GetAsync();
 
@@ -1802,7 +1773,7 @@ namespace mobileAppTest.ViewModels
                     await CrossCloudFirestore.Current
                         .Instance
                         .Collection("Users")
-                        .Document("123456@gmail.com")
+                        .Document(Email)
                         .Collection("Sesiones")
                         .Document(document.Id)
                         .DeleteAsync();
@@ -1818,7 +1789,7 @@ namespace mobileAppTest.ViewModels
             var snapshot = await CrossCloudFirestore.Current
             .Instance
             .Collection("Users")
-            .Document("123456@gmail.com")
+            .Document(Email)
             .Collection("Sesiones")
             .GetAsync();
 
@@ -1866,7 +1837,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com");
+                .Document(Email);
 
                 // Agregar el nombre del workout al campo Colecciones del documento del usuario
                 await userDocument.UpdateDataAsync(new { Avatar = fotoUrl });
@@ -1884,7 +1855,7 @@ namespace mobileAppTest.ViewModels
             var avatar = await CrossCloudFirestore.Current
                             .Instance
                             .Collection("Users")
-                            .Document("123456@gmail.com") //LoginViewModel.Email_name
+                            .Document(Email) //LoginViewModel.Email_name
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
            
@@ -2007,7 +1978,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com"); // Cambiar por el email del usuario actual
+                .Document(Email); 
 
             // Obtener la subcolección "equipments" del usuario
             var snapshot = await userDocument
@@ -2034,25 +2005,6 @@ namespace mobileAppTest.ViewModels
             return result;
         }
 
-        [RelayCommand]
-        public async Task OpenCustomExercisePopup(string mode)
-        {
-          await  ShowExercisesWithAvailableEquipment();
-
-            CustomExercisePopup = new CustomExercises();
-            await App.Current.MainPage.ShowPopupAsync(CustomExercisePopup);
-        }
-
-        [RelayCommand]
-        public async Task ClosecustomExercisePopup()
-        {
-            SearchText = "";
-            //await SelectedDurationWorkout();
-            await SelectDurationWorkoutRandom("15");
-            CustomExercisePopup.Close();
-
-
-        }
 
         [RelayCommand]
         public async Task OpenSearchExerciseMopupAsync(string mode)
@@ -2067,7 +2019,7 @@ namespace mobileAppTest.ViewModels
         public async Task CloseSearchExerciseMopup()
         {
             SearchText = "";
-            await SelectDurationWorkoutRandom("15");
+            await SelectDurationWorkoutRandom(DurationMinutes);
             await MopupService.Instance.PopAllAsync();
         }
 
@@ -2144,8 +2096,8 @@ namespace mobileAppTest.ViewModels
         private async Task ResetPassword()
         {
 
-            // var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApiKey));
-            // await authProvider.SendPasswordResetEmailAsync(Email);
+             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApiKey));
+             await authProvider.SendPasswordResetEmailAsync(Email);
             PasswordText = "Correo enviado !";
             EmailSentLabel = "Puedes volver a solicitar otro cambio dentro de 10 minutos.";
 
@@ -2156,7 +2108,7 @@ namespace mobileAppTest.ViewModels
             // Iniciar el temporizador para habilitar el botón después de 10 minutos
             await Task.Delay(TimeSpan.FromMinutes(1));
             TimeSpan elapsedTime = DateTime.Now - LastResetTime; 
-            if (elapsedTime.TotalMinutes >= 1)
+            if (elapsedTime.TotalMinutes >= 10)
             {
                 IsResetPassEnabled = true;
                 PasswordText = "Restablecer contraseña";
@@ -2192,9 +2144,8 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task OpenMuscleSelectionPopup()
         {
-            SelectedMuscles.Clear();
-            SelectedMuscles.Add("Pecho");
-            SelectedMuscles.Add("Hombro");
+          //  SelectedMuscles.Clear();
+        
             MusclePopup = new MuscleSelectionPopup();
             await App.Current.MainPage.ShowPopupAsync(MusclePopup);
         }
@@ -2259,6 +2210,7 @@ namespace mobileAppTest.ViewModels
             {
                 ["MyExercise"] = selectedExercise,
                 ["IsVisible"] = IsVisible,
+                ["Email"] = Email,
                 ["IsBackButtonVisible"] = IsBackButtonVisible
             });
         }
@@ -2279,7 +2231,8 @@ namespace mobileAppTest.ViewModels
         {
             await Shell.Current.GoToAsync("//StartedWorkoutPage", new Dictionary<string, object>()
             {
-                ["ExerciseList"] = exerciseList
+                ["ExerciseList"] = exerciseList,
+                ["Email"] = Email
             });
 
         }

@@ -93,16 +93,29 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private bool _hasEquipment;
 
+
+        private bool _isShimmerPlaying;
+        public bool IsShimmerPlaying
+        {
+            get => _isShimmerPlaying;
+            set
+            {
+                _isShimmerPlaying = value;
+                OnPropertyChanged(nameof(IsShimmerPlaying));
+            }
+        }
+
         public RegisterViewModel()
         {
-            CheckStoredCredentials();
+
             IntroScreenModels = new ObservableCollection<IntroScreenModel>();
             NextTextButton = "Siguiente";
 
             IntroScreenModels.Add(new IntroScreenModel()
             {
-                Title = "Bienvenido a mi app",
-                CollectionVisible = 100
+                titleVisible = true,
+                EquipmentVisible = false,
+                CollectionVisible = 50
 
             });
 
@@ -110,7 +123,9 @@ namespace mobileAppTest.ViewModels
 
             IntroScreenModels.Add(new IntroScreenModel()
             {
-
+                titleVisible = false,
+                EquipmentVisible = true,
+                EquipmentTitle = "Elige tu equipamiento:",
                 EquipmentList = new ObservableCollection<EquipmentModel>
                 {
                 new EquipmentModel { name = "Banco", disponible = true, url = "Images/Equipment/bancohorizontal.jpg" },
@@ -118,7 +133,7 @@ namespace mobileAppTest.ViewModels
                 new EquipmentModel { name = "Banco Inclinado", disponible = true, url = "Images/Equipment/bancoinclinado.jpg" },
                 new EquipmentModel { name = "Banco Romano", disponible = true, url = "Images/Equipment/bancoromano.jpg" },
                 new EquipmentModel { name = "Banco Scott", disponible = true, url = "Images/Equipment/bancoscott.jpg" },
-                new EquipmentModel { name = "Barras", disponible = false, url = "Images/Equipment/barras.jpg" },
+                new EquipmentModel { name = "Barras", disponible = true, url = "Images/Equipment/barras.jpg" },
                 new EquipmentModel { name = "Barra T", disponible = true, url = "Images/Equipment/landmine.jpg" },
                 new EquipmentModel { name = "Barra Z", disponible = true, url = "Images/Equipment/barraz.jpg" },
                 new EquipmentModel { name = "Rueda Abdominal", disponible = true, url = "Images/Equipment/ruedaabd.jpg" },
@@ -153,7 +168,7 @@ namespace mobileAppTest.ViewModels
                 new EquipmentModel { name = "Máquina Press Pierna Horizontal", disponible = true, url = "Images/Equipment/maquinapresshoriz.jpg" },
 
                 },
-                CollectionVisible = 450
+                CollectionVisible = 600
 
 
             });
@@ -162,34 +177,24 @@ namespace mobileAppTest.ViewModels
 
             IntroScreenModels.Add(new IntroScreenModel()
             {
-                Title = "Credenciales",
-                User = new UserModel
-                {
-                    Name = "Test",
-                    Email = "Test"
-                },
+                titleVisible = false,
+                EquipmentVisible = false,
                 RegisterVisible = true,
-                CollectionVisible = 100
+                RegisterTitle = "Por último, tus datos:",
+                CollectionVisible = 0
 
             });
         }
 
-        [RelayCommand]
-        public async Task DarkMode()
+
+        public async Task StartShimmerAndWait()
         {
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                Application.Current.UserAppTheme = AppTheme.Light;
-            }
-            else
-            {
-                Application.Current.UserAppTheme = AppTheme.Dark;
-            }
+            IsShimmerPlaying = true;
 
-
-            //ConfigurationPopup = new ConfigurationPopup();
-            //await App.Current.MainPage.ShowPopupAsync(ConfigurationPopup);
+            await Task.Delay(5000);
+            IsShimmerPlaying = false;
         }
+
 
         // Método para agregar equipamientos a la subcolección "User"
         [RelayCommand]
@@ -244,10 +249,13 @@ namespace mobileAppTest.ViewModels
 
             else
             {
-               
+                IsShimmerPlaying = true;
                 RegisterUserTappedAsync();
+                IsShimmerPlaying = false;
+
+
             }
-            
+
 
         }
         private void UpdateButtonText()
@@ -348,29 +356,35 @@ namespace mobileAppTest.ViewModels
 
         }
 
-        private async void CheckStoredCredentials()
+        public async Task CheckStoredCredentials()
         {
+            IsShimmerPlaying = true;
+             await Task.Delay(500);
             bool credentialsStored = await SecureStorage.GetAsync("credentialsStored") == "true";
             if (credentialsStored)
             {
+                Email = await SecureStorage.GetAsync("username");
                 await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
                 {
                     ["Email"] = Email
                 });
 
-                string username = await SecureStorage.GetAsync("username");
+               
                 string password = await SecureStorage.GetAsync("password");
 
                 // Lógica para iniciar sesión automáticamente con las credenciales guardadas
             }
             else
             {
-                // El usuario no ha iniciado sesión previamente
+                
+
             }
+            IsShimmerPlaying = false;
+
         }
 
 
-   
+
         [RelayCommand]
         private async void RegisterUserTappedAsync()
         {

@@ -6,173 +6,308 @@
     xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:models="clr-namespace:mobileAppTest.Models"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Shimmer;assembly=Syncfusion.Maui.Core"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:mobileAppTest.ViewModels"
     x:Name="thisPage"
     x:DataType="viewmodel:RegisterViewModel"
     BindingContext="{viewmodel:RegisterViewModel}"
+    Loaded="ThisPage_Loaded"
     NavigationPage.HasNavigationBar="False">
 
-    <VerticalStackLayout>
-        <ScrollView HeightRequest="500">
-            <CarouselView
-                IndicatorView="indicatorView"
-                ItemsSource="{Binding IntroScreenModels}"
-                Loop="False"
-                Position="{Binding Position}">
-                <CarouselView.ItemTemplate>
-                    <DataTemplate x:DataType="models:IntroScreenModel">
-                        <VerticalStackLayout>
-                            <Grid BackgroundColor="#f0f0f5">
-                                <Label Text="{Binding Title}" />
-
-                            </Grid>
-
-                            <VerticalStackLayout
-                                Margin="0,10,0,0"
-                                IsVisible="{Binding RegisterVisible}"
-                                WidthRequest="300">
-
-                                <inputLayout:SfTextInputLayout
-                                    ContainerBackground="{AppThemeBinding Dark=lightgray,
-                                    Light=#caf0f8}"
-                                    ContainerType="Outlined"
-                                    ErrorText="{Binding Path=BindingContext.NameErrorText, Source={x:Reference thisPage}}"
-                                    FocusedStrokeThickness="4"
-                                    HasError="{Binding Path=BindingContext.HasNameError, Source={x:Reference thisPage}}"
-                                    HeightRequest="85"
-                                    HelperText="No puede tener más de 15 caracteres"
-                                    Hint="Nombre / Alias"
-                                    OutlineCornerRadius="8"
-                                    UnfocusedStrokeThickness="2">
-                                    <Entry
-                                        Margin="0,0,0,-10"
-                                        Text="{Binding Path=BindingContext.Name, Source={x:Reference thisPage}}"
-                                        WidthRequest="250" />
-                                </inputLayout:SfTextInputLayout>
-
-                                <inputLayout:SfTextInputLayout
-                                    ContainerBackground="{AppThemeBinding Dark=lightgray,
-                                    Light=#caf0f8}"
-                                    ContainerType="Outlined"
-                                    ErrorText="{Binding Path=BindingContext.EmailErrorText, Source={x:Reference thisPage}}"
-                                    FocusedStrokeThickness="4"
-                                    HasError="{Binding Path=BindingContext.HasEmailError, Source={x:Reference thisPage}}"
-                                    HeightRequest="85"
-                                    Hint="Email"
-                                    OutlineCornerRadius="8"
-                                    UnfocusedStrokeThickness="2">
-                                    <Entry
-                                        Margin="0,0,0,-10"
-                                        Text="{Binding Path=BindingContext.Email, Source={x:Reference thisPage}}"
-                                        WidthRequest="250" />
-                                </inputLayout:SfTextInputLayout>
 
 
-                                <inputLayout:SfTextInputLayout
-                                    CharMaxLength="10"
-                                    ContainerBackground="{AppThemeBinding Dark=lightgray,
-                                    Light=#caf0f8}"
-                                    ContainerType="Outlined"
-                                    EnablePasswordVisibilityToggle="True"
-                                    ErrorText="{Binding Path=BindingContext.PassErrorText, Source={x:Reference thisPage}}"
-                                    FocusedStrokeThickness="4"
-                                    HasError="{Binding Path=BindingContext.HasPassError, Source={x:Reference thisPage}}"
-                                    HeightRequest="85"
-                                    HelperText="La contraseña debe tener entre 6 y 10 caracteres."
-                                    Hint="Contraseña"
-                                    OutlineCornerRadius="8"
-                                    UnfocusedStrokeThickness="2">
-                                    <Entry Text="{Binding Path=BindingContext.Password, Source={x:Reference thisPage}}" WidthRequest="250" />
+    <shimmer:SfShimmer
+        AnimationDuration="500"
+        BackgroundColor="{AppThemeBinding Dark=Black,
+        Light=WhiteSmoke}"
+        Fill="{AppThemeBinding Dark=#1E1E1E,
+        Light=#F5F5F5}"
+        IsActive="{Binding IsShimmerPlaying}"
+        Type="Feed"
+        WaveColor="{AppThemeBinding Dark=#ff7b00,
+        Light=#48cae4}">
 
-                                </inputLayout:SfTextInputLayout>
+
+        <VerticalStackLayout>
+
+            <IndicatorView
+                x:Name="indicatorView"
+                Margin="10"
+                HorizontalOptions="Center"
+                IndicatorColor="LightGray"
+                IndicatorSize="10"
+                SelectedIndicatorColor="{AppThemeBinding Dark=#ff7b00,
+                Light=#48cae4}" />
+
+            <VerticalStackLayout HeightRequest="500">
+
+                <CarouselView
+                    Margin="10,20,10,0"
+                    IndicatorView="indicatorView"
+                    ItemsSource="{Binding IntroScreenModels}"
+                    Loop="False"
+                    Position="{Binding Position}">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="models:IntroScreenModel">
+                            <VerticalStackLayout>
+                                <VerticalStackLayout IsVisible="{Binding titleVisible}">
+                                    <Label
+                                        FontSize="25"
+                                        HorizontalOptions="Center"
+                                        Text="Bienvenido a tu nueva forma de entrenar" />
+                                    <Image
+                                        Margin="0,0,0,0"
+                                        HeightRequest="150"
+                                        Source="{AppThemeBinding Light=informalight.png,
+                                        Dark=informadark.png}" />
+
+                                    <HorizontalStackLayout HorizontalOptions="Center">
+                                        <Label
+                                            Margin="0,10,0,0"
+                                            FontSize="25"
+                                            HorizontalOptions="Center"
+                                            Text="✓"
+                                            TextColor="{AppThemeBinding Dark=#ff7b00,
+                                            Light=#48cae4}" />
+
+                                        <Label
+                                            Margin="0,10,0,0"
+                                            FontSize="25"
+                                            HorizontalOptions="Center"
+                                            Text=" Entrenamientos personalizados" />
+
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout HorizontalOptions="Center">
+                                        <Label
+                                            Margin="0,10,0,0"
+                                            FontSize="25"
+                                            HorizontalOptions="Center"
+                                            Text="✓"
+                                            TextColor="{AppThemeBinding Dark=#ff7b00,
+                                            Light=#48cae4}" />
+                                        <Label
+                                            Margin="0,10,0,0"
+                                            FontSize="25"
+                                            HorizontalOptions="Center"
+                                            Text=" Uso de equipamiento favorito" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout HorizontalOptions="Center">
+                                        <Label
+                                            Margin="0,10,0,0"
+                                            FontSize="25"
+                                            HorizontalOptions="Center"
+                                            Text="✓"
+                                            TextColor="{AppThemeBinding Dark=#ff7b00,
+                                            Light=#48cae4}" />
+                                        <Label
+                                            Margin="0,10,0,0"
+                                            FontSize="25"
+                                            HorizontalOptions="Center"
+                                            Text=" Seguimiento de progreso" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout HorizontalOptions="Center">
+                                        <Label
+                                            Margin="0,10,0,0"
+                                            FontSize="25"
+                                            HorizontalOptions="Center"
+                                            Text="✓"
+                                            TextColor="{AppThemeBinding Dark=#ff7b00,
+                                            Light=#48cae4}" />
+
+                                        <Label
+                                            Margin="0,10,0,0"
+                                            FontSize="25"
+                                            HorizontalOptions="Center"
+                                            Text=" Videos tutoriales" />
+                                    </HorizontalStackLayout>
+
+
+                                </VerticalStackLayout>
+
+
+                                <Label
+                                    FontSize="25"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding EquipmentVisible}"
+                                    Text="{Binding EquipmentTitle}" />
+
+                                <CollectionView
+                                    x:Name="myCollectionViewz"
+                                    HeightRequest="{Binding CollectionVisible}"
+                                    ItemsSource="{Binding EquipmentList}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:EquipmentModel">
+                                            <Border
+                                                Margin="0,10,10,0"
+                                                Background="{AppThemeBinding Dark=Transparent,
+                                                Light=Transparent}"
+                                                HeightRequest="120"
+                                                StrokeThickness="1">
+
+                                                <Border.Shadow>
+                                                    <Shadow
+                                                        Brush="{AppThemeBinding Dark=White,
+                                                        Light=Black}"
+                                                        Opacity="0.3"
+                                                        Radius="40"
+                                                        Offset="20,20" />
+                                                </Border.Shadow>
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="30" />
+                                                </Border.StrokeShape>
+
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Image
+                                                        Grid.Row="1"
+                                                        Margin="10"
+                                                        HeightRequest="100"
+                                                        Source="{Binding url}"
+                                                        WidthRequest="100" />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        Margin="20,0,0,0"
+                                                        FontSize="25"
+                                                        Text="{Binding name}"
+                                                        VerticalOptions="Center" />
+                                                    <CheckBox
+                                                        Grid.Column="3"
+                                                        HeightRequest="100"
+                                                        IsChecked="{Binding disponible, Mode=TwoWay}"
+                                                        Color="{AppThemeBinding Dark=#ff7b00,
+                                                        Light=#48cae4}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+
+
+                                <Label
+                                    FontSize="25"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding RegisterVisible}"
+                                    Text="{Binding RegisterTitle}" />
+                                <VerticalStackLayout
+                                    Margin="0,0,0,0"
+                                    IsVisible="{Binding RegisterVisible}"
+                                    WidthRequest="300">
+
+                                    <inputLayout:SfTextInputLayout
+                                        ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                        Light=#caf0f8}"
+                                        ContainerType="Outlined"
+                                        ErrorText="{Binding Path=BindingContext.NameErrorText, Source={x:Reference thisPage}}"
+                                        FocusedStrokeThickness="4"
+                                        HasError="{Binding Path=BindingContext.HasNameError, Source={x:Reference thisPage}}"
+                                        HeightRequest="85"
+                                        HelperText=""
+                                        Hint="Nombre / Alias"
+                                        OutlineCornerRadius="8"
+                                        UnfocusedStrokeThickness="2">
+                                        <Entry
+                                            Margin="0,0,0,-10"
+                                            Text="{Binding Path=BindingContext.Name, Source={x:Reference thisPage}}"
+                                            WidthRequest="250" />
+                                    </inputLayout:SfTextInputLayout>
+
+                                    <inputLayout:SfTextInputLayout
+                                        ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                        Light=#caf0f8}"
+                                        ContainerType="Outlined"
+                                        ErrorText="{Binding Path=BindingContext.EmailErrorText, Source={x:Reference thisPage}}"
+                                        FocusedStrokeThickness="4"
+                                        HasError="{Binding Path=BindingContext.HasEmailError, Source={x:Reference thisPage}}"
+                                        HeightRequest="85"
+                                        Hint="Email"
+                                        OutlineCornerRadius="8"
+                                        UnfocusedStrokeThickness="2">
+                                        <Entry
+                                            Margin="0,0,0,-10"
+                                            Text="{Binding Path=BindingContext.Email, Source={x:Reference thisPage}}"
+                                            WidthRequest="250" />
+                                    </inputLayout:SfTextInputLayout>
+
+
+                                    <inputLayout:SfTextInputLayout
+                                        CharMaxLength="10"
+                                        ContainerBackground="{AppThemeBinding Dark=lightgray,
+                                        Light=#caf0f8}"
+                                        ContainerType="Outlined"
+                                        EnablePasswordVisibilityToggle="True"
+                                        ErrorText="{Binding Path=BindingContext.PassErrorText, Source={x:Reference thisPage}}"
+                                        FocusedStrokeThickness="4"
+                                        HasError="{Binding Path=BindingContext.HasPassError, Source={x:Reference thisPage}}"
+                                        HeightRequest="85"
+                                        HelperText="La contraseña debe tener entre 6 y 10 caracteres."
+                                        Hint="Contraseña"
+                                        OutlineCornerRadius="8"
+                                        UnfocusedStrokeThickness="2">
+                                        <Entry Text="{Binding Path=BindingContext.Password, Source={x:Reference thisPage}}" WidthRequest="250" />
+
+                                    </inputLayout:SfTextInputLayout>
+
+                                    <Label
+                                        Margin="0,20,0,0"
+                                        FontSize="25"
+                                        HorizontalOptions="Center"
+                                        Text="¿Ya tienes una cuenta?" />
+
+                                    <Button
+                                        Command="{Binding Path=BindingContext.NavegarLoginPageCommand, Source={x:Reference thisPage}}"
+                                        CommandParameter="MainPage"
+                                        Text="Iniciar Sesión"
+                                        WidthRequest="150">
+                                        <Button.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
+                                                <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
+                                            </LinearGradientBrush>
+                                        </Button.Background>
+                                    </Button>
+
+                                </VerticalStackLayout>
 
                             </VerticalStackLayout>
 
-                            <CollectionView
-                                x:Name="myCollectionViewz"
-                                HeightRequest="{Binding CollectionVisible}"
-                                ItemsSource="{Binding EquipmentList}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:EquipmentModel">
-                                        <Border>
-                                            <Grid Padding="10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-
-                                                <Image
-                                                    Grid.Row="1"
-                                                    Margin="0,20,0,0"
-                                                    HeightRequest="100"
-                                                    Source="{Binding url}"
-                                                    WidthRequest="100" />
-                                                <Label
-                                                    Grid.Column="1"
-                                                    Text="{Binding name}"
-                                                    TextColor="Red"
-                                                    VerticalOptions="Center" />
-                                                <CheckBox
-                                                    Grid.Column="3"
-                                                    HeightRequest="100"
-                                                    IsChecked="{Binding disponible, Mode=TwoWay}"
-                                                    Color="{AppThemeBinding Dark=#ff7b00,
-                                                    Light=#48cae4}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-
-                        </VerticalStackLayout>
-
-                    </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </CarouselView>
-        </ScrollView>
-
-        <IndicatorView
-            x:Name="indicatorView"
-            HorizontalOptions="Center"
-            IndicatorColor="LightGray"
-            IndicatorSize="30"
-            SelectedIndicatorColor="{AppThemeBinding Dark=#ff7b00,
-            Light=#48cae4}" />
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+            </VerticalStackLayout>
 
 
-        <Frame
-            Margin="15"
-            Padding="0"
-            BackgroundColor="Yellow"
-            CornerRadius="30"
-            HeightRequest="70"
-            HorizontalOptions="CenterAndExpand"
-            WidthRequest="70">
-            <Label
-                FontAttributes="Bold"
-                HorizontalTextAlignment="Center"
-                Text="{Binding NextTextButton}"
-                VerticalTextAlignment="Center" />
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding NextSlideCommand}" />
-            </Frame.GestureRecognizers>
-        </Frame>
 
 
-        <Button
-            Margin="0,25,0,0"
-            Command="{Binding NavegarLoginPageCommand}"
-            CommandParameter="MainPage"
-            Text="LOGIN"
-            WidthRequest="250">
-            <Button.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
-                    <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
+            <Frame
+                Margin="15"
+                Padding="0"
+                BackgroundColor="{AppThemeBinding Dark=#ff7b00,
+                Light=#48cae4}"
+                CornerRadius="30"
+                HeightRequest="70"
+                HorizontalOptions="CenterAndExpand"
+                WidthRequest="70">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding NextTextButton}"
+                    VerticalTextAlignment="Center" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NextSlideCommand}" />
+                </Frame.GestureRecognizers>
+            </Frame>
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+
+    </shimmer:SfShimmer>
+
 </ContentPage>

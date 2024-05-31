@@ -22,8 +22,8 @@
     <ContentPage.Background>
 
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=white}" />
-            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=White}" />
+            <GradientStop Offset="0" Color="{AppThemeBinding Dark=#1E1E1E, Light=White}" />
+            <GradientStop Offset="1" Color="{AppThemeBinding Dark=#1E1E1E, Light=WhiteSmoke}" />
         </LinearGradientBrush>
     </ContentPage.Background>
 
@@ -81,21 +81,17 @@
                 IsVisible="{Binding IsVideoVisible}"
                 ShouldAutoPlay="False"
                 ShouldLoopPlayback="{Binding IsVideoPlaying}"
-                ShouldMute="False"
+                ShouldMute="True"
                 ShouldShowPlaybackControls="True"
                 Source="{Binding MyExercise.Urls[1]}"
                 WidthRequest="400" />
             <Label
                 Margin="0,10,0,0"
                 FontAttributes="Italic"
-                FontSize="20"
+                FontSize="25"
                 HorizontalOptions="Center"
                 Text="{Binding MyExercise.Name}"
                 VerticalOptions="Center" />
-            <Button
-                Command="{Binding TestDarkModeCommand}"
-                Text="switch"
-                WidthRequest="100" />
             <HorizontalStackLayout
                 Margin="0,50,0,0"
                 HorizontalOptions="Center"
@@ -105,7 +101,7 @@
                 <VerticalStackLayout>
                     <Label
                         FontAttributes="Italic"
-                        FontSize="15"
+                        FontSize="20"
                         HorizontalOptions="Center"
                         Text="Series:" />
 
@@ -121,7 +117,7 @@
                 <VerticalStackLayout>
                     <Label
                         FontAttributes="Italic"
-                        FontSize="15"
+                        FontSize="20"
                         HorizontalOptions="Center"
                         Text="Descanso:" />
                     <Border
@@ -144,6 +140,7 @@
                             <syncfusion:SfExpander.Header>
                                 <Grid>
                                     <Label
+                                        FontSize="20"
                                         HeightRequest="40"
                                         Text="{Binding DurationHeader}"
                                         TextColor="{AppThemeBinding Dark=Black,
@@ -152,9 +149,8 @@
                             </syncfusion:SfExpander.Header>
                             <syncfusion:SfExpander.Content>
                                 <buttons:SfRadioGroup>
-                                    <Label Text="Segundos a descansar" />
 
-                                    <buttons:SfRadioButton Text="15">
+                                    <buttons:SfRadioButton Text="15" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                         <buttons:SfRadioButton.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding SelectDurationBrakCommand}"
@@ -163,7 +159,7 @@
                                         </buttons:SfRadioButton.GestureRecognizers>
                                     </buttons:SfRadioButton>
 
-                                    <buttons:SfRadioButton Text="30">
+                                    <buttons:SfRadioButton Text="30" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                         <buttons:SfRadioButton.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding SelectDurationBrakCommand}"
@@ -172,7 +168,7 @@
                                         </buttons:SfRadioButton.GestureRecognizers>
                                     </buttons:SfRadioButton>
 
-                                    <buttons:SfRadioButton Text="45">
+                                    <buttons:SfRadioButton Text="45" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                         <buttons:SfRadioButton.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding SelectDurationBrakCommand}"
@@ -181,7 +177,7 @@
                                         </buttons:SfRadioButton.GestureRecognizers>
                                     </buttons:SfRadioButton>
 
-                                    <buttons:SfRadioButton Text="60">
+                                    <buttons:SfRadioButton Text="60" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                         <buttons:SfRadioButton.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding SelectDurationBrakCommand}"
@@ -190,7 +186,7 @@
                                         </buttons:SfRadioButton.GestureRecognizers>
                                     </buttons:SfRadioButton>
 
-                                    <buttons:SfRadioButton Text="90">
+                                    <buttons:SfRadioButton Text="90" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                         <buttons:SfRadioButton.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding SelectDurationBrakCommand}"
@@ -199,7 +195,7 @@
                                         </buttons:SfRadioButton.GestureRecognizers>
                                     </buttons:SfRadioButton>
 
-                                    <buttons:SfRadioButton Text="120">
+                                    <buttons:SfRadioButton Text="120" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                         <buttons:SfRadioButton.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding SelectDurationBrakCommand}"
@@ -208,7 +204,7 @@
                                         </buttons:SfRadioButton.GestureRecognizers>
                                     </buttons:SfRadioButton>
 
-                                    <buttons:SfRadioButton Text="150">
+                                    <buttons:SfRadioButton Text="150" TextColor="{AppThemeBinding Dark=Black, Light=White}">
                                         <buttons:SfRadioButton.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding SelectDurationBrakCommand}"
@@ -237,12 +233,7 @@
 
 
                                 <SwipeView>
-                                    <!--<SwipeView.GestureRecognizers>
-                                    <SwipeGestureRecognizer
-                                    Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                    CommandParameter="{Binding .}"
-                                    Direction="Right" />
-                                    </SwipeView.GestureRecognizers>-->
+
 
                                     <SwipeView.LeftItems>
                                         <SwipeItems>
@@ -371,7 +362,13 @@
                 HorizontalOptions="CenterAndExpand"
                 WidthRequest="350">
                 <tabview:SfTabView.Items>
-                    <tabview:SfTabItem Header="Instrucciones" TextColor="{AppThemeBinding Dark=white, Light=black}">
+                    <tabview:SfTabItem
+                        Header="Info"
+                        ImagePosition="Left"
+                        ImageSource="instructions.png"
+                        TextColor="{AppThemeBinding Dark=white,
+                        Light=black}"
+                        WidthRequest="105">
                         <tabview:SfTabItem.Content>
                             <Border
                                 Background="{AppThemeBinding Dark=Transparent,
@@ -396,6 +393,7 @@
                                         <DataTemplate>
                                             <Label
                                                 Margin="0,0,0,10"
+                                                FontSize="19"
                                                 HorizontalOptions="Center"
                                                 Text="{Binding}"
                                                 VerticalOptions="Center" />
@@ -406,7 +404,13 @@
                         </tabview:SfTabItem.Content>
                     </tabview:SfTabItem>
 
-                    <tabview:SfTabItem Header="Músculos" TextColor="{AppThemeBinding Dark=white, Light=black}">
+                    <tabview:SfTabItem
+                        Header="Músculos"
+                        ImagePosition="Left"
+                        ImageSource="muscles.png"
+                        TextColor="{AppThemeBinding Dark=white,
+                        Light=black}"
+                        WidthRequest="130">
                         <tabview:SfTabItem.Content>
                             <ScrollView>
                                 <Border
@@ -430,16 +434,19 @@
                                     <VerticalStackLayout Margin="10,20,0,0">
                                         <Label
                                             Margin="20,0,0,0"
+                                            FontSize="20"
                                             HorizontalOptions="Start"
                                             Text="Principales" />
                                         <Label
-                                            Margin="0,-18,50,0"
+                                            Margin="0,-38,50,0"
+                                            FontSize="20"
                                             HorizontalOptions="End"
                                             Text="Secundarios" />
 
                                         <HorizontalStackLayout Margin="10,20,0,0">
                                             <Label
                                                 Margin="0,20,0,0"
+                                                FontSize="20"
                                                 HorizontalOptions="Start"
                                                 Text="{Binding MyExercise.PrimaryMuscles}" />
                                             <Image
@@ -456,6 +463,7 @@
                                                             <HorizontalStackLayout>
                                                                 <Label
                                                                     Margin="0,10,0,0"
+                                                                    FontSize="20"
                                                                     HorizontalOptions="Start"
                                                                     Text="{Binding}" />
                                                                 <BoxView HeightRequest="70" />
@@ -478,7 +486,13 @@
                         </tabview:SfTabItem.Content>
                     </tabview:SfTabItem>
 
-                    <tabview:SfTabItem Header="Equipamiento" TextColor="{AppThemeBinding Dark=white, Light=black}">
+                    <tabview:SfTabItem
+                        Header="Equipo"
+                        ImagePosition="Left"
+                        ImageSource="equipment.png"
+                        TextColor="{AppThemeBinding Dark=white,
+                        Light=black}"
+                        WidthRequest="115">
                         <tabview:SfTabItem.Content>
                             <Border
                                 Background="{AppThemeBinding Dark=Transparent,
@@ -512,6 +526,7 @@
                                                     x:Name="equipmentName"
                                                     Grid.Column="1"
                                                     Margin="0,0,0,10"
+                                                    FontSize="20"
                                                     HorizontalOptions="StartAndExpand"
                                                     LineBreakMode="WordWrap"
                                                     Text="{Binding}"

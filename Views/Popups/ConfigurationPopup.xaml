@@ -26,11 +26,14 @@
 
                 <VerticalStackLayout Margin="0,20,0,0" WidthRequest="320">
 
-                    <Border Margin="0,50,0,0" Background="DarkGray">
+                    <Border Margin="0,50,0,0" BackgroundColor="{AppThemeBinding Dark=DarkGray, Light=WhiteSmoke}">
                         <VerticalStackLayout>
 
                             <HorizontalStackLayout Margin="0,20,0,0">
-                                <Label Margin="40,5,0,0" Text="Notificaciones" />
+                                <Label
+                                    Margin="40,5,0,0"
+                                    FontSize="20"
+                                    Text="Notificaciones" />
                                 <buttons:SfSwitch
                                     Margin="100,0,0,0"
                                     AllowIndeterminateState="False"
@@ -73,7 +76,10 @@
                             </HorizontalStackLayout>
 
                             <HorizontalStackLayout Margin="0,20,0,0">
-                                <Label Margin="40,5,0,0" Text="Video para ejercicios" />
+                                <Label
+                                    Margin="45,5,0,0"
+                                    FontSize="20"
+                                    Text="Video para ejercicios" />
                                 <buttons:SfSwitch
                                     Margin="57,0,0,0"
                                     AllowIndeterminateState="False"

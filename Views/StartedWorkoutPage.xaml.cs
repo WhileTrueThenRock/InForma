@@ -14,7 +14,5 @@ public partial class StartedWorkoutPage : ContentPage
     {
 		StartedWorkoutViewModel? viewModel = BindingContext as StartedWorkoutViewModel;
         viewModel?.GetExerciseCount();
-        //viewModel?.GetUserInfo();
-        //viewModel?.StartStopwatch();
     }
 }

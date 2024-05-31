@@ -19,9 +19,9 @@
         </Grid.Background>
         <VerticalStackLayout HeightRequest="600" WidthRequest="400">
             <Label
+                FontSize="22"
                 HorizontalOptions="Center"
                 Text="Selecciona el ejercicio a cambiar"
-                TextColor="Black"
                 VerticalOptions="Center" />
             <Border Margin="5">
                 <CollectionView
@@ -70,7 +70,7 @@
                                         WidthRequest="150" />
                                     <Label
                                         Grid.Column="2"
-                                        FontSize="15"
+                                        FontSize="20"
                                         Text="{Binding Exercise.Name}"
                                         TextColor="{AppThemeBinding Dark=White,
                                         Light=Black}"

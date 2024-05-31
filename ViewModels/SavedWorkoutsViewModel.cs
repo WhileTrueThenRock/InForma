@@ -102,30 +102,7 @@ namespace mobileAppTest.ViewModels
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
 
-            // Reps = User.Reps;
-            // Weight = User.Weight;
-
         }
-
-
-        [RelayCommand]
-        public async Task TestDarkMode()
-        {
-
-
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                Application.Current.UserAppTheme = AppTheme.Light;
-
-            }
-            else
-            {
-                Application.Current.UserAppTheme = AppTheme.Dark;
-
-            }
-
-        }
-
 
 
         public async Task LoadCustomWorkouts()
@@ -133,7 +110,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com"); // Cambiar por el email del usuario
+                .Document(Email); 
 
             var userSnapshot = await userDocument.GetDocumentAsync();
 
@@ -152,7 +129,7 @@ namespace mobileAppTest.ViewModels
                         var workoutDoc = CrossCloudFirestore.Current
                             .Instance
                             .Collection("Users")
-                            .Document("123456@gmail.com")
+                            .Document(Email)
                             .Collection("Sesiones")
                             .Document("Saved_Workouts")
                             .Collection(workoutTitle);
@@ -205,6 +182,7 @@ namespace mobileAppTest.ViewModels
 
             await Shell.Current.GoToAsync("//StartedWorkoutPage", new Dictionary<string, object>()
             {
+                ["Email"] = Email,
                 ["ExerciseList"] = ExerciseList
             });
 
@@ -230,7 +208,7 @@ namespace mobileAppTest.ViewModels
             var query = CrossCloudFirestore.Current
                  .Instance
                  .Collection("Users")
-                 .Document("123456@gmail.com")
+                 .Document(Email)
                  .Collection("Sesiones")
                  .Document("Saved_Workouts")
                  .Collection(dateGroup.FechaEntrenamiento);
@@ -260,7 +238,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document("123456@gmail.com"); // Cambiar por el email del usuario
+                .Document(Email); 
 
             // Eliminar el nombre del workout del campo Colecciones del documento del usuario
             await userDocument.UpdateDataAsync(new { Colecciones = FieldValue.ArrayRemove(dateGroup.FechaEntrenamiento) });

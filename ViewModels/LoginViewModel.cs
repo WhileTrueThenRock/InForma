@@ -60,8 +60,6 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string _emailHintText;
 
-        [ObservableProperty]
-        private ConfigurationPopup _configurationPopup;
 
         public LoginViewModel()
         {
@@ -70,30 +68,6 @@ namespace mobileAppTest.ViewModels
             PassOK = false;
             HasEmailError = false;
             HasPassError = false;
-        }
-
-        [RelayCommand]
-        public async Task OpenProfilePopup()
-        {
-            if (Application.Current.UserAppTheme == AppTheme.Dark)
-            {
-                Application.Current.UserAppTheme = AppTheme.Light;
-            }
-            else
-            {
-                Application.Current.UserAppTheme = AppTheme.Dark;
-            }
-
-
-            //ConfigurationPopup = new ConfigurationPopup();
-            //await App.Current.MainPage.ShowPopupAsync(ConfigurationPopup);
-        }
-
-        [RelayCommand]
-        public async Task CloseProfilePopup()
-        {
-            ConfigurationPopup.Close();
-
         }
 
 

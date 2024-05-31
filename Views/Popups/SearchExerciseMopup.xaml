@@ -21,7 +21,7 @@
         <!--  HeightRequest="600" WidthRequest="400"  -->
         <VerticalStackLayout Margin="10">
             <Button
-                BackgroundColor="Red"
+                BackgroundColor="Black"
                 Command="{Binding CloseSearchExerciseMopupCommand}"
                 HeightRequest="50"
                 HorizontalOptions="End"
@@ -29,7 +29,7 @@
                 WidthRequest="50">
                 <Button.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=Red}" />
+                        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
                         <GradientStop Offset="1" Color="{AppThemeBinding Dark=#d00000, Light=#023e8a}" />
                     </LinearGradientBrush>
                 </Button.Background>
@@ -37,6 +37,7 @@
             <Label
                 Margin="0,20,0,0"
                 FontAttributes="Bold,Italic"
+                FontSize="25"
                 HorizontalOptions="Center"
                 Text="Selecciona tus ejercicios"
                 TextColor="{AppThemeBinding Dark=white,
@@ -293,6 +294,7 @@
                                         IsEnabled="False" />
                                     <Label
                                         Grid.Column="2"
+                                        FontSize="20"
                                         Text="{Binding Name}"
                                         TextColor="{AppThemeBinding Dark=White,
                                         Light=Black}"

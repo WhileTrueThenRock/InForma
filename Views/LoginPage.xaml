@@ -67,6 +67,19 @@
 
             </inputLayout:SfTextInputLayout>
 
+            <Label
+                Margin="140,-20,0,0"
+                FontAttributes="Bold"
+                FontSize="17"
+                HorizontalOptions="Center"
+                Text="¿Has olvidado tu contraseña?"
+                TextColor="{AppThemeBinding Dark=#d00000,
+                Light=#023e8a}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenForgotPassPopupCommand}" CommandParameter="MainPage" />
+                </Label.GestureRecognizers>
+            </Label>
+
         </VerticalStackLayout>
 
         <HorizontalStackLayout>
@@ -117,26 +130,18 @@
             </buttons:SfSwitch>
 
             <Label
-                Margin="10,9,0,0"
+                Margin="10,0,0,0"
                 FontFamily="Gabriola"
+                FontSize="20"
                 Text="Mantenerme logueado" />
         </HorizontalStackLayout>
 
 
 
 
-        <Label
-            Margin="100,15,0,0"
-            HorizontalOptions="Center"
-            Text="¿Has olvidado tu contraseña?"
-            TextColor="Blue">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OpenForgotPassPopupCommand}" CommandParameter="MainPage" />
-            </Label.GestureRecognizers>
-        </Label>
         <Button
             Margin="0,25,0,0"
-            Command="{Binding OpenProfilePopupCommand}"
+            Command="{Binding LoginTappedAsyncCommand}"
             CommandParameter="MainPage"
             Text="LOGIN"
             WidthRequest="250">
@@ -148,42 +153,15 @@
             </Button.Background>
         </Button>
 
-        <!--<Button
-        Margin="0,5,0,0"
-        Command="{Binding OpenProfilePopupCommand}"
-        CommandParameter="MainPage"
-        Text="LOGIN"
-        WidthRequest="250">
-        <Button.Background>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ccff33, Light=#38b000}" />
-        <GradientStop Offset="1" Color="{AppThemeBinding Dark=#38b000, Light=#006400}" />
-        </LinearGradientBrush>
-        </Button.Background>
-        </Button>
-
-        <Button
-        Margin="0,5,0,0"
-        Command="{Binding OpenProfilePopupCommand}"
-        CommandParameter="MainPage"
-        Text="LOGIN"
-        WidthRequest="250">
-        <Button.Background>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Offset="0" Color="#FF00FF" />
-        <GradientStop Offset="1" Color="#8A2BE2" />
-        </LinearGradientBrush>
-        </Button.Background>
-        </Button>-->
-
-
-
         <HorizontalStackLayout Margin="0,25,0,0" HorizontalOptions="Center">
-            <Label Text="¿No tienes cuenta?" />
+            <Label FontSize="20" Text="¿No tienes cuenta?" />
             <Label
                 Margin="5,0,0,0"
+                FontAttributes="Bold"
+                FontSize="20"
                 Text="Regístrate"
-                TextColor="Blue">
+                TextColor="{AppThemeBinding Dark=#d00000,
+                Light=#023e8a}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding RegisterTappedCommand}" CommandParameter="MainPage" />
                 </Label.GestureRecognizers>

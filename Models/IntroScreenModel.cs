@@ -14,11 +14,13 @@ namespace mobileAppTest.Models
 
         }
 
-        public string Title { get; set; }
-        public UserModel User { get; set; }
+        public string EquipmentTitle { get; set; }
+        public string RegisterTitle { get; set; }
         public ObservableCollection<EquipmentModel> EquipmentList { get; set; }
         public int CollectionVisible { get; set; }
         public bool RegisterVisible { get; set; }
+        public bool titleVisible { get; set; }
+        public bool EquipmentVisible { get; set; }
 
 
     }
