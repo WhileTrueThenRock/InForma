@@ -7,16 +7,13 @@
 "In Forma" is a personalized training mobile application designed to provide users with a comprehensive and motivating fitness experience. The application is built using .NET MAUI, a platform for creating native applications for Android, iOS, macOS and Windows devices.
 ## License
 
-Dispone de una licencia Syncfusion community licence
+The app has a Syncfusion community license
 
 
 ## Authors
 
 - [@WhileTrueThenRock](https://github.com/WhileTrueThenRock)
 
-
-## 🔗 Repository Link
-[In Forma](https://github.com/WhileTrueThenRock/mobileAppTest)
 
 ## 🔗 Demo Video Link
 [Google Drive](https://drive.google.com/file/d/1XzVHMvIdMGHc1VhWHiOeDyKHXGtkZOl1/view)
