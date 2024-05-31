@@ -58,7 +58,7 @@ namespace mobileAppTest.ViewModels
 
 
 
-        public SavedWorkoutsViewModel() 
+        public SavedWorkoutsViewModel()
         {
             User = new UserModel();
             ExerciseGrouplist = new ObservableCollection<DateGroup>();
@@ -98,7 +98,7 @@ namespace mobileAppTest.ViewModels
             var avatar = await CrossCloudFirestore.Current
                             .Instance
                             .Collection("Users")
-                            .Document(Email) 
+                            .Document(Email)
                             .GetAsync();
             User = avatar.ToObject<UserModel>();
 
@@ -110,7 +110,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document(Email); 
+                .Document(Email);
 
             var userSnapshot = await userDocument.GetDocumentAsync();
 
@@ -164,7 +164,7 @@ namespace mobileAppTest.ViewModels
 
                     // Asignar los grupos a ExerciseSessionlist
                     ExerciseGrouplist = new ObservableCollection<DateGroup>(dateGroups);
-               
+
                 }
             }
 
@@ -177,7 +177,7 @@ namespace mobileAppTest.ViewModels
             ExerciseList.Clear();
             foreach (var ex in dateGroup.Exercises)
             {
-                    ExerciseList.Add(ex);
+                ExerciseList.Add(ex);
             }
 
             await Shell.Current.GoToAsync("//StartedWorkoutPage", new Dictionary<string, object>()
@@ -197,7 +197,7 @@ namespace mobileAppTest.ViewModels
                 return;
 
             bool DeleteUser = await App.Current.MainPage.DisplayAlert("Confirmación",
-              "¿Estás seguro de que quieres eliminar\n '"+dateGroup.FechaEntrenamiento +"' ?", "Sí", "No");
+              "¿Estás seguro de que quieres eliminar\n '" + dateGroup.FechaEntrenamiento + "' ?", "Sí", "No");
 
             if (!DeleteUser)
             {
@@ -238,7 +238,7 @@ namespace mobileAppTest.ViewModels
             var userDocument = CrossCloudFirestore.Current
                 .Instance
                 .Collection("Users")
-                .Document(Email); 
+                .Document(Email);
 
             // Eliminar el nombre del workout del campo Colecciones del documento del usuario
             await userDocument.UpdateDataAsync(new { Colecciones = FieldValue.ArrayRemove(dateGroup.FechaEntrenamiento) });
@@ -278,9 +278,11 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task NavegarMainPage()
         {
-           await Shell.Current.GoToAsync("//MainPage");
+            await Shell.Current.GoToAsync("//MainPage", new Dictionary<string, object>()
+            {
+                ["Email"] = Email
+            });
+
         }
-
-
     }
 }

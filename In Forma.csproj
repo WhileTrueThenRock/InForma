@@ -13,7 +13,7 @@
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<OutputType>Exe</OutputType>
-		<RootNamespace>mobileAppTest</RootNamespace>
+		<RootNamespace>InForma</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -45,7 +45,7 @@
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="Transparent" />
 				<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splashicon.png" Color="#F5F5F5" />
+		<MauiSplashScreen Include="Resources\Splash\splashicon.png" Color="#F5F5F5"  BaseSize="250,250"/>
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />

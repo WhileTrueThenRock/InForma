@@ -259,7 +259,7 @@
                             FooterBackground="White"
                             FooterFontFamily="Times New Roman"
                             HasShadow="True"
-                            HeaderFontSize="18" />
+                            HeaderFontSize="15" />
                     </popup:SfPopup.PopupStyle>
                     <popup:SfPopup.ContentTemplate>
                         <DataTemplate>

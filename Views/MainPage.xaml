@@ -57,6 +57,7 @@
                                 </LinearGradientBrush>
                             </Grid.Background>
                             <sfavatar:SfAvatarView
+                                Margin="0,10,0,0"
                                 AvatarName="Alex"
                                 ContentType="Default"
                                 CornerRadius="60"
@@ -285,7 +286,7 @@
                                                 Light=#48cae4}"
                                                 ArrowsFontSize="20"
                                                 Culture="{Binding Culture}"
-                                                DayViewFontSize="16"
+                                                DayViewFontSize="13"
                                                 DaysTitleColor="{AppThemeBinding Dark=White,
                                                 Light=Black}"
                                                 DaysTitleWeekendColor="{AppThemeBinding Dark=#FFFFFF,
@@ -346,14 +347,17 @@
                                             </HorizontalStackLayout>
                                             <CollectionView
                                                 x:Name="myCalendarCollection"
-                                                Margin="5"
-                                                HeightRequest="280"
+                                                Margin="10"
+                                                HeightRequest="235"
                                                 ItemsSource="{Binding EventsList}"
                                                 SelectedItem="{Binding ExerciseView, Mode=TwoWay}"
                                                 SelectionMode="Single">
                                                 <CollectionView.ItemTemplate>
                                                     <DataTemplate x:DataType="models:ExerciseModelView">
                                                         <Border>
+                                                            <Border.StrokeShape>
+                                                                <RoundRectangle CornerRadius="5" />
+                                                            </Border.StrokeShape>
 
                                                             <Grid>
                                                                 <Grid.GestureRecognizers>

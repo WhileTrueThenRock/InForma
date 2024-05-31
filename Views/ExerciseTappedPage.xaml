@@ -315,7 +315,7 @@
                         Command="{Binding RemoveLastSeriesCommand}"
                         IsEnabled="{Binding IsSerieEnabled}"
                         Text="Serie -"
-                        WidthRequest="75">
+                        WidthRequest="80">
                         <Button.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />
@@ -328,7 +328,7 @@
                         Command="{Binding AddSeriesRowCommand}"
                         IsEnabled="{Binding IsSerieEnabled}"
                         Text="Serie +"
-                        WidthRequest="75">
+                        WidthRequest="80">
                         <Button.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <GradientStop Offset="0" Color="{AppThemeBinding Dark=#ff7b00, Light=#48cae4}" />

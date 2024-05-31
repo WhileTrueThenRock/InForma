@@ -144,11 +144,11 @@
                                         CenterButtonSize="80"
                                         CenterButtonStroke="{AppThemeBinding Dark=#ff7b00,
                                         Light=#48cae4}"
-                                        CenterButtonText="Editar"
+                                        CenterButtonText="Info"
                                         IsOpen="{Binding Path=BindingContext.RadialOpen, Source={x:Reference thisPage}}"
                                         RimColor="{AppThemeBinding Dark=#f4a261,
                                         Light=#caf0f8}"
-                                        SeparatorColor="Red">
+                                        SeparatorColor="White">
                                         <syncfusion:SfRadialMenu.Shadow>
                                             <Shadow
                                                 Brush="{AppThemeBinding Dark=White,

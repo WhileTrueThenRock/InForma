@@ -241,9 +241,9 @@ namespace mobileAppTest.ViewModels
             var request = new NotificationRequest
             {
                 NotificationId = 1337,
-                Title = "Testing",
-                Subtitle = "subtitle :D",
-                Description = "You need to go back to training fella",
+                Title = "Tu descanso ha finalizado",
+                Subtitle = SegundosDescanso.ToString()+"''",
+                Description = "",
                 //Sound = null,
                 BadgeNumber = 1,
                 Schedule = new NotificationRequestSchedule

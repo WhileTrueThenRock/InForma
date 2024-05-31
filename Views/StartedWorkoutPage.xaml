@@ -95,7 +95,7 @@
 
             <Button
                 x:Name="sfButton"
-                Margin="0,100,0,0"
+                Margin="0,100,0,20"
                 Command="{Binding NavegarMainPageCommand}"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
