@@ -3,9 +3,11 @@
     x:Class="mobileAppTest.Views.Popups.EquipmentPopup"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:models="clr-namespace:mobileAppTest.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodels="clr-namespace:mobileAppTest.ViewModels"
+    x:Name="thisPage"
     x:DataType="viewmodels:MainViewModel"
     CanBeDismissedByTappingOutsideOfPopup="False">
     <Grid>
@@ -33,18 +35,20 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <SearchBar
-                    x:Name="searchEntry"
-                    Margin="0,20,0,0"
-                    Background="AliceBlue"
-                    Placeholder="Buscar"
-                    Text="{Binding EquipmentSearchText}"
-                    TextChanged="OnSearchTextChanged"
-                    TextColor="Black"
-                    WidthRequest="380" />
+                <!--<SearchBar
+                x:Name="searchEntry"
+                Margin="0,20,0,0"
+                Background="AliceBlue"
+                Placeholder="Buscar"
+                Text="{Binding EquipmentSearchText}"
+                TextChanged="OnSearchTextChanged"
+                TextColor="Black"
+                WidthRequest="380" />-->
+
                 <CollectionView
                     x:Name="myCollectionViewz"
-                    HeightRequest="500"
+                    Margin="0,30,0,0"
+                    HeightRequest="600"
                     ItemsSource="{Binding EquipmentList}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:EquipmentModelView">
@@ -87,12 +91,11 @@
                                         FontSize="25"
                                         Text="{Binding Name}"
                                         VerticalOptions="Center" />
-                                    <CheckBox
+                                    <buttons:SfCheckBox
                                         Grid.Column="3"
                                         HeightRequest="100"
                                         IsChecked="{Binding IsChecked, Mode=TwoWay}"
-                                        Color="{AppThemeBinding Dark=#ff7b00,
-                                        Light=#48cae4}" />
+                                        IsEnabled="False" />
                                 </Grid>
                             </Border>
                         </DataTemplate>

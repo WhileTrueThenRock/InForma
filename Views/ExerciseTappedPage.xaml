@@ -49,7 +49,6 @@
                     Command="{Binding NavegarMainPageCommand}"
                     HeightRequest="50"
                     HorizontalOptions="Start"
-                    IsEnabled="{Binding IsFinishedButtonEnabled}"
                     IsVisible="{Binding IsVisible}"
                     Source="{AppThemeBinding Light=backblack.png,
                     Dark=backwhite.png}"
@@ -231,73 +230,57 @@
                         <DataTemplate x:DataType="models:ExerciseModelView">
                             <VerticalStackLayout>
 
+                                <HorizontalStackLayout
+                                    Margin="0,15,0,0"
+                                    HeightRequest="100"
+                                    HorizontalOptions="Center">
 
-                                <SwipeView>
+                                    <inputLayout:SfTextInputLayout
+                                        ContainerBackground="{AppThemeBinding Dark=#ff7b00,
+                                        Light=#caf0f8}"
+                                        ContainerType="Outlined"
+                                        FocusedStrokeThickness="4"
+                                        HeightRequest="110"
+                                        Hint="Repeticiones"
+                                        OutlineCornerRadius="8"
+                                        UnfocusedStrokeThickness="2"
+                                        WidthRequest="185">
 
+                                        <inputs:SfNumericEntry
+                                            AllowNull="False"
+                                            CustomFormat="0"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            UpDownPlacementMode="Inline"
+                                            Value="{Binding Reps[0]}" />
+                                    </inputLayout:SfTextInputLayout>
 
-                                    <SwipeView.LeftItems>
-                                        <SwipeItems>
-                                            <SwipeItem
-                                                BackgroundColor="{AppThemeBinding Dark=#ef233c,
-                                                Light=#e01e37}"
-                                                Command="{Binding Source={x:Reference thisPage}, Path=BindingContext.DeleteSwipedRowCommand}"
-                                                CommandParameter="{Binding .}"
-                                                IconImageSource="trash.png"
-                                                Text="Eliminar" />
-                                        </SwipeItems>
-                                    </SwipeView.LeftItems>
-                                    <HorizontalStackLayout
-                                        Margin="0,15,0,0"
-                                        HeightRequest="100"
-                                        HorizontalOptions="Center">
+                                    <inputLayout:SfTextInputLayout
+                                        Margin="5,0,0,0"
+                                        ContainerBackground="{AppThemeBinding Dark=#ff7b00,
+                                        Light=#caf0f8}"
+                                        ContainerType="Outlined"
+                                        ErrorText="ss"
+                                        FocusedStrokeThickness="4"
+                                        HasError="False"
+                                        HeightRequest="110"
+                                        Hint="Kg"
+                                        OutlineCornerRadius="8"
+                                        UnfocusedStrokeThickness="2"
+                                        WidthRequest="185">
 
-                                        <inputLayout:SfTextInputLayout
-                                            ContainerBackground="{AppThemeBinding Dark=#ff7b00,
-                                            Light=#caf0f8}"
-                                            ContainerType="Outlined"
-                                            FocusedStrokeThickness="4"
-                                            HeightRequest="110"
-                                            Hint="Repeticiones"
-                                            OutlineCornerRadius="8"
-                                            UnfocusedStrokeThickness="2"
-                                            WidthRequest="185">
+                                        <editors:SfNumericEntry
+                                            AllowNull="False"
+                                            CustomFormat="0.0"
+                                            Maximum="500"
+                                            Minimum="0"
+                                            UpDownPlacementMode="Inline"
+                                            Value="{Binding Weight[0]}" />
 
-                                            <inputs:SfNumericEntry
-                                                AllowNull="False"
-                                                CustomFormat="0"
-                                                Maximum="100"
-                                                Minimum="1"
-                                                UpDownPlacementMode="Inline"
-                                                Value="{Binding Reps[0]}" />
-                                        </inputLayout:SfTextInputLayout>
+                                    </inputLayout:SfTextInputLayout>
 
-                                        <inputLayout:SfTextInputLayout
-                                            Margin="5,0,0,0"
-                                            ContainerBackground="{AppThemeBinding Dark=#ff7b00,
-                                            Light=#caf0f8}"
-                                            ContainerType="Outlined"
-                                            ErrorText="ss"
-                                            FocusedStrokeThickness="4"
-                                            HasError="False"
-                                            HeightRequest="110"
-                                            Hint="Kg"
-                                            OutlineCornerRadius="8"
-                                            UnfocusedStrokeThickness="2"
-                                            WidthRequest="185">
+                                </HorizontalStackLayout>
 
-                                            <editors:SfNumericEntry
-                                                AllowNull="False"
-                                                CustomFormat="0.0"
-                                                Maximum="500"
-                                                Minimum="0"
-                                                UpDownPlacementMode="Inline"
-                                                Value="{Binding Weight[0]}" />
-
-                                        </inputLayout:SfTextInputLayout>
-
-                                    </HorizontalStackLayout>
-
-                                </SwipeView>
                                 <Image
                                     HeightRequest="60"
                                     IsAnimationPlaying="{Binding Path=BindingContext.IsGifVisible, Source={x:Reference thisPage}}"

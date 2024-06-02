@@ -47,7 +47,8 @@
                 <navigationdrawer:DrawerSettings
                     DrawerHeaderHeight="160"
                     DrawerWidth="250"
-                    EnableSwipeGesture="False">
+                    EnableSwipeGesture="False"
+                    Duration="200">
                     <navigationdrawer:DrawerSettings.DrawerHeaderView>
                         <Grid RowDefinitions="120,40">
                             <Grid.Background>
@@ -231,7 +232,7 @@
                                         DeclineButtonTextColor="White"
                                         FooterBackground="White"
                                         HasShadow="True"
-                                        HeaderFontSize="18" />
+                                        HeaderFontSize="15" />
                                 </popup:SfPopup.PopupStyle>
 
                             </popup:SfPopup>
@@ -645,6 +646,7 @@
                                             Command="{Binding LoadStartedWorkoutCommand}"
                                             CommandParameter="{Binding ExerciseList}"
                                             HeightRequest="40"
+                                            IsEnabled="{Binding IsStartTrainingEnabled}"
                                             IsVisible="{Binding IsStartTrainingVisible}"
                                             Text="{Binding StartTrainingText}"
                                             VerticalOptions="End"

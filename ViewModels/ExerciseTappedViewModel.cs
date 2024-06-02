@@ -432,6 +432,7 @@ namespace mobileAppTest.ViewModels
             {
                 // Remover el último elemento de la colección
                 ExerciseEntries.RemoveAt(ExerciseEntries.Count - 1);
+
             }
             if (repsList.Count == 0)
             {
@@ -446,27 +447,16 @@ namespace mobileAppTest.ViewModels
             }
         }
 
-        [RelayCommand]
-        private void DeleteSwipedRow(ExerciseModelView rowToDelete)
-        {
-            if (ExerciseEntries.Count > 0)
-            {
-                // Remover el último elemento de la colección
-               ExerciseEntries.Remove(rowToDelete);
-            }
-            repsList.RemoveAt(repsList.Count - 1);
-            weightList.RemoveAt(weightList.Count - 1);
-            IsRemoveSerieEnabled = false;
-            if (SeriesCounter > 0)
-            {
-                SeriesCounter--;
-            }
-
-        }
 
         [RelayCommand]
         public async Task NavegarMainPage()
         {
+            if (!IsFinishedButtonEnabled)
+            {
+                await App.Current.MainPage.DisplayAlert("Info", "Registra primero la serie antes de volver", "Aceptar");
+                return;
+            }
+
             IsVideoPlaying = false;
             SeriesGif = "";
 

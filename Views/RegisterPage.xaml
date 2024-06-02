@@ -133,10 +133,54 @@
                                     HorizontalOptions="Center"
                                     IsVisible="{Binding EquipmentVisible}"
                                     Text="{Binding EquipmentTitle}" />
+                                <Border
+                                    Margin="0,10,10,0"
+                                    Background="{AppThemeBinding Dark=Transparent,
+                                    Light=Transparent}"
+                                    HeightRequest="120"
+                                    IsVisible="{Binding EquipmentVisible}"
+                                    StrokeThickness="1">
 
+                                    <Border.Shadow>
+                                        <Shadow
+                                            Brush="{AppThemeBinding Dark=White,
+                                            Light=Black}"
+                                            Opacity="0.3"
+                                            Radius="40"
+                                            Offset="20,20" />
+                                    </Border.Shadow>
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="30" />
+                                    </Border.StrokeShape>
+                                    <HorizontalStackLayout>
+
+                                        <Image
+                                            Margin="10"
+                                            HeightRequest="100"
+                                            Source="sinequipamiento.png"
+                                            WidthRequest="100" />
+                                        <Label
+                                            Margin="20,0,0,0"
+                                            FontSize="25"
+                                            Text="Sin equipamiento"
+                                            VerticalOptions="Center" />
+                                        <CheckBox
+                                            Margin="35,0,0,0"
+                                            HeightRequest="100"
+                                            IsChecked="{Binding Path=BindingContext.HasNoEquipment, Source={x:Reference thisPage}}"
+                                            Color="{AppThemeBinding Dark=#ff7b00,
+                                            Light=#48cae4}">
+                                            <CheckBox.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.EquipmentTappedCommand, Source={x:Reference thisPage}}" />
+                                            </CheckBox.GestureRecognizers>
+                                        </CheckBox>
+
+                                    </HorizontalStackLayout>
+                                </Border>
                                 <CollectionView
                                     x:Name="myCollectionViewz"
                                     HeightRequest="{Binding CollectionVisible}"
+                                    IsVisible="{Binding Path=BindingContext.IsCollectionVisible, Source={x:Reference thisPage}}"
                                     ItemsSource="{Binding EquipmentList}">
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate x:DataType="models:EquipmentModel">
@@ -189,6 +233,8 @@
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
+
+
 
 
                                 <Label

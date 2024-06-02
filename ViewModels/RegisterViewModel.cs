@@ -90,8 +90,31 @@ namespace mobileAppTest.ViewModels
         [ObservableProperty]
         private string _nameErrorText;
 
-        [ObservableProperty]
-        private bool _hasEquipment;
+        private bool _hasNoEquipment;
+        public bool HasNoEquipment
+        {
+            get => _hasNoEquipment;
+            set
+            {
+                _hasNoEquipment = value;
+                OnPropertyChanged(nameof(HasNoEquipment));
+            }
+        }
+
+
+
+
+
+        private bool _isCollectionVisible;
+        public bool IsCollectionVisible
+        {
+            get => _isCollectionVisible;
+            set
+            {
+                _isCollectionVisible = value;
+                OnPropertyChanged(nameof(IsCollectionVisible));
+            }
+        }
 
 
         private bool _isShimmerPlaying;
@@ -105,9 +128,11 @@ namespace mobileAppTest.ViewModels
             }
         }
 
+
         public RegisterViewModel()
         {
 
+            IsCollectionVisible = true;
             IntroScreenModels = new ObservableCollection<IntroScreenModel>();
             NextTextButton = "Siguiente";
 
@@ -126,6 +151,7 @@ namespace mobileAppTest.ViewModels
                 titleVisible = false,
                 EquipmentVisible = true,
                 EquipmentTitle = "Elige tu equipamiento:",
+
                 EquipmentList = new ObservableCollection<EquipmentModel>
                 {
                 new EquipmentModel { name = "Banco", disponible = true, url = "Images/Equipment/bancohorizontal.jpg" },
@@ -137,7 +163,6 @@ namespace mobileAppTest.ViewModels
                 new EquipmentModel { name = "Barra T", disponible = true, url = "Images/Equipment/landmine.jpg" },
                 new EquipmentModel { name = "Barra Z", disponible = true, url = "Images/Equipment/barraz.jpg" },
                 new EquipmentModel { name = "Rueda Abdominal", disponible = true, url = "Images/Equipment/ruedaabd.jpg" },
-                new EquipmentModel { name = "Sin Equipamiento", disponible = false, url = "Images/Equipment/sinequipamiento.png" },
                 new EquipmentModel { name = "Soga", disponible = true, url = "Images/Equipment/soga.jpg" },
                 new EquipmentModel { name = "Soporte Dominadas", disponible = true, url = "Images/Equipment/dominadas.jpg" },
                 new EquipmentModel { name = "Mancuernas", disponible = true, url = "Images/Equipment/dumbbells.jpg" },
@@ -166,9 +191,11 @@ namespace mobileAppTest.ViewModels
                 new EquipmentModel { name = "Máquina Extensiones Cuádriceps", disponible = true, url = "Images/Equipment/maquinaquads.jpg" },
                 new EquipmentModel { name = "Máquina Press Pierna", disponible = true, url = "Images/Equipment/maquinaprensa.jpg" },
                 new EquipmentModel { name = "Máquina Press Pierna Horizontal", disponible = true, url = "Images/Equipment/maquinapresshoriz.jpg" },
+                new EquipmentModel { name = "Sin Equipamiento", disponible = false, url = "Images/Equipment/sinequipamiento.png" },
+
 
                 },
-                CollectionVisible = 600
+                CollectionVisible = 500
 
 
             });
@@ -195,17 +222,87 @@ namespace mobileAppTest.ViewModels
             IsShimmerPlaying = false;
         }
 
+        [RelayCommand]
+        public void EquipmentTapped()
+        {
+            HasNoEquipment = !HasNoEquipment;
+            if (!HasNoEquipment)
+            {
+                IsCollectionVisible = true;
+            }
+            else
+            {
+                IsCollectionVisible = false;
+            }
+       
+        }
+
 
         // Método para agregar equipamientos a la subcolección "User"
         [RelayCommand]
         public async Task AddEquipmentsToUser()
         {
-            var equipmentScreen = IntroScreenModels.FirstOrDefault(model => model.EquipmentList != null);
-            if (equipmentScreen == null)
+            ObservableCollection<EquipmentModel> equipments;
+
+
+            if (HasNoEquipment)
             {
-                return;
+                equipments = new ObservableCollection<EquipmentModel>
+            {
+                new EquipmentModel { name = "Sin Equipamiento", disponible = true, url = "Images/Equipment/sinequipamiento.png" },
+                //Resto del equipamiento a false
+                new EquipmentModel { name = "Banco", disponible = false, url = "Images/Equipment/bancohorizontal.jpg" },
+                new EquipmentModel { name = "Banco Declinado", disponible = false, url = "Images/Equipment/bancodeclinado.jpg" },
+                new EquipmentModel { name = "Banco Inclinado", disponible = false, url = "Images/Equipment/bancoinclinado.jpg" },
+                new EquipmentModel { name = "Banco Romano", disponible = false, url = "Images/Equipment/bancoromano.jpg" },
+                new EquipmentModel { name = "Banco Scott", disponible = false, url = "Images/Equipment/bancoscott.jpg" },
+                new EquipmentModel { name = "Barras", disponible = false, url = "Images/Equipment/barras.jpg" },
+                new EquipmentModel { name = "Barra T", disponible = false, url = "Images/Equipment/landmine.jpg" },
+                new EquipmentModel { name = "Barra Z", disponible = false, url = "Images/Equipment/barraz.jpg" },
+                new EquipmentModel { name = "Rueda Abdominal", disponible = false, url = "Images/Equipment/ruedaabd.jpg" },
+                new EquipmentModel { name = "Soga", disponible = false, url = "Images/Equipment/soga.jpg" },
+                new EquipmentModel { name = "Soporte Dominadas", disponible = false, url = "Images/Equipment/dominadas.jpg" },
+                new EquipmentModel { name = "Mancuernas", disponible = false, url = "Images/Equipment/dumbbells.jpg" },
+                new EquipmentModel { name = "Máquinas Convergentes", disponible = false, url = "Images/Equipment/maquinaconvergente.jpg" },
+                new EquipmentModel { name = "Máquina de Poleas", disponible = false, url = "Images/Equipment/maquinapoleas.jpg" },
+                new EquipmentModel { name = "Máquina Scott", disponible = false, url = "Images/Equipment/maquinascottplacas.jpg" },
+                new EquipmentModel { name = "Máquina Patada Glúteos", disponible = false, url = "Images/Equipment/maquinapatada.jpg" },
+                new EquipmentModel { name = "Máquina Abductores y Aductores", disponible = false, url = "Images/Equipment/maquinaaductores.jpg" },
+                new EquipmentModel { name = "Máquina Trapecio", disponible = false, url = "Images/Equipment/maquinatrapecio.jpg" },
+                new EquipmentModel { name = "Máquina Hip Thrust", disponible = false, url = "Images/Equipment/maquinahip.jpg" },
+                new EquipmentModel { name = "Máquina Hombros Press", disponible = false, url = "Images/Equipment/maquinahombrospress.jpg" },
+                new EquipmentModel { name = "Máquina Hombros Laterales", disponible = false, url = "Images/Equipment/maquinahombroslat.jpg" },
+                new EquipmentModel { name = "Máquina para gemelos de pie", disponible = false, url = "Images/Equipment/maquinagemelospie.jpg" },
+                new EquipmentModel { name = "Máquina para gemelos Tipo Burro", disponible = false, url = "Images/Equipment/maquinaburro.jpg" },
+                new EquipmentModel { name = "Máquina Multipower", disponible = false, url = "Images/Equipment/maquinamulti.jpg" },
+                new EquipmentModel { name = "Máquina Aperturas", disponible = false, url = "Images/Equipment/maquinaaperturas.jpg" },
+                new EquipmentModel { name = "Máquina Remo Alto", disponible = false, url = "Images/Equipment/maquinaremoalto.jpg" },
+                new EquipmentModel { name = "Máquina Remo", disponible = false, url = "Images/Equipment/maquinaremo.jpg" },
+                new EquipmentModel { name = "Máquina Remo Bajo", disponible = false, url = "Images/Equipment/maquinaremobajo.jfif" },
+                new EquipmentModel { name = "Máquina Fondos", disponible = false, url = "Images/Equipment/maquinafondos.jpg" },
+                new EquipmentModel { name = "Máquina Asistida", disponible = false, url = "Images/Equipment/maquinaasistida.jpg" },
+                new EquipmentModel { name = "Máquina Sentadillas", disponible = false, url = "Images/Equipment/maquinasentadillas.png" },
+                new EquipmentModel { name = "Máquina Femoral Tumbado", disponible = false, url = "Images/Equipment/maquinafemoraltumbado.jpg" },
+                new EquipmentModel { name = "Máquina Femoral Sentado", disponible = false, url = "Images/Equipment/maquinafemoralsentado.jpg" },
+                new EquipmentModel { name = "Máquina Femoral de Pie", disponible = false, url = "Images/Equipment/maquinafemoraldepie.jpg" },
+                new EquipmentModel { name = "Máquina Extensiones Cuádriceps", disponible = false, url = "Images/Equipment/maquinaquads.jpg" },
+                new EquipmentModel { name = "Máquina Press Pierna", disponible = false, url = "Images/Equipment/maquinaprensa.jpg" },
+                new EquipmentModel { name = "Máquina Press Pierna Horizontal", disponible = false, url = "Images/Equipment/maquinapresshoriz.jpg" },
+            };
+
+
+
             }
-            var equipments = equipmentScreen.EquipmentList;
+            else
+            {
+                var equipmentScreen = IntroScreenModels.FirstOrDefault(model => model.EquipmentList != null);
+                if (equipmentScreen == null)
+                {
+                    return;
+                }
+                equipments = equipmentScreen.EquipmentList;
+            }
+        
 
             //var equipments = new List<EquipmentModel>
             //{
@@ -250,6 +347,7 @@ namespace mobileAppTest.ViewModels
             else
             {
                 IsShimmerPlaying = true;
+                //AddEquipmentsToUser();
                 RegisterUserTappedAsync();
                 IsShimmerPlaying = false;
 

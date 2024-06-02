@@ -150,6 +150,9 @@ namespace mobileAppTest.ViewModels
         private bool _isStartTrainingVisible;
 
         [ObservableProperty]
+        private bool _isStartTrainingEnabled;
+
+        [ObservableProperty]
         private int _miContador;
 
         [ObservableProperty]
@@ -502,7 +505,7 @@ namespace mobileAppTest.ViewModels
             SelectedMuscles = new ObservableCollection<string>();
             MuscleExerciselist = new ObservableCollection<ExerciseModelView>();
             searchExerciseMopup = new SearchExerciseMopup(this);
-            
+
             IsFiltrarMusclesButtonVisible = true;
             IsFrontBodyVisible = true;
             IsBackBodyVisible = false;
@@ -598,11 +601,8 @@ namespace mobileAppTest.ViewModels
         public async Task StartShimmerAndWait()
         {
             IsShimmerPlaying = true;
-
-
             try
             {
-                
                 // Realiza todas las operaciones asincrónicas
                 await GetUserCredentials();
                 await GetExercisesEvents();
@@ -610,6 +610,7 @@ namespace mobileAppTest.ViewModels
                 await FilterBySelectedMuscle();
                 await SelectDurationWorkoutRandom(DurationMinutes);
                 IsStartTrainingVisible = true;
+                IsStartTrainingEnabled = true;
                 MiContador = 0;
                 IsDeleteExerciseButtonVisible = false;
                 IsDetailsExerciseButtonVisible = false;
@@ -658,17 +659,20 @@ namespace mobileAppTest.ViewModels
             if(ExerciseCount == 0)
             {
                 IsStartTrainingVisible = false;
+                IsStartTrainingEnabled = false;
             }
 
             else if (ExerciseCount == 1)
             {
                 IsStartTrainingVisible = true;
+                IsStartTrainingEnabled = true;
                 StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
 
             }
             else
             {
                 IsStartTrainingVisible = true;
+                IsStartTrainingEnabled = true;
                 StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
             }
         }
@@ -701,17 +705,20 @@ namespace mobileAppTest.ViewModels
             if (ExerciseCount == 0)
             {
                 IsStartTrainingVisible = false;
+                IsStartTrainingEnabled = false;
             }
 
             else if (ExerciseCount == 1)
             {
                 IsStartTrainingVisible = true;
+                IsStartTrainingEnabled = true;
                 StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
 
             }
             else
             {
                 IsStartTrainingVisible = true;
+                IsStartTrainingEnabled = true;
                 StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
             }
 
@@ -1075,6 +1082,8 @@ namespace mobileAppTest.ViewModels
                 await CloseMuscleSelectionPopup();
             }
 
+         
+
             if (ExerciseCount == 1)
             {
                 StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
@@ -1084,7 +1093,17 @@ namespace mobileAppTest.ViewModels
             {
                 StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
             }
-            IsStartTrainingVisible = true;
+            if (ExerciseCount == 0)
+            {
+                StartTrainingText = "No hay ejercicios";
+                IsStartTrainingEnabled = false;
+            }
+            else
+            {
+                IsStartTrainingEnabled = true;
+                IsStartTrainingVisible = true;
+
+            }
 
         }
 
@@ -1173,6 +1192,7 @@ namespace mobileAppTest.ViewModels
             }
             DurationExpander = false;
             IsStartTrainingVisible = true;
+            IsStartTrainingEnabled = true;
 
             if (ExerciseCount == 1)
             {
@@ -1183,99 +1203,20 @@ namespace mobileAppTest.ViewModels
             {
                 StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
             }
+            if (ExerciseCount == 0)
+            {
+                StartTrainingText = "No hay ejercicios";
+                IsStartTrainingEnabled = false;
+            }
+            else
+            {
+                IsStartTrainingEnabled = true;
+                IsStartTrainingVisible = true;
+
+            }
+
         }
 
-        //SelectDurationWorkout cambiado por random
-        //[RelayCommand]
-        //public async Task SelectDurationWorkout(string minutos)
-        //{
-        //    DurationMinutes = minutos;
-        //    if (minutos == "15")
-        //    {
-        //        DurationHeader = "15 min";
-
-        //    }
-        //    else if (minutos == "30")
-        //    {
-        //        DurationHeader = "30 min";
-
-        //    }
-        //    else if (minutos == "45")
-        //    {
-        //        DurationHeader = "45 min";
-
-        //    }
-        //    else if (minutos == "60")
-        //    {
-        //        DurationHeader = "1 hr";
-
-        //    }
-        //    else if (minutos == "90")
-        //    {
-        //        DurationHeader = "1:30 hr";
-
-        //    }
-        //    else if (minutos == "120")
-        //    {
-        //        DurationHeader = "2 hr";
-
-        //    }
-        //    else if (minutos == "150")
-        //    {
-        //        DurationHeader = "2:30 hr";
-
-        //    }
-        //    else if (minutos == "180")
-        //    {
-        //        DurationHeader = "3 hr";
-
-        //    }
-
-        //    if (int.TryParse(minutos, out int selectedMinutes))
-        //    {
-        //        await ShowExercisesWithAvailableEquipment();
-
-
-        //        var filteredByMuscles = ExerciseList
-        //           .Where(exercise => SelectedMuscles.Any(muscle => exercise.PrimaryMuscles.Contains(muscle)))
-        //           .ToList();
-
-        //        var filteredByTimeAndMuscles = filteredByMuscles
-        //            .Where(exercise => exercise.Duration != null && int.Parse(exercise.Duration) <= selectedMinutes)
-        //            .ToList();
-
-        //        ExerciseList.Clear();
-        //        int totalMinutes = 0;
-        //        ExerciseCount = 0;
-        //        foreach (var exercise in filteredByTimeAndMuscles)
-        //        {
-        //            int exerciseMinutes = int.Parse(exercise.Duration);
-        //            totalMinutes += exerciseMinutes;
-
-        //            if (totalMinutes <= selectedMinutes)
-        //            {
-        //                ExerciseList.Add(exercise);
-        //                ExerciseCount++;
-        //            }
-        //        }
-
-        //    }
-
-        //    if(ExerciseCount == 1)
-        //    {
-        //        StartTrainingText = "Entrenar " + ExerciseCount + " ejercicio";
-
-        //    }
-        //    else
-        //    {
-        //        StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
-        //    }
-        //    IsStartTrainingVisible = true;
-        //    DurationExpander = false;
-        //}
-
-
-        // Método que carga los ejercicios segun el equipamiento de un usuario en el ExercisePopup
 
 
 
@@ -1365,6 +1306,18 @@ namespace mobileAppTest.ViewModels
                 StartTrainingText = "Entrenar " + ExerciseCount + " ejercicios";
             }
 
+            if (ExerciseCount == 0)
+            {
+                StartTrainingText = "No hay ejercicios";
+                IsStartTrainingEnabled = false;
+            }
+            else
+            {
+                IsStartTrainingEnabled = true;
+                IsStartTrainingVisible = true;
+
+            }
+
         }
 
 
@@ -1402,6 +1355,7 @@ namespace mobileAppTest.ViewModels
             ShowNewTrainingButton = false;
             NewTrainingButtonText = "";
             IsStartTrainingVisible = true;
+            IsStartTrainingEnabled = true;
 
             StartTrainingText = ExerciseCount == 1 ? "Entrenar 1 ejercicio" : $"Entrenar {ExerciseCount} ejercicios";
 
@@ -1549,6 +1503,8 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         public async Task UpdateUserEquipments()
         {
+            SelectedEquipment.Clear();
+
             foreach (var equipment in EquipmentList)
             {
                 if (equipment.IsChecked || !equipment.IsChecked)
@@ -1566,7 +1522,7 @@ namespace mobileAppTest.ViewModels
             foreach (var equipment in SelectedEquipment)
             {
 
-                var name = equipment.Name; //.ToLower().Replace(" ", "")
+                var name = equipment.Name;
                 var available = equipment.IsChecked;
 
 
@@ -1583,42 +1539,6 @@ namespace mobileAppTest.ViewModels
 
 
         }
-
-        //public async Task SelectedDurationWorkout()
-        //{
-        //    if (DurationHeader.Equals("15 min"))
-        //    {
-        //        await SelectDurationWorkout("15");
-        //    }
-        //    else if (DurationHeader.Equals("30 min"))
-        //    {
-        //        await SelectDurationWorkout("30");
-        //    }
-        //    else if (DurationHeader.Equals("45 min"))
-        //    {
-        //        await SelectDurationWorkout("45");
-        //    }
-        //    else if (DurationHeader.Equals("1 hr"))
-        //    {
-        //        await SelectDurationWorkout("60");
-        //    }
-        //    else if (DurationHeader.Equals("1:30 hr"))
-        //    {
-        //        await SelectDurationWorkout("90");
-        //    }
-        //    else if (DurationHeader.Equals("2 hr"))
-        //    {
-        //        await SelectDurationWorkout("120");
-        //    }
-        //    else if (DurationHeader.Equals("2:30 hr"))
-        //    {
-        //        await SelectDurationWorkout("150");
-        //    }
-        //    else if (DurationHeader.Equals("3 hr"))
-        //    {
-        //        await SelectDurationWorkout("180");
-        //    }
-        //}
 
 
 
@@ -1722,6 +1642,8 @@ namespace mobileAppTest.ViewModels
             }
         }
 
+  
+
 
         [RelayCommand]
         public async Task DeleteSelectedExercise()
@@ -1811,8 +1733,53 @@ namespace mobileAppTest.ViewModels
         [RelayCommand]
         private void EquipmentTapped(EquipmentModelView equipment)
         {
-            equipment.IsChecked = !equipment.IsChecked;
+            // Primero, desactivar todos los demás equipos si "Sin Equipamiento" es seleccionado
+            if (equipment.Name == "Sin Equipamiento")
+            {
+                // Cambiar el estado de "Sin Equipamiento" a true
+                equipment.IsChecked = !equipment.IsChecked;
+
+                if (equipment.IsChecked)
+                {
+                    // Si "Sin Equipamiento" es activado, desactivar todos los demás equipos
+                    foreach (var item in EquipmentList)
+                    {
+                        if (item.Name != "Sin Equipamiento")
+                        {
+                            item.IsChecked = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Si cualquier otro equipo es activado
+                if (!equipment.IsChecked)
+                {
+                    // Cambiar el estado del equipo actual
+                    equipment.IsChecked = !equipment.IsChecked;
+
+                    // Si el equipo actual es activado, desactivar "Sin Equipamiento"
+                    if (equipment.IsChecked)
+                    {
+                        var noEquipment = EquipmentList.FirstOrDefault(e => e.Name == "Sin Equipamiento");
+                        if (noEquipment != null)
+                        {
+                            noEquipment.IsChecked = false;
+                        }
+                    }
+                }
+                else
+                {
+                    // Cambiar el estado del equipo actual
+                    equipment.IsChecked = !equipment.IsChecked;
+                }
+            }
         }
+
+
+
+
 
 
 
@@ -1897,24 +1864,24 @@ namespace mobileAppTest.ViewModels
             }
         }
 
-        public void FilterAvailableEquipment()
-        {
-            string searchQuery = EquipmentSearchText?.ToLower() ?? string.Empty; //Si el resultado anterior es nulo, utiliza una cadena vacía 
-            if (string.IsNullOrWhiteSpace(searchQuery))
-            {
-                LoadUserEquipments();
+        //public void FilterAvailableEquipment()
+        //{
+        //    string searchQuery = EquipmentSearchText?.ToLower() ?? string.Empty; //Si el resultado anterior es nulo, utiliza una cadena vacía 
+        //    if (string.IsNullOrWhiteSpace(searchQuery))
+        //    {
+        //        LoadUserEquipments();
 
-            }
+        //    }
 
-            else
-            {
-                var searchTerms = searchQuery.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        //    else
+        //    {
+        //        var searchTerms = searchQuery.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                EquipmentList = new ObservableCollection<EquipmentModelView>(
-                EquipmentList.Where(equipment => searchTerms.All(term => equipment.Name?.ToLower().Contains(term) == true))
-                );
-            }
-        }
+        //        EquipmentList = new ObservableCollection<EquipmentModelView>(
+        //        EquipmentList.Where(equipment => searchTerms.All(term => equipment.Name?.ToLower().Contains(term) == true))
+        //        );
+        //    }
+        //}
 
 
         //Filtra por los nombres/botones de CustomExercisePopup

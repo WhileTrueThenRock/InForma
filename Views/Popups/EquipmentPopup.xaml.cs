@@ -15,7 +15,7 @@ public partial class EquipmentPopup : Popup
         if (BindingContext is MainViewModel viewModel)
         {
             viewModel.EquipmentSearchText = e.NewTextValue;
-            viewModel.FilterAvailableEquipment();
+            //viewModel.FilterAvailableEquipment();
         }
     }
 }
