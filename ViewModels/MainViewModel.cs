@@ -601,6 +601,7 @@ namespace mobileAppTest.ViewModels
         public async Task StartShimmerAndWait()
         {
             IsShimmerPlaying = true;
+
             try
             {
                 // Realiza todas las operaciones asincrónicas

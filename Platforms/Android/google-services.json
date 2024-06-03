@@ -42,6 +42,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950906509993:android:3b7294d5a06b10f105a7b8",
+        "android_client_info": {
+          "package_name": "com.informagymapp.informa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950906509993-qsj0aem337cfv7h84g2bdudq0ci9htai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2mtYGHPR81btkE_suhFn4LBi0kbfzK3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950906509993-qsj0aem337cfv7h84g2bdudq0ci9htai.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
