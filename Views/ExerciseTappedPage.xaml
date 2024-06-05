@@ -292,7 +292,7 @@
                 </CollectionView>
 
 
-                <HorizontalStackLayout Spacing="200">
+                <HorizontalStackLayout Spacing="187">
                     <Button
                         Margin="10"
                         Command="{Binding RemoveLastSeriesCommand}"
@@ -351,7 +351,7 @@
                         ImageSource="instructions.png"
                         TextColor="{AppThemeBinding Dark=white,
                         Light=black}"
-                        WidthRequest="105">
+                        WidthRequest="86">
                         <tabview:SfTabItem.Content>
                             <Border
                                 Background="{AppThemeBinding Dark=Transparent,
@@ -388,12 +388,13 @@
                     </tabview:SfTabItem>
 
                     <tabview:SfTabItem
+                        FontSize="13"
                         Header="Músculos"
                         ImagePosition="Left"
                         ImageSource="muscles.png"
                         TextColor="{AppThemeBinding Dark=white,
                         Light=black}"
-                        WidthRequest="130">
+                        WidthRequest="135">
                         <tabview:SfTabItem.Content>
                             <ScrollView>
                                 <Border

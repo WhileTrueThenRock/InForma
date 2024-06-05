@@ -22,7 +22,7 @@ public partial class MainPage : ContentPage
         // Llama al nuevo método que espera a que todas las operaciones asincrónicas hayan terminado
         await viewModel?.StartShimmerAndWait(); 
     }
-
+    //xD
 
 
 

@@ -43,7 +43,6 @@
                         Source="{AppThemeBinding Light=backblack.png,
                         Dark=backwhite.png}"
                         WidthRequest="50" />
-
                     <Label
                         Margin="90,10,0,0"
                         FontAttributes="Bold"

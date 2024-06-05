@@ -43,6 +43,7 @@
             <CollectionView
                 x:Name="myCollectionV"
                 BindingContext="{Binding .}"
+                HeightRequest="500"
                 ItemsSource="{Binding ExerciseList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:ExerciseModelView">
@@ -95,7 +96,7 @@
 
             <Button
                 x:Name="sfButton"
-                Margin="0,100,0,20"
+                Margin="0,50,0,20"
                 Command="{Binding NavegarMainPageCommand}"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"

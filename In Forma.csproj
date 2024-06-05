@@ -190,7 +190,6 @@
 	  <None Remove="Resources\Images\informalight.png" />
 	  <None Remove="Resources\Images\instalogo.png" />
 	  <None Remove="Resources\Images\instructions.png" />
-	  <None Remove="Resources\Images\introgif.gif" />
 	  <None Remove="Resources\Images\landmine.jpg" />
 	  <None Remove="Resources\Images\leftabductor1.png" />
 	  <None Remove="Resources\Images\leftabductor2.png" />

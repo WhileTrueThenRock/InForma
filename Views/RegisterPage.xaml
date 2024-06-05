@@ -36,7 +36,7 @@
                 Margin="10"
                 HorizontalOptions="Center"
                 IndicatorColor="LightGray"
-                IndicatorSize="10"
+                IndicatorSize="11"
                 SelectedIndicatorColor="{AppThemeBinding Dark=#ff7b00,
                 Light=#48cae4}" />
 
